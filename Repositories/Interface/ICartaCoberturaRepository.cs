@@ -18,7 +18,7 @@ namespace OrcamentariaBackEnd.Repositories
 
         IEnumerable<CartaCoberturaModel> ListPorPessoaId(int pessoaId);
 
-        IEnumerable<CartaCoberturaModel> ListPorMaterialId(string materialId);
+        IEnumerable<CartaCoberturaModel> ListPorMaterialId(int materialId);
 
         IEnumerable<CartaCoberturaModel> ListPorReferencia(string referencia);
 

@@ -111,7 +111,7 @@ namespace OrcamentariaBackEnd.Repositories
             }
         }
 
-        public IEnumerable<CartaCoberturaModel> ListPorMaterialId(string materialId)
+        public IEnumerable<CartaCoberturaModel> ListPorMaterialId(int materialId)
         {
             try
             {

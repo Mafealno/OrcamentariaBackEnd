@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace OrcamentariaBackEnd.Query_Objects
 {
-    public class FuncionarioQO
+    public class CartaCoberturaQO
     {
         public int PessoaId { get; set; }
 
-        public string NomePessoa { get; set; }
+        public int MaterialId { get; set; }
+
+        public string Referencia { get; set; }
 
     }
 }

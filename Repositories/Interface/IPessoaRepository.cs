@@ -15,9 +15,10 @@ namespace OrcamentariaBackEnd.Repositories
         void Delete(int pessoaId);
 
         IEnumerable<PessoaModel> List();
+        
+        IEnumerable<PessoaModel> ListPorNomePessoa(string nomePessoa);
 
         PessoaModel Find(int pessoaId);
 
-        IEnumerable<PessoaModel> ListPorNomePessoa(string nomePessoa);
     }
 }
