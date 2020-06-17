@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Orcamentaria.Model.Orcamento;
+
 using OrcamentariaBackEnd.Database;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace OrcamentariaBackEnd.Repositories
+namespace OrcamentariaBackEnd
 {
     public class ItensOrcamentoGeralRepository : IItensOrcamentoGeralRepository
     {

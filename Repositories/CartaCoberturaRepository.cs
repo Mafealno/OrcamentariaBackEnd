@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Dapper;
-using Orcamentaria.Model.Cadastro;
+
 using OrcamentariaBackEnd.Database;
 
-namespace OrcamentariaBackEnd.Repositories
+namespace OrcamentariaBackEnd
 {
     public class CartaCoberturaRepository : ICartaCoberturaRepository
     {
@@ -118,6 +116,31 @@ namespace OrcamentariaBackEnd.Repositories
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE MATERIAL_ID = @materialId", new { materialId });
+
+                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
+
+                    foreach (CartaCoberturaModel cartaCobertura in resposta)
+                    {
+                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
+                    }
+
+                    return listCartaCobertura;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<CartaCoberturaModel> ListPorMaterialIdEPessoaId(int materialId, int pessoaId)
+        {
+            try
+            {
+                using (var cn = Conexao.AbrirConexao())
+                {
+                    var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE MATERIAL_ID = @materialId AND PESSOA_ID = @pessoaId", new { materialId, pessoaId });
 
                     List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
 
@@ -250,7 +273,8 @@ namespace OrcamentariaBackEnd.Repositories
                         cartaCobertura.MATERIAL.MATERIAL_ID, 
                         cartaCobertura.MATERIAL.NOME_MATERIAL,
                         cartaCobertura.MATERIAL.FABRICANTE.PESSOA_ID, 
-                        cartaCobertura.MATERIAL.FABRICANTE.NOME_PESSOA
+                        cartaCobertura.MATERIAL.FABRICANTE.NOME_PESSOA,
+                        cartaCoberturaId
                     });
                 }
             }

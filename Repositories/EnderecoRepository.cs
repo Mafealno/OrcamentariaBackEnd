@@ -1,4 +1,4 @@
-﻿using Orcamentaria.Model.Cadastro;
+﻿
 using OrcamentariaBackEnd.Database;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace OrcamentariaBackEnd.Repositories
+namespace OrcamentariaBackEnd
 {
     public class EnderecoRepository : IEnderecoRepository
     {

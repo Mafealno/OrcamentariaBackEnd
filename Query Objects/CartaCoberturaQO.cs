@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrcamentariaBackEnd.Query_Objects
+namespace OrcamentariaBackEnd
 {
     public class CartaCoberturaQO
     {
+        public int CartaCoberturaId { get; set; }
+
         public int PessoaId { get; set; }
 
         public int MaterialId { get; set; }

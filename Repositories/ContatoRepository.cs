@@ -1,4 +1,4 @@
-﻿using Orcamentaria.Model.Cadastro;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using Dapper;
 using OrcamentariaBackEnd.Database;
 using Renci.SshNet;
 
-namespace OrcamentariaBackEnd.Repositories.Cadastro
+namespace OrcamentariaBackEnd
 {
     public class ContatoRepository : IContatoRepository
     {

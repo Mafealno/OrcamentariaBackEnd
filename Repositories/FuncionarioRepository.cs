@@ -1,4 +1,4 @@
-﻿using Orcamentaria.Model.Cadastro;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Components.RenderTree;
 using System.Runtime.InteropServices;
 
-namespace OrcamentariaBackEnd.Repositories
+namespace OrcamentariaBackEnd
 {
     public class FuncionarioRepository : IFuncionarioRepository
     {

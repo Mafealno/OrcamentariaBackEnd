@@ -1,13 +1,13 @@
 ﻿using Dapper;
-using Orcamentaria.Model.Cadastro;
-using Orcamentaria.Model.Orcamento;
+
+
 using OrcamentariaBackEnd.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrcamentariaBackEnd.Repositories
+namespace OrcamentariaBackEnd
 {
     public class EquipamentoOrcamentoRepository : IEquipamentoOrcamentoRepository
     {

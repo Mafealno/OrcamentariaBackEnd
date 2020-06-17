@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Orcamentaria.Model.Cadastro;
-using OrcamentariaBackEnd.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace OrcamentariaBackEnd.Controllers
+namespace OrcamentariaBackEnd
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,43 +14,114 @@ namespace OrcamentariaBackEnd.Controllers
     {
 
         private ICartaCoberturaRepository CartaCoberturaRepository;
-
-        public CartaCoberturaController(ICartaCoberturaRepository cartaCoberturaRepository)
+        private CartaCoberturaService CartaCoberturaService;
+        public CartaCoberturaController(ICartaCoberturaRepository cartaCoberturaRepository, CartaCoberturaService cartaCoberturaService)
         {
             this.CartaCoberturaRepository = cartaCoberturaRepository;
+            this.CartaCoberturaService = cartaCoberturaService;
         }
-
 
         // GET: api/<CartaCoberturaController>
         [HttpGet]
         public IEnumerable<CartaCoberturaModel> Get()
         {
-            return CartaCoberturaRepository.List();
+            try
+            {
+                return CartaCoberturaService.Get();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET api/<CartaCoberturaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("buscar")]
+        public IEnumerable<CartaCoberturaModel> Get([FromQuery] CartaCoberturaQO cartaCobertura)
         {
-            return "value";
+            try
+            {
+                return CartaCoberturaService.GetComParametro(cartaCobertura);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("buscar/{referencia}/{pessoaId}")]
+        public IEnumerable<CartaCoberturaModel> Get(string referencia, int pessoaId)
+        {
+            try
+            {
+                return CartaCoberturaService.Get(referencia, pessoaId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("buscar/{referencia}/{pessoaId}/{material}")]
+        public IEnumerable<CartaCoberturaModel> Get(string referencia, int pessoaId, int materialId)
+        {
+            try
+            {
+                return CartaCoberturaService.Get(referencia, pessoaId, materialId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // POST api/<CartaCoberturaController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public CartaCoberturaModel Post([FromBody] CartaCoberturaModel cartaCobertura)
         {
+            try
+            {
+                return CartaCoberturaService.Post(cartaCobertura);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // PUT api/<CartaCoberturaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{cartaCoberturaId}")]
+        public void Put(int cartaCoberturaId, [FromBody] CartaCoberturaModel cartaCobertura)
         {
+            try
+            {
+                CartaCoberturaService.Put(cartaCoberturaId, cartaCobertura);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // DELETE api/<CartaCoberturaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{cartaCoberturaId}")]
+        public void Delete(int cartaCoberturaId)
         {
+            try
+            {
+                CartaCoberturaRepository.Delete(cartaCoberturaId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

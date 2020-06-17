@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
-using Orcamentaria.Model.Cadastro;
-using OrcamentariaBackEnd.Repositories;
+using Renci.SshNet.Messages;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace OrcamentariaBackEnd.Controllers
+namespace OrcamentariaBackEnd
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MaterialController : ControllerBase
     {
 
-        private IMaterialRepository MaterialRepository;
+        private MaterialService MaterialService;
 
-        public MaterialController(IMaterialRepository materialRepository)
+        public MaterialController(MaterialService materialService)
         {
-            this.MaterialRepository = materialRepository;
+            this.MaterialService = materialService;
         }
 
         // GET: api/<MaterialController>
@@ -28,7 +29,7 @@ namespace OrcamentariaBackEnd.Controllers
         {
             try
             {
-                return MaterialRepository.List();
+                return MaterialService.Get();
             }
             catch (Exception)
             {
@@ -37,29 +38,64 @@ namespace OrcamentariaBackEnd.Controllers
             }
         }
 
-        // GET api/<MaterialController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        //GET api/<MaterialController>/5
+        [HttpGet("buscar")]
+        public IEnumerable<MaterialModel> Get([FromQuery] MaterialQO material)
         {
-            return "value";
+            try
+            {
+                return MaterialService.GetComParametro(material);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        // POST api/<MaterialController>
+        //POST api/<MaterialController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public MaterialModel Post([FromBody] MaterialModel material)
         {
+            try
+            {
+                return MaterialService.Post(material);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // PUT api/<MaterialController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{materialId}")]
+        public void Put(int materialId, [FromBody] MaterialModel material)
         {
+            try
+            {
+                MaterialService.Put(materialId, material);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // DELETE api/<MaterialController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{materialId}")]
+        public void Delete(int materialId)
         {
+            try
+            {
+                Debug.Print("FUNCIONALIDADE NÃO ATIVA");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

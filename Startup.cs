@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using OrcamentariaBackEnd.Database;
-using OrcamentariaBackEnd.Repositories;
-using OrcamentariaBackEnd.Repositories.Cadastro;
+
 
 namespace OrcamentariaBackEnd
 {
@@ -37,6 +29,7 @@ namespace OrcamentariaBackEnd
             services.AddScoped<ICartaCoberturaRepository>(sp => new CartaCoberturaRepository(sp.GetService<IConexao>(), sp.GetService<IMaterialRepository>(), sp.GetService<IItensCartaCoberturaRepository>()));
             services.AddScoped<IItensCartaCoberturaRepository>(sp => new ItensCartaCoberturaRepository(sp.GetService<IConexao>()));
             services.AddScoped<IFuncionarioRepository>(sp => new FuncionarioRepository(sp.GetService<IConexao>(), sp.GetService<IContatoRepository>(), sp.GetService<IEnderecoRepository>()));
+            services.AddScoped<MaterialService>(sp => new MaterialService(sp.GetService<IMaterialRepository>(), sp.GetService<ICartaCoberturaRepository>(), sp.GetService<IPessoaRepository>()));
             services.AddControllers();
         }
 

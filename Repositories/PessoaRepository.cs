@@ -1,14 +1,12 @@
-﻿using Orcamentaria.Model.Cadastro;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using OrcamentariaBackEnd.Database;
-using OrcamentariaBackEnd.Repositories.Cadastro;
-using System.Security.Principal;
 
-namespace OrcamentariaBackEnd.Repositories
+namespace OrcamentariaBackEnd
 {
     public class PessoaRepository : IPessoaRepository
     {
