@@ -8,12 +8,12 @@ namespace OrcamentariaBackEnd
     public class CustoService
     {
         private ICustoRepository CustoRepository;
-        private IMetodosGenericosRepository MetodosGenericosRepository;
+        private MetodosGenericosService MetodosGenericosService;
 
-        public CustoService(ICustoRepository custoRepository, IMetodosGenericosRepository metodosGenericosRepository)
+        public CustoService(ICustoRepository custoRepository, MetodosGenericosService metodosGenericosService)
         {
             this.CustoRepository = custoRepository;
-            this.MetodosGenericosRepository = metodosGenericosRepository;
+            this.MetodosGenericosService = metodosGenericosService;
         }
 
         public IEnumerable<CustoModel> Get()
@@ -71,8 +71,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"CUSTO_ID = {custoId}";
-                //VERIFICA SE A PESSOA EXISTE
-                if (string.IsNullOrEmpty(MetodosGenericosRepository.DlookupOrcamentaria("CUSTO_ID", "T_ORCA_CUSTO", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("CUSTO_ID", "T_ORCA_CUSTO", where)))
                 {
                     throw new Exception();
                 }
@@ -91,8 +90,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"CUSTO_ID = {custoId}";
-                //VERIFICA SE A PESSOA EXISTE
-                if (string.IsNullOrEmpty(MetodosGenericosRepository.DlookupOrcamentaria("CUSTO_ID", "T_ORCA_CUSTO", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("CUSTO_ID", "T_ORCA_CUSTO", where)))
                 {
                     throw new Exception();
                 }

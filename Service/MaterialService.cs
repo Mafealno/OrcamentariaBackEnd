@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,21 +9,34 @@ namespace OrcamentariaBackEnd
     {
 
         private IMaterialRepository MaterialRepository;
-        private IPessoaRepository PessoaRepository;
-        private ICartaCoberturaRepository CartaCoberturaRepository;
+        private MetodosGenericosService MetodosGenericosService;
+        private PessoaService PessoaService;
+        private CartaCoberturaService CartaCoberturaService;
 
-        public MaterialService(IMaterialRepository materialRepository, ICartaCoberturaRepository cartaCoberturaRepository, IPessoaRepository pessoaRepository)
+        public MaterialService(IMaterialRepository materialRepository, MetodosGenericosService metodosGenericosService, 
+            PessoaService pessoaService, CartaCoberturaService cartaCoberturaService)
         {
             this.MaterialRepository = materialRepository;
-            this.PessoaRepository = pessoaRepository;
-            this.CartaCoberturaRepository = cartaCoberturaRepository;
+            this.MetodosGenericosService = metodosGenericosService;
+            this.PessoaService = pessoaService;
+            this.CartaCoberturaService = cartaCoberturaService;
         }
 
         public IEnumerable<MaterialModel> Get()
         {
             try
             {
-                return MaterialRepository.List();
+                var listMaterial = MaterialRepository.List();
+
+                foreach (MaterialModel materialModel in listMaterial)
+                {
+                    var pessoaId = MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_MATERIAL", $"MATERIAL_D = {materialModel.MATERIAL_ID}");
+
+                    materialModel.FABRICANTE = PessoaService.GetComParametro(new PessoaQO(int.Parse(pessoaId), "")).ToArray()[0];
+                }
+
+                return listMaterial;
+
             }
             catch (Exception)
             {
@@ -35,22 +49,31 @@ namespace OrcamentariaBackEnd
         {
             try
             {
+                List<MaterialModel> listMaterial;
+
                 if (!string.IsNullOrEmpty(material.NomeMaterial))
                 {
-                    return MaterialRepository.ListPorNomeMaterial(material.NomeMaterial);
+                    listMaterial = MaterialRepository.ListPorNomeMaterial(material.NomeMaterial).ToList();
                 }
                 else if (!string.IsNullOrEmpty(material.NomeFabricante))
                 {
-                    return MaterialRepository.ListPorNomeFabricante(material.NomeFabricante);
+                    listMaterial = MaterialRepository.ListPorNomeFabricante(material.NomeFabricante).ToList();
                 }
                 else
                 {
-                    List<MaterialModel> listMaterial = new List<MaterialModel>();
+                    listMaterial = new List<MaterialModel>();
 
                     listMaterial.Add(MaterialRepository.Find(material.MaterialId));
-
-                    return listMaterial;
                 }
+
+                foreach(MaterialModel materialModel in listMaterial)
+                {
+                    var pessoaId = MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_MATERIAL", $"MATERIAL_D = {materialModel.MATERIAL_ID}");
+
+                    materialModel.FABRICANTE = PessoaService.GetComParametro(new PessoaQO(int.Parse(pessoaId), "")).ToArray()[0];
+                }
+
+                return listMaterial;
             }
             catch (Exception)
             {
@@ -63,7 +86,13 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                material.FABRICANTE = PessoaRepository.Find(material.FABRICANTE.PESSOA_ID);
+                var where = $"PESSOA_ID = {material.FABRICANTE.PESSOA_ID}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                {
+                    throw new Exception();
+                }
+
+                material.FABRICANTE = PessoaService.GetComParametro(new PessoaQO(material.FABRICANTE.PESSOA_ID, "")).ToArray()[0];
 
                 return MaterialRepository.Create(material);
             }
@@ -78,19 +107,31 @@ namespace OrcamentariaBackEnd
         {
             try
             {
+                var where = $"MATERIAL_ID = {materialId}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
+                {
+                    throw new Exception();
+                }
+
                 MaterialModel materialDB = MaterialRepository.Find(materialId);
 
                 if(material.FABRICANTE.PESSOA_ID != materialDB.FABRICANTE.PESSOA_ID)
                 {
-                    List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaRepository.ListPorMaterialIdEPessoaId(materialId, materialDB.FABRICANTE.PESSOA_ID).ToList();
+                    List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaService.Get(materialId, materialDB.FABRICANTE.PESSOA_ID).ToList();
 
-                    var fabricante = PessoaRepository.Find(material.FABRICANTE.PESSOA_ID);
+                    where = $"PESSOA_ID = {material.FABRICANTE.PESSOA_ID}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                    {
+                        throw new Exception();
+                    }
+
+                    var fabricante = PessoaService.GetComParametro(new PessoaQO(material.FABRICANTE.PESSOA_ID, "")).ToArray()[0];
 
                     foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
                     {
                         cartaCobertura.MATERIAL.FABRICANTE = fabricante;
                         
-                        CartaCoberturaRepository.Update(cartaCobertura.CARTA_COBERTURA_ID, cartaCobertura);
+                        CartaCoberturaService.Put(cartaCobertura.CARTA_COBERTURA_ID, cartaCobertura);
                     }
 
                     material.FABRICANTE = fabricante; 

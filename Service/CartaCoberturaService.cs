@@ -8,25 +8,36 @@ namespace OrcamentariaBackEnd
 {
     public class CartaCoberturaService
     {
-        private MetodosGenericosService MetodosGenericosService;
         private ICartaCoberturaRepository CartaCoberturaRepository;
-        private IItensCartaCoberturaRepository ItensCartaCoberturaRepository;
-        private IMaterialRepository MaterialRepository;
+        private MetodosGenericosService MetodosGenericosService;
+        private ItensCartaCoberturaService ItensCartaCoberturaService;
+        private MaterialService MaterialService;
 
-        public CartaCoberturaService(MetodosGenericosService metodosGenericosservice, ICartaCoberturaRepository cartaCoberturaRepository,
-            IItensCartaCoberturaRepository itensCartaCoberturaRepository, IMaterialRepository materialRepository)
+        public CartaCoberturaService(ICartaCoberturaRepository cartaCoberturaRepository, MetodosGenericosService metodosGenericosservice,
+            ItensCartaCoberturaService itensCartaCoberturaService, MaterialService materialService)
         {
             this.CartaCoberturaRepository = cartaCoberturaRepository;
-            this.ItensCartaCoberturaRepository = itensCartaCoberturaRepository;
+            this.ItensCartaCoberturaService = itensCartaCoberturaService;
             this.MetodosGenericosService = metodosGenericosservice;
-            this.MaterialRepository = materialRepository;
+            this.MaterialService = materialService;
         }
 
         public IEnumerable<CartaCoberturaModel> Get()
         {
             try
             {
-                return CartaCoberturaRepository.List();
+                List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaRepository.List().ToList();
+
+                foreach(CartaCoberturaModel cartaCobertura in listCartaCobertura)
+                {
+                    cartaCobertura.LIST_ITENS_CARTA_COBERTURA = ItensCartaCoberturaService.GetComParametro(new ItensCartaCoberturaQO(0, cartaCobertura.CARTA_COBERTURA_ID, "")).ToList();
+
+                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_CARTA_COBERTURA", $"CARTA_COBERTURA_ID = {cartaCobertura.CARTA_COBERTURA_ID}");
+
+                    cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
+                }
+
+                return listCartaCobertura;
             }
             catch (Exception)
             {
@@ -40,13 +51,57 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"PESSOA_ID = {pessoaId}";
-                //VERIFICA SE A PESSOA EXISTE
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
                 {
                     throw new Exception();
                 }
 
-                return CartaCoberturaRepository.ListPorReferenciaEPessoaId(referencia, pessoaId);
+                List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaRepository.ListPorReferenciaEPessoaId(referencia, pessoaId).ToList();
+
+                foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
+                {
+                    cartaCobertura.LIST_ITENS_CARTA_COBERTURA = ItensCartaCoberturaService.GetComParametro(new ItensCartaCoberturaQO(0, cartaCobertura.CARTA_COBERTURA_ID, "")).ToList();
+
+                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_CARTA_COBERTURA", $"CARTA_COBERTURA_ID = {cartaCobertura.CARTA_COBERTURA_ID}");
+
+                    cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
+                }
+
+                return listCartaCobertura;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<CartaCoberturaModel> Get(int materialId, int pessoaId)
+        {
+            try
+            {
+                var where = $"PESSOA_ID = {pessoaId}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                {
+                    throw new Exception();
+                }
+
+                where = $"MATERIAL_ID = {materialId}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
+                {
+                    throw new Exception();
+                }
+
+                List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaRepository.ListPorMaterialIdEPessoaId(materialId, pessoaId).ToList();
+
+                foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
+                {
+                    cartaCobertura.LIST_ITENS_CARTA_COBERTURA = ItensCartaCoberturaService.GetComParametro(new ItensCartaCoberturaQO(0, cartaCobertura.CARTA_COBERTURA_ID, "")).ToList();
+
+                    cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(materialId, "", "")).ToArray()[0];
+                }
+
+                return listCartaCobertura;
             }
             catch (Exception)
             {
@@ -61,20 +116,27 @@ namespace OrcamentariaBackEnd
             {
 
                 var where = $"PESSOA_ID = {pessoaId}";
-                //VERIFICA SE A PESSOA EXISTE
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
                 {
                     throw new Exception();
                 }
 
                 where = $"PESSOA_ID = {pessoaId} AND MATERIAL_ID = {materialId}";
-                //VERIFICA SE O MATERIAL EXISTE
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
                 {
                     throw new Exception();
                 }
 
-                return CartaCoberturaRepository.ListPorReferenciaEPessoaIdEMaterialId(referencia, pessoaId, materialId);
+                List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaRepository.ListPorReferenciaEPessoaIdEMaterialId(referencia, pessoaId, materialId).ToList();
+
+                foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
+                {
+                    cartaCobertura.LIST_ITENS_CARTA_COBERTURA = ItensCartaCoberturaService.GetComParametro(new ItensCartaCoberturaQO(0, cartaCobertura.CARTA_COBERTURA_ID, "")).ToList();
+
+                    cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(materialId, "", "")).ToArray()[0];
+                }
+
+                return listCartaCobertura;
             }
             catch (Exception)
             {
@@ -87,38 +149,49 @@ namespace OrcamentariaBackEnd
         {
             try
             {
+                List<CartaCoberturaModel> listCartaCobertura;
+
                 if (!string.IsNullOrEmpty(cartaCobertura.Referencia))
                 {
-                    return CartaCoberturaRepository.ListPorReferencia(cartaCobertura.Referencia);
+                    listCartaCobertura = CartaCoberturaRepository.ListPorReferencia(cartaCobertura.Referencia).ToList();
                 }
                 else if (cartaCobertura.MaterialId != 0)
                 {
                     var where = $"MATERIAL_ID = {cartaCobertura.MaterialId}";
-                    //VERIFICA SE O MATERIAL EXISTE
                     if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
                     {
                         throw new Exception();
                     }
-                    return CartaCoberturaRepository.ListPorMaterialId(cartaCobertura.MaterialId);
+
+                    listCartaCobertura = CartaCoberturaRepository.ListPorMaterialId(cartaCobertura.MaterialId).ToList();
                 }
                 else if (cartaCobertura.PessoaId != 0)
                 {
                     var where = $"PESSOA_ID = {cartaCobertura.PessoaId}";
-                    //VERIFICA SE A PESSOA EXISTE
                     if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
                     {
                         throw new Exception();
                     }
-                    return CartaCoberturaRepository.ListPorPessoaId(cartaCobertura.PessoaId);
+
+                    listCartaCobertura = CartaCoberturaRepository.ListPorPessoaId(cartaCobertura.PessoaId).ToList();
                 }
                 else
                 {
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
+                    listCartaCobertura = new List<CartaCoberturaModel>();
 
                     listCartaCobertura.Add(CartaCoberturaRepository.Find(cartaCobertura.CartaCoberturaId));
-
-                    return listCartaCobertura;
                 }
+
+                foreach (CartaCoberturaModel CartaCobertura in listCartaCobertura)
+                {
+                    CartaCobertura.LIST_ITENS_CARTA_COBERTURA = ItensCartaCoberturaService.GetComParametro(new ItensCartaCoberturaQO(0, CartaCobertura.CARTA_COBERTURA_ID, "")).ToList();
+
+                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_CARTA_COBERTURA", $"CARTA_COBERTURA_ID = {CartaCobertura.CARTA_COBERTURA_ID}");
+
+                    CartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
+                }
+
+                return listCartaCobertura;
             }
             catch (Exception)
             {
@@ -137,7 +210,7 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                cartaCobertura.MATERIAL = MaterialRepository.Find(cartaCobertura.MATERIAL.MATERIAL_ID);
+                cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(cartaCobertura.MATERIAL.MATERIAL_ID, "", "")).ToArray()[0];
 
                 return CartaCoberturaRepository.Create(cartaCobertura);
 
@@ -159,7 +232,7 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                cartaCobertura.MATERIAL = MaterialRepository.Find(cartaCobertura.MATERIAL.MATERIAL_ID);
+                cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(cartaCobertura.MATERIAL.MATERIAL_ID, "", "")).ToArray()[0];
 
                 CartaCoberturaRepository.Update(cartaCoberturaId, cartaCobertura);
             }
@@ -174,7 +247,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                MetodosGenericosService.StartTransactionCommitRollback(MetodosGenericosEnum.START);
+                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
 
                 var where = $"CARTA_COBERTURA_ID = {cartaCoberturaId}";
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("CARTA_COBERTURA_ID", "T_ORCA_CARTA_COBERTURA", where)))
@@ -182,15 +255,15 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                ItensCartaCoberturaRepository.DeletePorCartaCoberturaId(cartaCoberturaId);
+                ItensCartaCoberturaService.DeleteComParametro(new ItensCartaCoberturaQO(0, cartaCoberturaId, ""));
 
                 CartaCoberturaRepository.Delete(cartaCoberturaId);
 
-                MetodosGenericosService.StartTransactionCommitRollback(MetodosGenericosEnum.COMMIT);
+                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
             }
             catch (Exception)
             {
-                MetodosGenericosService.StartTransactionCommitRollback(MetodosGenericosEnum.ROLLBACK);
+                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.ROLLBACK);
                 throw;
             }
         }

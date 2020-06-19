@@ -14,14 +14,10 @@ namespace OrcamentariaBackEnd
     public class FuncionarioRepository : IFuncionarioRepository
     {
         private IConexao Conexao;
-        private IContatoRepository Contato;
-        private IEnderecoRepository Endereco;
 
-        public FuncionarioRepository(IConexao conexao, IContatoRepository contato, IEnderecoRepository endereco)
+        public FuncionarioRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Contato = contato;
-            this.Endereco = endereco;
         }
 
         public FuncionarioModel Create(FuncionarioModel funcionario)
@@ -69,10 +65,6 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<FuncionarioModel>(@"SELECT * FROM T_ORCA_PESSOA INNER JOIN T_ORCA_FUNCIONARIO
                                                               ON T_ORCA_PESSOA.PESSOA_ID = T_ORCA_FUNCIONARIO.PESSOA_ID 
                                                               WHERE T_ORCA_FUNCIONARIO.PESSOA_ID = @pessoaId", new { pessoaId });
-
-                    resposta.ToArray()[0].LIST_CONTATO = Contato.ListPorPessoaId(resposta.ToArray()[0].PESSOA_ID).ToList();
-                    resposta.ToArray()[0].LIST_ENDERECO = Endereco.ListPorPessoaId(resposta.ToArray()[0].PESSOA_ID).ToList();
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -93,14 +85,7 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<FuncionarioModel>(@"SELECT * FROM T_ORCA_PESSOA INNER JOIN T_ORCA_FUNCIONARIO
                                                           ON T_ORCA_PESSOA.PESSOA_ID = T_ORCA_FUNCIONARIO.PESSOA_ID");
 
-                    List<FuncionarioModel> listFuncionario = new List<FuncionarioModel>();
-
-                    foreach (FuncionarioModel funcionario in resposta)
-                    {
-                        listFuncionario.Add(Find(funcionario.PESSOA_ID));
-                    }
-                    
-                    return listFuncionario;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -121,14 +106,7 @@ namespace OrcamentariaBackEnd
                                                                 ON T_ORCA_PESSOA.PESSOA_ID = T_ORCA_FUNCIONARIO.PESSOA_ID
                                                                 WHERE NOME_PESSOA LIKE @nomePessoa", new { nomePessoa = nomePessoa + "%" });
 
-                    List<FuncionarioModel> listFuncionario = new List<FuncionarioModel>();
-
-                    foreach (FuncionarioModel funcionario in resposta)
-                    {
-                        listFuncionario.Add(Find(funcionario.PESSOA_ID));
-                    }
-
-                    return listFuncionario;
+                    return resposta;
                 }
             }
             catch (Exception)

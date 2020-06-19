@@ -16,7 +16,7 @@ namespace OrcamentariaBackEnd
 
         IEnumerable<PerfilModel> List();
         
-        IEnumerable<PerfilModel> FindPorNomePerfil(string nomePerfil);
+        IEnumerable<PerfilModel> ListPorNomePerfil(string nomePerfil);
 
         PerfilModel Find(int perfilId);
 

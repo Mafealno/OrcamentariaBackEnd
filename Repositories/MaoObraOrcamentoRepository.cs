@@ -14,14 +14,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private IFuncionarioRepository Funcionario;
-        private ICustosMaoObraRepository CustosMaoObra;
 
-        public MaoObraOrcamentoRepository(IConexao conexao, IFuncionarioRepository funcionarioRepository, ICustosMaoObraRepository custosMaoObraRepository)
+        public MaoObraOrcamentoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Funcionario = funcionarioRepository;
-            this.CustosMaoObra = custosMaoObraRepository;
         }
 
         public MaoObraOrcamentoModel Create(MaoObraOrcamentoModel maoObraOrcamento)
@@ -71,8 +67,6 @@ namespace OrcamentariaBackEnd
                        maoObraOrcamentoId
                     });
 
-                    CustosMaoObra.DeletePorMaoObraOrcamentoId(maoObraOrcamentoId);
-
                     cn.Execute(@"DELETE FROM T_ORCA_MAO_OBRA_ORCAMENTO WHERE MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId", new { maoObraOrcamentoId });
                 }
             }
@@ -93,11 +87,6 @@ namespace OrcamentariaBackEnd
                     var listMaoObraOrcamentoId = cn.Query<int>("SELECT DISTINCT MAO_OBRA_ORCAMENTO_ID FROM T_ORCA_OBRA WHERE ORCAMENTO_ID = @orcamentId", new { orcamentoId });
 
                     cn.Execute(@"DELETE FROM T_ORCA_OBRA WHERE ORCAMENTO_ID = @orcamentoId ", new { orcamentoId });
-
-                    foreach(int id in listMaoObraOrcamentoId)
-                    {
-                        CustosMaoObra.DeletePorMaoObraOrcamentoId(id);
-                    }
 
                     cn.Execute(@"DELETE FROM T_ORCA_MAO_OBRA_ORCAMENTO WHERE MAO_OBRA_ORCAMENTO_ID IN @listMaoObraOrcamentoId",
                                 new { listMaoObraOrcamentoId = listMaoObraOrcamentoId });
@@ -125,13 +114,6 @@ namespace OrcamentariaBackEnd
                         orcamentoId 
                     });
 
-                    var pessoaId = cn.Query<int>(@"SELECT PESSOA_ID FROM T_ORCA_MAO_OBRA_ORCAMENTO WHERE 
-                                                   MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId", new { maoObraOrcamentoId });
-
-                    resposta.ToArray()[0].FUNCIONARIO = Funcionario.Find(pessoaId.ToArray()[0]);
-
-                    resposta.ToArray()[0].LIST_CUSTO = CustosMaoObra.List(maoObraOrcamentoId).ToList();
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -148,17 +130,10 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<MaoObraOrcamentoModel>(@"SELECT * FROM T_ORCA_MAO_OBRA_ORCAMENTO INNER JOIN T_ORCA_OBRA ON 
+                    var resposta = cn.Query<MaoObraOrcamentoModel>(@"SELECT T_ORCA_MAO_OBRA_ORCAMENTO.* FROM T_ORCA_MAO_OBRA_ORCAMENTO INNER JOIN T_ORCA_OBRA ON 
                                                                  T_ORCA_MAO_OBRA_ORCAMENTO.MAO_OBRA_ORCAMENTO_ID = T_ORCA_OBRA.MAO_OBRA_ORCAMENTO_ID");
 
-                    List<MaoObraOrcamentoModel> listMaoObraOrcamento = new List<MaoObraOrcamentoModel>();
-
-                    foreach(MaoObraOrcamentoModel maoObraOrcamento in resposta)
-                    {
-                        listMaoObraOrcamento.Add(Find(maoObraOrcamento.MAO_OBRA_ORCAMENTO_ID, maoObraOrcamento.ORCAMENTO_ID));
-                    }
-
-                    return listMaoObraOrcamento;
+                   return resposta;
                 }
             }
             catch (Exception)
@@ -174,18 +149,11 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<MaoObraOrcamentoModel>(@"SELECT * FROM T_ORCA_MAO_OBRA_ORCAMENTO INNER JOIN T_ORCA_OBRA ON 
+                    var resposta = cn.Query<MaoObraOrcamentoModel>(@"SELECT T_ORCA_MAO_OBRA_ORCAMENTO.* FROM T_ORCA_MAO_OBRA_ORCAMENTO INNER JOIN T_ORCA_OBRA ON 
                                                                     T_ORCA_MAO_OBRA_ORCAMENTO.MAO_OBRA_ORCAMENTO_ID = T_ORCA_OBRA.MAO_OBRA_ORCAMENTO_ID
-                                                                    T_ORCA_OBRA.ORCAMENTO_ID = orcamentoId");
+                                                                    T_ORCA_OBRA.ORCAMENTO_ID = orcamentoId", new { orcamentoId });
 
-                    List<MaoObraOrcamentoModel> listMaoObraOrcamento = new List<MaoObraOrcamentoModel>();
-
-                    foreach (MaoObraOrcamentoModel maoObraOrcamento in resposta)
-                    {
-                        listMaoObraOrcamento.Add(Find(maoObraOrcamento.MAO_OBRA_ORCAMENTO_ID, maoObraOrcamento.ORCAMENTO_ID));
-                    }
-
-                    return listMaoObraOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)

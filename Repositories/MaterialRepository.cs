@@ -11,12 +11,10 @@ namespace OrcamentariaBackEnd
     public class MaterialRepository : IMaterialRepository
     {
         private IConexao Conexao;
-        private IPessoaRepository Pessoa;
 
-        public MaterialRepository(IConexao conexao, IPessoaRepository pessoa)
+        public MaterialRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Pessoa = pessoa;
         }
 
         public MaterialModel Create(MaterialModel material)
@@ -69,10 +67,6 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL WHERE MATERIAL_ID = @materialId", new { materialId });
 
-                    var pessoaId = cn.Query<int>("SELECT PESSOA_ID FROM T_ORCA_MATERIAL WHERE MATERIAL_ID = @materialId", new { materialId });
-                    
-                    resposta.ToArray()[0].FABRICANTE = Pessoa.Find(pessoaId.ToArray()[0]);
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -91,14 +85,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL");
 
-                    List<MaterialModel> listMaterial = new List<MaterialModel>();
-
-                    foreach (MaterialModel material in resposta)
-                    {
-                        listMaterial.Add(Find(material.MATERIAL_ID));
-                    }
-
-                    return listMaterial;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -115,15 +102,8 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL WHERE NOME_PESSOA LIKE @nomeFabricante", new { nomeFabricante = nomeFabricante + '%' });
-
-                    List<MaterialModel> listMaterial = new List<MaterialModel>();
-
-                    foreach (MaterialModel material in resposta)
-                    {
-                        listMaterial.Add(Find(material.MATERIAL_ID));
-                    }
-
-                    return listMaterial;
+                    
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -141,14 +121,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL WHERE MATERIAL_ID LIKE @nomeMaterial", new { nomeMaterial = nomeMaterial + '%' });
 
-                    List<MaterialModel> listMaterial = new List<MaterialModel>();
-
-                    foreach (MaterialModel material in resposta)
-                    {
-                        listMaterial.Add(Find(material.MATERIAL_ID));
-                    }
-
-                    return listMaterial;
+                    return resposta;
                 }
             }
             catch (Exception)

@@ -13,5 +13,11 @@ namespace OrcamentariaBackEnd
 
         public string NomeFabricante { get; set; }
 
+        public MaterialQO(int materialId, string nomeMaterial, string nomeFabricante)
+        {
+            MaterialId = materialId;
+            NomeMaterial = nomeMaterial;
+            NomeFabricante = nomeFabricante;
+        }
     }
 }

@@ -11,5 +11,10 @@ namespace OrcamentariaBackEnd
 
         public string NomePerfil { get; set; }
 
+        public PerfilQO(int perfilId, string nomePerfil)
+        {
+            PerfilId = perfilId;
+            NomePerfil = nomePerfil;
+        }
     }
 }

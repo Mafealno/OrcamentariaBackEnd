@@ -11,14 +11,10 @@ namespace OrcamentariaBackEnd
     public class PessoaRepository : IPessoaRepository
     {
         private IConexao Conexao;
-        private IContatoRepository Contato;
-        private IEnderecoRepository Endereco;
 
-        public PessoaRepository(IConexao conexao, IContatoRepository contato, IEnderecoRepository endereco)
+        public PessoaRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Contato = contato;
-            this.Endereco = endereco;
         }
 
         public PessoaModel Create(PessoaModel pessoa)
@@ -46,8 +42,6 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    Contato.DeletePorPessoaId(pessoaId);
-                    Endereco.DeletePorPessoaId(pessoaId);
                     cn.Execute("DELETE FROM T_ORCA_PESSOA WHERE PESSOA_ID = @PessoaId", new { pessoaId });
                 }
             }
@@ -65,8 +59,6 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<PessoaModel>("SELECT * FROM T_ORCA_PESSOA WHERE PESSOA_ID = @PessoaId", new { pessoaId });
-                    resposta.ToArray()[0].LIST_CONTATO = Contato.ListPorPessoaId(pessoaId).ToList();
-                    resposta.ToArray()[0].LIST_ENDERECO = Endereco.ListPorPessoaId(pessoaId).ToList();
 
                     return resposta.ToArray()[0];
                 }
@@ -86,14 +78,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<PessoaModel>("SELECT * FROM T_ORCA_PESSOA");
 
-                    List<PessoaModel> listPessoas = new List<PessoaModel>();
-
-                    foreach (PessoaModel pessoa in resposta)
-                    {
-                        listPessoas.Add(Find(pessoa.PESSOA_ID));
-                    }
-
-                    return listPessoas;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -111,14 +96,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<PessoaModel>("SELECT * FROM T_ORCA_PESSOA WHERE NOME_PESSOA LIKE @nomePessoa", new { nomePessoa = nomePessoa + '%' });
 
-                    List<PessoaModel> listPessoas = new List<PessoaModel>();
-
-                    foreach (PessoaModel pessoa in resposta)
-                    {
-                        listPessoas.Add(Find(pessoa.PESSOA_ID));
-                    }
-
-                    return listPessoas;
+                    return resposta;
                 }
             }
             catch (Exception)

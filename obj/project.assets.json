@@ -16,6 +16,18 @@
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {}
         }
       },
+      "CompareNETObjects/4.66.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/KellermanSoftware.Compare-NET-Objects.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/KellermanSoftware.Compare-NET-Objects.dll": {}
+        }
+      },
       "Dapper/2.0.35": {
         "type": "package",
         "dependencies": {
@@ -1687,6 +1699,39 @@
         "lib/netstandard2.0/BouncyCastle.Crypto.xml",
         "lib/xamarinios/BouncyCastle.Crypto.dll",
         "lib/xamarinios/BouncyCastle.Crypto.xml"
+      ]
+    },
+    "CompareNETObjects/4.66.0": {
+      "sha512": "fK9o1z5ZwHb70yLRSp0aMCk3FH1oshVsOVVImB55yL6wnaPDncn3ryL3MTvcyrhJBLC3Yq4YR6xJWXLTBAApJQ==",
+      "type": "package",
+      "path": "comparenetobjects/4.66.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "comparenetobjects.4.66.0.nupkg.sha512",
+        "comparenetobjects.nuspec",
+        "lib/net40/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net40/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net45/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net45/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net451/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net451/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net452/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net452/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net46/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net46/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net47/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net47/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net471/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net471/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net472/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net472/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/net48/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/net48/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/netstandard1.3/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/netstandard1.3/KellermanSoftware.Compare-NET-Objects.xml",
+        "lib/netstandard2.0/KellermanSoftware.Compare-NET-Objects.dll",
+        "lib/netstandard2.0/KellermanSoftware.Compare-NET-Objects.xml"
       ]
     },
     "Dapper/2.0.35": {
@@ -5847,6 +5892,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "CompareNETObjects >= 4.66.0",
       "Dapper >= 2.0.35",
       "Dapper.Contrib >= 2.0.35",
       "MySql.Data >= 8.0.20"
@@ -5893,6 +5939,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "CompareNETObjects": {
+            "target": "Package",
+            "version": "[4.66.0, )"
+          },
           "Dapper": {
             "target": "Package",
             "version": "[2.0.35, )"

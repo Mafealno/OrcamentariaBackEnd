@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "XHodRbuI9z8nwSxN2tJbgC1TOmx/yJ7MXg9qapvGGrZC6Ew1n09xytF0Ao9ooRfXtDwUY/OpslQ8t9NVQUTfXg==",
+  "dgSpecHash": "llO/KFGqH/JOoasN9Mandm/ecIZtuvpSQPyrFTd1OT/XgkW/A+AAb9ag5D4lEG8dQw4IfQoSjbmxB5XbYEWFEA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
+    "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\comparenetobjects\\4.66.0\\comparenetobjects.4.66.0.nupkg.sha512",
     "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\dapper\\2.0.35\\dapper.2.0.35.nupkg.sha512",
     "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\dapper.contrib\\2.0.35\\dapper.contrib.2.0.35.nupkg.sha512",
     "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\google.protobuf\\3.6.1\\google.protobuf.3.6.1.nupkg.sha512",

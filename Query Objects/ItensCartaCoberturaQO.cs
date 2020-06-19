@@ -12,5 +12,13 @@ namespace OrcamentariaBackEnd
         public int CartaCoberturaId { get; set; }
 
         public string TempoResistenciaFogo { get; set; }
+
+        public ItensCartaCoberturaQO(int itensCartaCoberturaId, int cartaCoberturaId, string tempoResistenciaFogo)
+        {
+            ItensCartaCoberturaId = itensCartaCoberturaId;
+            CartaCoberturaId = cartaCoberturaId;
+            TempoResistenciaFogo = tempoResistenciaFogo;
+
+        }
     }
 }

@@ -11,12 +11,10 @@ namespace OrcamentariaBackEnd
     public class EquipamentoRepository : IEquipamentoRepository
     {
         private IConexao Conexao;
-        private IPessoaRepository Pessoa;
 
-        public EquipamentoRepository(IConexao conexao, IPessoaRepository pessoa)
+        public EquipamentoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Pessoa = pessoa;
         }
 
         public EquipamentoModel Create(EquipamentoModel equipamento)
@@ -69,10 +67,6 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<EquipamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO WHERE EQUIPAMENTO_ID = @equipamentoId", new { equipamentoId });
 
-                    var pessoaId = cn.Query<int>("SELECT PESSOA_ID FROM T_ORCA_EQUIPAMENTO WHERE EQUIPAMENTO_ID = @equipamentoId", new { equipamentoId });
-
-                    resposta.ToArray()[0].FABRICANTE = Pessoa.Find(pessoaId.ToArray()[0]);
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -91,14 +85,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<EquipamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO");
 
-                    List<EquipamentoModel> listEquipamento = new List<EquipamentoModel>();
-
-                    foreach (EquipamentoModel equipamento in resposta)
-                    {
-                        listEquipamento.Add(Find(equipamento.EQUIPAMENTO_ID));
-                    }
-
-                    return listEquipamento;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -116,14 +103,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<EquipamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO WHERE NOME_EQUIPAMENTO LIKE @nomeEquipamento", new { nomeEquipamento = nomeEquipamento + '%' });
 
-                    List<EquipamentoModel> listEquipamento = new List<EquipamentoModel>();
-
-                    foreach (EquipamentoModel equipamento in resposta)
-                    {
-                        listEquipamento.Add(Find(equipamento.EQUIPAMENTO_ID));
-                    }
-
-                    return listEquipamento;
+                    return resposta;
                 }
             }
             catch (Exception)

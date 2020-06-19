@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v3.1": {
       "OrcamentariaBackEnd/1.0.0": {
         "dependencies": {
+          "CompareNETObjects": "4.66.0",
           "Dapper": "2.0.35",
           "Dapper.Contrib": "2.0.35",
           "MySql.Data": "8.0.20",
@@ -331,6 +332,20 @@
         },
         "compile": {
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {}
+        }
+      },
+      "CompareNETObjects/4.66.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/KellermanSoftware.Compare-NET-Objects.dll": {
+            "assemblyVersion": "4.66.0.0",
+            "fileVersion": "4.66.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/KellermanSoftware.Compare-NET-Objects.dll": {}
         }
       },
       "Dapper/2.0.35": {
@@ -3012,6 +3027,13 @@
       "sha512": "sha512-jAy3uHN1U9DpoT/TgLqDTEhlccn/4doOVxhSmmNsnoSsGfHT9Lwr634ac9D0YFujAhNw61nWF4UIpHyzv0aQww==",
       "path": "bouncycastle.netcore/1.8.3",
       "hashPath": "bouncycastle.netcore.1.8.3.nupkg.sha512"
+    },
+    "CompareNETObjects/4.66.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fK9o1z5ZwHb70yLRSp0aMCk3FH1oshVsOVVImB55yL6wnaPDncn3ryL3MTvcyrhJBLC3Yq4YR6xJWXLTBAApJQ==",
+      "path": "comparenetobjects/4.66.0",
+      "hashPath": "comparenetobjects.4.66.0.nupkg.sha512"
     },
     "Dapper/2.0.35": {
       "type": "package",

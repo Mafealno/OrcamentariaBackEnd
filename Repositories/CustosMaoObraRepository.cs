@@ -14,14 +14,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private IFuncionarioRepository Funcionario;
-        private ICustoRepository Custo;
 
-        public CustosMaoObraRepository(IConexao conexao, IFuncionarioRepository funcionarioRepository, ICustoRepository custoRepository)
+        public CustosMaoObraRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Funcionario = funcionarioRepository;
-            this.Custo = custoRepository;
         }
 
         public void Create(MaoObraOrcamentoModel maoObraOrcamento, CustoModel custo)

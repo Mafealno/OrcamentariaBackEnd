@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,12 +10,12 @@ namespace OrcamentariaBackEnd
     {
 
         private IContatoRepository ContatoRepository;
-        private IMetodosGenericosRepository MetodosGenericosRepository;
+        private MetodosGenericosService MetodosGenericosService;
 
-        public ContatoService(IContatoRepository contatoRepository, IMetodosGenericosRepository metodosGenericosRepository)
+        public ContatoService(IContatoRepository contatoRepository, MetodosGenericosService metodosGenericosService)
         {
             this.ContatoRepository = contatoRepository;
-            this.MetodosGenericosRepository = metodosGenericosRepository;
+            this.MetodosGenericosService = metodosGenericosService;
         }
 
         public IEnumerable<ContatoModel> Get()
@@ -34,6 +35,12 @@ namespace OrcamentariaBackEnd
         {
             try
             {
+                var where = $"PESSOA_ID = {pessoaId}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                {
+                    throw new Exception();
+                }
+
                 return ContatoRepository.FindPorContatoPadraoETipoContato(pessoaId, tipoContato);
             }
             catch (Exception)
@@ -43,12 +50,18 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<ContatoModel> GetComParametro(ContatoQO contato)
+        public IEnumerable<ContatoModel> GetComParametro( ContatoQO contato)
         {
             try
             {
                 if(contato.PessoaId != 0)
                 {
+                    var where = $"PESSOA_ID = {contato.PessoaId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                    {
+                        throw new Exception();
+                    }
+
                     return ContatoRepository.ListPorPessoaId(contato.PessoaId);
                 }
                 else
@@ -72,9 +85,21 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"PESSOA_ID = {contato.PESSOA_ID}";
-                if(string.IsNullOrEmpty(MetodosGenericosRepository.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                if(string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
                 {
                     throw new Exception();
+                }
+
+                if (contato.CONTATO_PADRAO)
+                {
+                    var contatoDB = ContatoRepository.FindPorContatoPadraoETipoContato(contato.PESSOA_ID, contato.TIPO_CONTATO);
+
+                    if (contatoDB.CONTATO_PADRAO)
+                    {
+                        contatoDB.CONTATO_PADRAO = false;
+
+                        ContatoRepository.Update(contatoDB.CONTATO_ID, contatoDB);
+                    }
                 }
 
                 return ContatoRepository.Create(contato);
@@ -91,9 +116,21 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"CONTATO_ID = {contatoId}";
-                if (string.IsNullOrEmpty(MetodosGenericosRepository.DlookupOrcamentaria("CONTATO_ID", "T_ORCA_CONTATO", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("CONTATO_ID", "T_ORCA_CONTATO", where)))
                 {
                     throw new Exception();
+                }
+
+                if (contato.CONTATO_PADRAO)
+                {
+                    var contatoDB = ContatoRepository.FindPorContatoPadraoETipoContato(contato.PESSOA_ID, contato.TIPO_CONTATO);
+
+                    if (contatoDB.CONTATO_PADRAO)
+                    {
+                        contatoDB.CONTATO_PADRAO = false;
+
+                        ContatoRepository.Update(contatoDB.CONTATO_ID, contatoDB);
+                    }
                 }
 
                 ContatoRepository.Update(contatoId, contato);
@@ -105,14 +142,14 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void Delete(ContatoQO contato)
+        public void DeleteComParametro(ContatoQO contato)
         {
             try
             {
                 if (contato.PessoaId != 0)
                 {
                     var where = $"PESSOA_ID = {contato.PessoaId}";
-                    if (string.IsNullOrEmpty(MetodosGenericosRepository.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
                     {
                         throw new Exception();
                     }
@@ -122,7 +159,7 @@ namespace OrcamentariaBackEnd
                 else
                 {
                     var where = $"CONTATO_ID = {contato.ContatoId}";
-                    if (string.IsNullOrEmpty(MetodosGenericosRepository.DlookupOrcamentaria("CONTATO_ID", "T_ORCA_CONTATO", where)))
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("CONTATO_ID", "T_ORCA_CONTATO", where)))
                     {
                         throw new Exception();
                     }

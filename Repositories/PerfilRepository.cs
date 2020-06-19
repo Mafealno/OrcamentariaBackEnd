@@ -70,7 +70,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<PerfilModel> FindPorNomePerfil(string nomePerfil)
+        public IEnumerable<PerfilModel> ListPorNomePerfil(string nomePerfil)
         {
             try
             {

@@ -11,5 +11,10 @@ namespace OrcamentariaBackEnd
 
         public string NomeCusto { get; set; }
 
+        public CustoQO(int custoId, string nomeCusto)
+        {
+            CustoId = custoId;
+            NomeCusto = nomeCusto;
+        }
     }
 }

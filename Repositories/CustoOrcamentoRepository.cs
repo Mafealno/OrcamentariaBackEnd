@@ -12,12 +12,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private ICustoRepository Custo;
 
-        public CustoOrcamentoRepository(IConexao conexao, ICustoRepository custo)
+        public CustoOrcamentoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Custo = custo;
         }
 
         public CustoOrcamentoModel Create(CustoOrcamentoModel custoOrcamento)
@@ -79,10 +77,6 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<CustoOrcamentoModel>("SELECT * FROM T_ORCA_CUSTO_ORCAMENTO WHERE CUSTO_ORCAMENTO_ID = @custoOrcamentoId", new { custoOrcamentoId });
 
-                    var custoId = cn.Query<int>("SELECT CUSTO_ID FROM T_ORCA_CUSTO_ORCAMENTO WHERE CUSTO_ORCAMENTO_ID = @custoOrcamentoId", new { custoOrcamentoId });
-
-                    resposta.ToArray()[0].CUSTO_OBRA = Custo.Find(custoId.ToArray()[0]);
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -101,14 +95,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<CustoOrcamentoModel>("SELECT * FROM T_ORCA_CUSTO_ORCAMENTO");
 
-                    List<CustoOrcamentoModel> listCustoOrcamento = new List<CustoOrcamentoModel>();
-
-                    foreach(CustoOrcamentoModel custoOrcamento in resposta)
-                    {
-                        listCustoOrcamento.Add(Find(custoOrcamento.CUSTO_ORCAMENTO_ID));
-                    }
-
-                    return listCustoOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -126,14 +113,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<CustoOrcamentoModel>("SELECT * FROM T_ORCA_CUSTO_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
-                    List<CustoOrcamentoModel> listCustoOrcamento = new List<CustoOrcamentoModel>();
-
-                    foreach (CustoOrcamentoModel custoOrcamento in resposta)
-                    {
-                        listCustoOrcamento.Add(Find(custoOrcamento.CUSTO_ORCAMENTO_ID));
-                    }
-
-                    return listCustoOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)

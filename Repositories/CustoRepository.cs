@@ -12,7 +12,7 @@ namespace OrcamentariaBackEnd
     {
         private IConexao Conexao;
 
-        public CustoRepository(IConexao conexao, IPessoaRepository pessoa)
+        public CustoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
         }

@@ -10,14 +10,10 @@ namespace OrcamentariaBackEnd
     public class CartaCoberturaRepository : ICartaCoberturaRepository
     {
         private IConexao Conexao;
-        private IMaterialRepository Material;
-        private IItensCartaCoberturaRepository ItensCartaCobertura;
 
-        public CartaCoberturaRepository(IConexao conexao, IMaterialRepository material, IItensCartaCoberturaRepository itensCartaCobertura)
+        public CartaCoberturaRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Material = material;
-            this.ItensCartaCobertura = itensCartaCobertura;
         }
 
         public CartaCoberturaModel Create(CartaCoberturaModel cartaCobertura)
@@ -52,8 +48,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 using (var cn = Conexao.AbrirConexao())
-                {
-                    ItensCartaCobertura.DeletePorCartaCoberturaId(cartaCoberturaId);
+                { 
                     cn.Execute("DELETE FROM T_ORCA_CARTA_COBERTURA WHERE CARTA_COBERTURA_ID = @cartaCoberturaId", new { cartaCoberturaId });
                 }
             }
@@ -71,9 +66,6 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE CARTA_COBERTURA_ID = @cartaCoberturaId", new { cartaCoberturaId });
-                    resposta.ToArray()[0].LIST_ITENS_CARTA_COBERTURA = ItensCartaCobertura.ListPorCartaCoberturaId(cartaCoberturaId).ToList();
-                    var materialId = cn.Query<int>("SELECT MATERIAL_ID FROM T_ORCA_CARTA_COBERTURA WHERE CARTA_COBERTURA_ID = @cartaCoberturaId", new { cartaCoberturaId });
-                    resposta.ToArray()[0].MATERIAL = Material.Find(materialId.ToArray()[0]);
                     return resposta.ToArray()[0];
                 }
             }
@@ -91,15 +83,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA");
-
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-                    
-                    foreach(CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -116,15 +100,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE MATERIAL_ID = @materialId", new { materialId });
-
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-
-                    foreach (CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -142,14 +118,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE MATERIAL_ID = @materialId AND PESSOA_ID = @pessoaId", new { materialId, pessoaId });
 
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-
-                    foreach (CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -167,14 +136,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE PESSOA_ID = @pessoaId", new { pessoaId });
 
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-
-                    foreach (CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -191,15 +153,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE REFERENCIA = @referencia", new { referencia });
-
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-
-                    foreach (CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -216,15 +170,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE REFERENCIA = @referencia AND PESSOA_ID = @pessoaId", new { referencia, pessoaId });
-
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-
-                    foreach (CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -241,15 +187,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE REFERENCIA = @referencia AND PESSOA_ID = @pessoaId AND MATERIAL = @materialId", new { referencia, pessoaId, materialId });
-
-                    List<CartaCoberturaModel> listCartaCobertura = new List<CartaCoberturaModel>();
-
-                    foreach (CartaCoberturaModel cartaCobertura in resposta)
-                    {
-                        listCartaCobertura.Add(Find(cartaCobertura.CARTA_COBERTURA_ID));
-                    }
-
-                    return listCartaCobertura;
+                    return resposta;
                 }
             }
             catch (Exception)
