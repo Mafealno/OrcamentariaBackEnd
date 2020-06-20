@@ -13,12 +13,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private IMaterialRepository Material;
 
-        public ItensOrcamentoRepository(IConexao conexao, IMaterialRepository material)
+        public ItensOrcamentoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Material = material;
         }
 
         public ItensOrcamentoModel Create(ItensOrcamentoModel itensOrcamento)
@@ -90,10 +88,6 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<ItensOrcamentoModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
 
-                    var materialId = cn.Query<int>(@"SELECT MATERIAL_ID FROM T_ORCA_ITENS_ORCAMENTO WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
-
-                    resposta.ToArray()[0].PRODUTO = Material.Find(materialId.ToArray()[0]);
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -112,14 +106,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<ItensOrcamentoModel>("SELECT * FROM T_ORCA_ITENS_ORCAMENTO");
 
-                    List<ItensOrcamentoModel> listItensOrcamento = new List<ItensOrcamentoModel>();
-
-                    foreach(ItensOrcamentoModel itensOrcamento in resposta)
-                    {
-                        listItensOrcamento.Add(Find(itensOrcamento.ITENS_ORCAMENTO_ID));
-                    }
-
-                    return listItensOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -137,14 +124,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<ItensOrcamentoModel>("SELECT * FROM T_ORCA_ITENS_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
-                    List<ItensOrcamentoModel> listItensOrcamento = new List<ItensOrcamentoModel>();
-
-                    foreach (ItensOrcamentoModel itensOrcamento in resposta)
-                    {
-                        listItensOrcamento.Add(Find(itensOrcamento.ITENS_ORCAMENTO_ID));
-                    }
-
-                    return listItensOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)

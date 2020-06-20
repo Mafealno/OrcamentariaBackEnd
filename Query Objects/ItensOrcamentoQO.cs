@@ -10,5 +10,11 @@ namespace OrcamentariaBackEnd
         public int ItensOrcamentoId { get; set; }
 
         public int OrcamentoId { get; set; }
+
+        public ItensOrcamentoQO(int itensOrcamentoId, int orcamentoId)
+        {
+            ItensOrcamentoId = itensOrcamentoId;
+            OrcamentoId = orcamentoId;
+        }
     }
 }

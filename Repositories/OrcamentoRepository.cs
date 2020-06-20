@@ -11,22 +11,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private IPessoaRepository Pessoa;
-        private IMaoObraOrcamentoRepository MaoObraOrcamento;
-        private IEquipamentoOrcamentoRepository EquipamentoOrcamento;
-        private ICustoOrcamentoRepository CustoOrcamento;
-        private ITotaisOrcamentoRepository TotaisOrcamento;
 
-        public OrcamentoRepository(IConexao conexao, IPessoaRepository pessoaRepository, IMaoObraOrcamentoRepository maoObraOrcamentoRepository, 
-            IEquipamentoOrcamentoRepository equipamentoOrcamentoRepository, ITotaisOrcamentoRepository totaisOrcamentoRepository,
-            ICustoOrcamentoRepository custoOrcamentoRepository)
+        public OrcamentoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Pessoa = pessoaRepository;
-            this.MaoObraOrcamento = maoObraOrcamentoRepository;
-            this.EquipamentoOrcamento = equipamentoOrcamentoRepository;
-            this.CustoOrcamento = custoOrcamentoRepository;
-            this.TotaisOrcamento = totaisOrcamentoRepository;
         }
 
         public OrcamentoModel Create(OrcamentoModel orcamento)
@@ -69,10 +57,6 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    MaoObraOrcamento.DeletePorOrcamentoId(orcamentoId);
-                    EquipamentoOrcamento.DeletePorOrcamentoId(orcamentoId);
-                    CustoOrcamento.DeletePorOrcamentoId(orcamentoId);
-                    TotaisOrcamento.DeletePorOrcamentoId(orcamentoId);
                     cn.Execute("DELETE FROM T_ORCA_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
                 }
             }
@@ -90,16 +74,6 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<OrcamentoModel>("SELECT * FROM T_ORCA_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
-
-                    var pessoaId = cn.Query<int>("SELECT PESSOA_ID FROM T_ORCA_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
-
-                    resposta.ToArray()[0].CLIENTE_ORCAMENTO = Pessoa.Find(pessoaId.ToArray()[0]);
-
-                    resposta.ToArray()[0].LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamento.ListPorOrcamentoId(orcamentoId).ToList();
-                    resposta.ToArray()[0].LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamento.ListPorOrcamentoId(orcamentoId).ToList();
-                    resposta.ToArray()[0].LIST_CUSTO_ORCAMENTO = CustoOrcamento.ListPorOrcamentoId(orcamentoId).ToList();
-
-                    resposta.ToArray()[0].TOTAIS_ORCAMENTO = TotaisOrcamento.FindPorOrcamentoId(orcamentoId);
 
                     return resposta.ToArray()[0];
                 }
@@ -119,14 +93,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<OrcamentoModel>("SELECT * FROM T_ORCA_ORCAMENTO");
 
-                    List<OrcamentoModel> listOrcamento = new List<OrcamentoModel>();
-
-                    foreach (OrcamentoModel orcamento in resposta)
-                    {
-                        listOrcamento.Add(Find(orcamento.ORCAMENTO_ID));
-                    }
-
-                    return listOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)

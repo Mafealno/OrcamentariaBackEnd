@@ -91,11 +91,23 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                return FuncionarioRepository.Create(funcionario);
+                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
+
+                var pessoa = MetodosGenericosService.CopiarPropriedadesObj(funcionario, new PessoaModel());
+
+                pessoa = PessoaService.Post(pessoa);
+
+                funcionario.PESSOA_ID = pessoa.PESSOA_ID;
+
+                funcionario = FuncionarioRepository.Create(funcionario);
+
+                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
+
+                return funcionario;
             }
             catch (Exception)
             {
-
+                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.ROLLBACK);
                 throw;
             }
         }
@@ -143,9 +155,9 @@ namespace OrcamentariaBackEnd
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
 
-                PessoaService.Delete(pessoaId);
-
                 FuncionarioRepository.Delete(pessoaId);
+                
+                PessoaService.Delete(pessoaId);
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
             }

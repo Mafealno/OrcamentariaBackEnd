@@ -13,12 +13,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private IMaterialRepository Material;
 
-        public ItensOrcamentoGeralRepository(IConexao conexao, IMaterialRepository material)
+        public ItensOrcamentoGeralRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Material = material;
         }
 
         public ItensOrcamentoGeralModel Create(ItensOrcamentoGeralModel itensOrcamentoGeral)
@@ -89,10 +87,6 @@ namespace OrcamentariaBackEnd
                                                                         ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_GERAL.ITENS_ORCAMENTO_ID 
                                                                         WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
 
-                    var materialId = cn.Query<int>(@"SELECT MATERIAL_ID FROM T_ORCA_ITENS_ORCAMENTO_GERAL WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
-
-                    resposta.ToArray()[0].PRODUTO = Material.Find(materialId.ToArray()[0]);
-
                     return resposta.ToArray()[0];
                 }
             }
@@ -112,14 +106,7 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<ItensOrcamentoGeralModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO_GERAL INNER JOIN T_ORCA_ITENS_ORCAMENTO_GERAL 
                                                                         ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_GERAL.ITENS_ORCAMENTO_ID");
 
-                    List<ItensOrcamentoGeralModel> listItensOrcamentoGeral = new List<ItensOrcamentoGeralModel>();
-
-                    foreach (ItensOrcamentoGeralModel ItensOrcamentoGeral in resposta)
-                    {
-                        listItensOrcamentoGeral.Add(Find(ItensOrcamentoGeral.ITENS_ORCAMENTO_ID));
-                    }
-
-                    return listItensOrcamentoGeral;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -139,14 +126,7 @@ namespace OrcamentariaBackEnd
                                                                     ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_GERAL.ITENS_ORCAMENTO_ID
                                                                     WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
-                    List<ItensOrcamentoGeralModel> listItensOrcamentoGeral = new List<ItensOrcamentoGeralModel>();
-
-                    foreach (ItensOrcamentoGeralModel ItensOrcamentoGeral in resposta)
-                    {
-                        listItensOrcamentoGeral.Add(Find(ItensOrcamentoGeral.ITENS_ORCAMENTO_ID));
-                    }
-
-                    return listItensOrcamentoGeral;
+                    return resposta;
                 }
             }
             catch (Exception)

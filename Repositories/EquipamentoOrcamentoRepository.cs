@@ -13,12 +13,10 @@ namespace OrcamentariaBackEnd
     {
 
         private IConexao Conexao;
-        private IEquipamentoRepository Equipamento;
 
-        public EquipamentoOrcamentoRepository(IConexao conexao, IEquipamentoRepository equipamento)
+        public EquipamentoOrcamentoRepository(IConexao conexao)
         {
             this.Conexao = conexao;
-            this.Equipamento = equipamento;
         }
 
         public EquipamentoOrcamentoModel Create(EquipamentoOrcamentoModel equipamentoOrcamento)
@@ -80,11 +78,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<EquipamentoOrcamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO_ORCAMENTO WHERE EQUIPAMENTO_ORCAMENTO_ID = @equipamentoOrcamentoId", new { equipamentoOrcamentoId });
-
-                    var equipamentoId = cn.Query<int>("SELECT * FROM T_ORCA_EQUIPAMENTO_ORCAMENTO WHERE EQUIPAMENTO_ORCAMENTO_ID = @equipamentoOrcamentoId", new { equipamentoOrcamentoId });
-
-                    resposta.ToArray()[0].EQUIPAMENTO = Equipamento.Find(equipamentoId.ToArray()[0]);
-
+                    
                     return resposta.ToArray()[0];
                 }
             }
@@ -103,14 +97,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<EquipamentoOrcamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO_ORCAMENTO");
 
-                    List<EquipamentoOrcamentoModel> listEquipamentoOrcamento = new List<EquipamentoOrcamentoModel>();
-
-                    foreach (EquipamentoOrcamentoModel equipamentoOrcamento in resposta)
-                    {
-                        listEquipamentoOrcamento.Add(Find(equipamentoOrcamento.EQUIPAMENTO_ORCAMENTO_ID));
-                    }
-
-                    return listEquipamentoOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)
@@ -128,14 +115,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<EquipamentoOrcamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
-                    List<EquipamentoOrcamentoModel> listEquipamentoOrcamento = new List<EquipamentoOrcamentoModel>();
-
-                    foreach (EquipamentoOrcamentoModel equipamentoOrcamento in resposta)
-                    {
-                        listEquipamentoOrcamento.Add(Find(equipamentoOrcamento.EQUIPAMENTO_ORCAMENTO_ID));
-                    }
-
-                    return listEquipamentoOrcamento;
+                    return resposta;
                 }
             }
             catch (Exception)

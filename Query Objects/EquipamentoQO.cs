@@ -11,5 +11,10 @@ namespace OrcamentariaBackEnd
 
         public string NomeEquipamento { get; set; }
 
+        public EquipamentoQO(int equipamentoId, string nomeEquipamento)
+        {
+            EquipamentoId = equipamentoId;
+            NomeEquipamento = nomeEquipamento;
+        }
     }
 }

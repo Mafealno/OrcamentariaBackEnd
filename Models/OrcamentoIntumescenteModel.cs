@@ -23,9 +23,9 @@ namespace OrcamentariaBackEnd
                                             double qtdeLitrosTotal, double percentualPerda, double qtdeBaldes, double qtdeBaldesReal, List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente,
                                             int orcamentoId, string nomeObra, string referencia, string prazoEntrega, DateTime dataCriacaoOrcamento, 
                                             string contatoObra, string tipoObra, TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, 
-                                            List<ItensOrcamentoModel> itensOrcamento, List<MaoObraOrcamentoModel> maoObraOrcamento, 
+                                            List<ItensOrcamentoGeralModel> itensOrcamentoGeral, List<MaoObraOrcamentoModel> maoObraOrcamento, 
                                             List<CustoOrcamentoModel> custoOrcamento, List<EquipamentoOrcamentoModel> equipamentoOrcamento) : base(orcamentoId, 
-                                            nomeObra, referencia, prazoEntrega, dataCriacaoOrcamento, contatoObra, tipoObra, totaisOrcamento, clienteOrcamento, itensOrcamento,
+                                            nomeObra, referencia, prazoEntrega, dataCriacaoOrcamento, contatoObra, tipoObra, totaisOrcamento, clienteOrcamento, itensOrcamentoGeral,
                                             maoObraOrcamento, custoOrcamento, equipamentoOrcamento)
         {
             GRUPO = grupo;
@@ -47,7 +47,7 @@ namespace OrcamentariaBackEnd
             TIPO_OBRA = tipoObra;
             TOTAIS_ORCAMENTO = totaisOrcamento;
             CLIENTE_ORCAMENTO = clienteOrcamento;
-            LIST_ITENS_ORCAMENTO = itensOrcamento;
+            LIST_ITENS_ORCAMENTO_GERAL = itensOrcamentoGeral;
             LIST_MAO_OBRA_ORCAMENTO = maoObraOrcamento;
             LIST_CUSTO_ORCAMENTO = custoOrcamento;
             LIST_EQUIPAMENTO_ORCAMENTO = equipamentoOrcamento;

@@ -15,5 +15,12 @@ namespace OrcamentariaBackEnd
 
         public string Referencia { get; set; }
 
+        public CartaCoberturaQO(int cartaCoberturaId, int pessoaId, int materialId, string referencia)
+        {
+            CartaCoberturaId = cartaCoberturaId;
+            PessoaId = pessoaId;
+            MaterialId = materialId;
+            Referencia = referencia;
+        }
     }
 }

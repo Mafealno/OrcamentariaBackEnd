@@ -17,11 +17,12 @@ namespace OrcamentariaBackEnd
         private double _valorEspessura;
         private double _qtdeLitros;
         private PerfilModel _perfilModel;
+        private CartaCoberturaModel _cartaCoberturaModel;
 
         public ItensOrcamentoIntumescenteModel(string referencia, int numeroFaces, double valorHp, double valorHpA, double valorWD, 
-                                            int qtde, double valorEspessura, double qtdeLitros, PerfilModel perfilModel, int itensOrcamentoId, int orcamentoId,
-                                            int numeroLinha, double valorComprimento, double area, MaterialModel produto) : base(itensOrcamentoId, 
-                                            orcamentoId, numeroLinha, valorComprimento, area, produto)
+                                            int qtde, double valorEspessura, double qtdeLitros, PerfilModel perfilModel, CartaCoberturaModel cartaCoberturaModel,
+                                            int itensOrcamentoId, int orcamentoId, int numeroLinha, double valorComprimento, double area, 
+                                            MaterialModel produto) : base(itensOrcamentoId, orcamentoId, numeroLinha, valorComprimento, area, produto)
         {
             REFERENCIA = referencia;
             NUMERO_FACES = numeroFaces;
@@ -53,5 +54,6 @@ namespace OrcamentariaBackEnd
         public double VALOR_ESPESSURA { get => _valorEspessura; set => _valorEspessura = value; }
         public double QTDE_LITROS { get => _qtdeLitros; set => _qtdeLitros = value; }
         public PerfilModel PERFIL { get => _perfilModel; set => _perfilModel = value; }
+        public CartaCoberturaModel CARTA_COBERTURA { get => _cartaCoberturaModel; set => _cartaCoberturaModel = value; }
     }
 }
