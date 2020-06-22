@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OrcamentariaBackEnd
 {
+
     [Route("api/[controller]")]
     [ApiController]
-    public class MaterialController : ControllerBase
+    public class EquipamentoController : ControllerBase
     {
 
-        private MaterialService MaterialService;
+        private EquipamentoService EquipamentoService;
 
-        public MaterialController(MaterialService materialService)
+        public EquipamentoController(EquipamentoService equipamentoService)
         {
-            this.MaterialService = materialService;
+            this.EquipamentoService = equipamentoService;
         }
 
         [HttpGet]
-        public IEnumerable<MaterialModel> Get()
+        public IEnumerable<EquipamentoModel> Get()
         {
             try
             {
-                return MaterialService.Get();
+                return EquipamentoService.Get();
             }
             catch (Exception)
             {
@@ -32,11 +32,11 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpGet("buscar")]
-        public IEnumerable<MaterialModel> Get([FromQuery] MaterialQO material)
+        public IEnumerable<EquipamentoModel> Get([FromQuery] EquipamentoQO equipamento)
         {
             try
             {
-                return MaterialService.GetComParametro(material);
+                return EquipamentoService.GetComParametro(equipamento);
             }
             catch (Exception)
             {
@@ -44,14 +44,13 @@ namespace OrcamentariaBackEnd
                 throw;
             }
         }
-
 
         [HttpPost]
-        public MaterialModel Post([FromBody] MaterialModel material)
+        public EquipamentoModel Post([FromBody] EquipamentoModel equipamento)
         {
             try
             {
-                return MaterialService.Post(material);
+                return EquipamentoService.Post(equipamento);
             }
             catch (Exception)
             {
@@ -60,12 +59,12 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        [HttpPut("{materialId}")]
-        public void Put(int materialId, [FromBody] MaterialModel material)
+        [HttpPut("{equipamentoId}")]
+        public void Put(int equipamentoId, [FromBody] EquipamentoModel equipamento)
         {
             try
             {
-                MaterialService.Put(materialId, material);
+                EquipamentoService.Put(equipamentoId, equipamento);
             }
             catch (Exception)
             {
@@ -74,12 +73,12 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        [HttpDelete("{materialId}")]
-        public void Delete(int materialId)
+        [HttpDelete("{equipamentoId}")]
+        public void Delete(int equipamentoId)
         {
             try
             {
-                Debug.Print("FUNCIONALIDADE NÃO ATIVA");
+                EquipamentoService.Delete(equipamentoId);
             }
             catch (Exception)
             {

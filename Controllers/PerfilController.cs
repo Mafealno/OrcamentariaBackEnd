@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OrcamentariaBackEnd
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaterialController : ControllerBase
+    public class PerfilController : ControllerBase
     {
 
-        private MaterialService MaterialService;
+        private PerfilService PerfilService;
 
-        public MaterialController(MaterialService materialService)
+        public PerfilController(PerfilService perfilService)
         {
-            this.MaterialService = materialService;
+            this.PerfilService = perfilService;
         }
 
         [HttpGet]
-        public IEnumerable<MaterialModel> Get()
+        public IEnumerable<PerfilModel> Get()
         {
             try
             {
-                return MaterialService.Get();
+                return PerfilService.Get();
             }
             catch (Exception)
             {
@@ -32,11 +31,11 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpGet("buscar")]
-        public IEnumerable<MaterialModel> Get([FromQuery] MaterialQO material)
+        public IEnumerable<PerfilModel> Get([FromQuery] PerfilQO perfil)
         {
             try
             {
-                return MaterialService.GetComParametro(material);
+                return PerfilService.GetComParametro(perfil);
             }
             catch (Exception)
             {
@@ -44,14 +43,13 @@ namespace OrcamentariaBackEnd
                 throw;
             }
         }
-
 
         [HttpPost]
-        public MaterialModel Post([FromBody] MaterialModel material)
+        public PerfilModel Post([FromBody] PerfilModel perfil)
         {
             try
             {
-                return MaterialService.Post(material);
+                return PerfilService.Post(perfil);
             }
             catch (Exception)
             {
@@ -60,12 +58,12 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        [HttpPut("{materialId}")]
-        public void Put(int materialId, [FromBody] MaterialModel material)
+        [HttpPut("{perfilId}")]
+        public void Put(int perfilId, [FromBody] PerfilModel perfil)
         {
             try
             {
-                MaterialService.Put(materialId, material);
+                PerfilService.Put(perfilId, perfil);
             }
             catch (Exception)
             {
@@ -74,12 +72,12 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        [HttpDelete("{materialId}")]
-        public void Delete(int materialId)
+        [HttpDelete("{perfilId}")]
+        public void Delete(int perfilId)
         {
             try
             {
-                Debug.Print("FUNCIONALIDADE NÃO ATIVA");
+                PerfilService.Delete(perfilId);
             }
             catch (Exception)
             {

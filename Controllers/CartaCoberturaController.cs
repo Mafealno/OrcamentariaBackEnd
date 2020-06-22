@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OrcamentariaBackEnd
 {
@@ -12,16 +8,13 @@ namespace OrcamentariaBackEnd
     [ApiController]
     public class CartaCoberturaController : ControllerBase
     {
-
-        private ICartaCoberturaRepository CartaCoberturaRepository;
+        
         private CartaCoberturaService CartaCoberturaService;
-        public CartaCoberturaController(ICartaCoberturaRepository cartaCoberturaRepository, CartaCoberturaService cartaCoberturaService)
+        public CartaCoberturaController(CartaCoberturaService cartaCoberturaService)
         {
-            this.CartaCoberturaRepository = cartaCoberturaRepository;
             this.CartaCoberturaService = cartaCoberturaService;
         }
 
-        // GET: api/<CartaCoberturaController>
         [HttpGet]
         public IEnumerable<CartaCoberturaModel> Get()
         {
@@ -36,7 +29,6 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // GET api/<CartaCoberturaController>/5
         [HttpGet("buscar")]
         public IEnumerable<CartaCoberturaModel> Get([FromQuery] CartaCoberturaQO cartaCobertura)
         {
@@ -65,6 +57,20 @@ namespace OrcamentariaBackEnd
             }
         }
 
+        [HttpGet("buscar/{materialId}/{pessoaId}")]
+        public IEnumerable<CartaCoberturaModel> Get(int materialId, int pessoaId)
+        {
+            try
+            {
+                return CartaCoberturaService.Get(materialId, pessoaId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpGet("buscar/{referencia}/{pessoaId}/{material}")]
         public IEnumerable<CartaCoberturaModel> Get(string referencia, int pessoaId, int materialId)
         {
@@ -79,7 +85,6 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // POST api/<CartaCoberturaController>
         [HttpPost]
         public CartaCoberturaModel Post([FromBody] CartaCoberturaModel cartaCobertura)
         {
@@ -94,7 +99,6 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // PUT api/<CartaCoberturaController>/5
         [HttpPut("{cartaCoberturaId}")]
         public void Put(int cartaCoberturaId, [FromBody] CartaCoberturaModel cartaCobertura)
         {
@@ -109,13 +113,12 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // DELETE api/<CartaCoberturaController>/5
         [HttpDelete("{cartaCoberturaId}")]
         public void Delete(int cartaCoberturaId)
         {
             try
             {
-                CartaCoberturaRepository.Delete(cartaCoberturaId);
+                CartaCoberturaService.Delete(cartaCoberturaId);
             }
             catch (Exception)
             {
