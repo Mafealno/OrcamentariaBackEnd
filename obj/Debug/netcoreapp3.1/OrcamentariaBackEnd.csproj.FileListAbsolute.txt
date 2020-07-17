@@ -35,3 +35,4 @@ C:\Users\Marcelo Fernando\Documents\Orcamentaria\OrcamentariaBackEnd\bin\Debug\n
 C:\Users\Marcelo Fernando\Documents\Orcamentaria\OrcamentariaBackEnd\obj\Debug\netcoreapp3.1\OrcamentariaBackEnd.csproj.CoreCompileInputs.cache
 C:\Users\Marcelo Fernando\Documents\Orcamentaria\OrcamentariaBackEnd\obj\Debug\netcoreapp3.1\OrcamentariaBackEnd.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Marcelo Fernando\Documents\Orcamentaria\OrcamentariaBackEnd\bin\Debug\netcoreapp3.1\KellermanSoftware.Compare-NET-Objects.dll
+C:\Users\Marcelo Fernando\Documents\Orcamentaria\OrcamentariaBackEnd\obj\Debug\netcoreapp3.1\OrcamentariaBackEnd.csprojAssemblyReference.cache

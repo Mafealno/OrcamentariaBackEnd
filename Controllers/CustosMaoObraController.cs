@@ -61,7 +61,6 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // PUT api/<CustosMaoObraController>/5
         [HttpPut("atualizar/{maoObraOrcamentoId}/{custoId}")]
         public void Put(int maoObraOrcamentoId, int custoId, [FromBody] MaoObraOrcamentoModel maoObraOrcamento, [FromBody] CustoModel custo)
         {
@@ -76,7 +75,6 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // DELETE api/<CustosMaoObraController>/5
         [HttpDelete("deletar/{maoObraOrcamentoId}")]
         public void Delete(int maoObraOrcamentoId)
         {
@@ -91,7 +89,6 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // DELETE api/<CustosMaoObraController>/5
         [HttpDelete("deletar/{maoObraOrcamentoId}/{custoId}")]
         public void Delete(int maoObraOrcamentoId, int custoId)
         {

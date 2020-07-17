@@ -74,7 +74,14 @@ namespace OrcamentariaBackEnd.Repositories
                 {
                     var resposta = cn.Query<OrcamentoIntumescenteModel>("SELECT * FROM T_ORCA_ORCAMENTO_INTUMESCENTE WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new OrcamentoIntumescenteModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

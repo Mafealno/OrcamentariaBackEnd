@@ -60,7 +60,15 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<PerfilModel>("SELECT * FROM T_ORCA_PERFIL WHERE PERFIL_ID = @perfilId", new { perfilId });
-                    return resposta.ToArray()[0];
+
+                    if (resposta.Count() == 0)
+                    {
+                        return new PerfilModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)
@@ -77,6 +85,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<PerfilModel>("SELECT * FROM T_ORCA_PERFIL WHERE PERFIL_ID LIKE @nomePerfil", new { nomePerfil = nomePerfil + '%' });
+                    
                     return resposta;
                 }
             }
@@ -94,6 +103,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<PerfilModel>("SELECT * FROM T_ORCA_PERFIL");
+                    
                     return resposta;
                 }
             }

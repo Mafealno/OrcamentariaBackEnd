@@ -67,7 +67,14 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL WHERE MATERIAL_ID = @materialId", new { materialId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new MaterialModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

@@ -9,7 +9,6 @@ namespace OrcamentariaBackEnd
     public class FuncionarioController : ControllerBase
     {
 
-        private IFuncionarioRepository FuncionarioRepository;
         private FuncionarioService FuncionarioService;
 
         public FuncionarioController(FuncionarioService funcionarioService)
@@ -36,18 +35,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                if (string.IsNullOrEmpty(funcionario.NomePessoa))
-                {
-                    List<FuncionarioModel> listFuncionario = new List<FuncionarioModel>();
-
-                    listFuncionario.Add(FuncionarioRepository.Find(funcionario.PessoaId));
-
-                    return listFuncionario;
-                }
-                else
-                {
-                    return FuncionarioRepository.ListPorNomePessoa(funcionario.NomePessoa);
-                }
+                return FuncionarioService.GetComParametro(funcionario);
             }
             catch (Exception)
             {
@@ -56,22 +44,50 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        // POST api/<FuncionarioController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public FuncionarioModel Post([FromBody] FuncionarioModel funcionario)
         {
+            try
+            {
+                return FuncionarioService.Post(funcionario);
+            }
+            catch (Exception)
+            {
+
+                    throw;
+            }
         }
 
-        // PUT api/<FuncionarioController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{pessoaId}")]
+        public bool Put(int pessoaId, [FromBody] FuncionarioModel funcionario)
         {
+            try
+            {
+                FuncionarioService.Put(pessoaId, funcionario);
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        // DELETE api/<FuncionarioController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{pessoaId}")]
+        public bool Delete(int pessoaId)
         {
+            try
+            {
+                FuncionarioService.Delete(pessoaId);
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using OrcamentariaBackEnd.Database;
 using OrcamentariaBackEnd.Repositories;
 
@@ -10,6 +12,8 @@ namespace OrcamentariaBackEnd
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -72,7 +76,27 @@ namespace OrcamentariaBackEnd
             services.AddScoped(sp => new TotaisOrcamentoService(sp.GetService<ITotaisOrcamentoRepository>(), sp.GetService<MetodosGenericosService>()));
 
 
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressConsumesConstraintForFormFileParameters = false;
+                    options.SuppressInferBindingSourcesForParameters = true;
+                    options.SuppressModelStateInvalidFilter = false;
+                    options.SuppressMapClientErrors = false;
+                    options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =
+                        "https://httpstatuses.com/404";
+                });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:3000")
+                                      .WithHeaders(HeaderNames.ContentType, "application/json")
+                                      .WithMethods("PUT", "DELETE", "GET", "POST", "OPTIONS"); ;
+                                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +110,8 @@ namespace OrcamentariaBackEnd
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 

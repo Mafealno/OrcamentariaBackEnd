@@ -16,5 +16,9 @@ namespace OrcamentariaBackEnd
             EquipamentoId = equipamentoId;
             NomeEquipamento = nomeEquipamento;
         }
+
+        public EquipamentoQO()
+        {
+        }
     }
 }

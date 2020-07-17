@@ -16,5 +16,10 @@ namespace OrcamentariaBackEnd
             PessoaId = pessoaId;
             NomePessoa = nomePessoa;
         }
+
+        public PessoaQO()
+        {
+        }
+
     }
 }

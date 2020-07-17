@@ -16,5 +16,9 @@ namespace OrcamentariaBackEnd
             CustoId = custoId;
             NomeCusto = nomeCusto;
         }
+
+        public CustoQO()
+        {
+        }
     }
 }

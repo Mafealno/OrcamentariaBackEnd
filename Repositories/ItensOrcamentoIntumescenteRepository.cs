@@ -98,7 +98,14 @@ namespace OrcamentariaBackEnd
                                                                             ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE.ITENS_ORCAMENTO_ID 
                                                                             WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new ItensOrcamentoIntumescenteModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)
@@ -136,6 +143,7 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<ItensOrcamentoIntumescenteModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO INNER JOIN T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE 
                                                                                 ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE.ITENS_ORCAMENTO_ID
                                                                                 WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
+                    
                     return resposta;
                 }
             }

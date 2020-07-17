@@ -16,5 +16,9 @@ namespace OrcamentariaBackEnd
             TotaisOrcamentoId = totaisOrcamentoId;
             OrcamentoId = orcamentoId;
         }
+
+        public TotaisOrcamentoQO()
+        {
+        }
     }
 }

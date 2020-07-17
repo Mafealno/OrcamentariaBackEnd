@@ -114,7 +114,14 @@ namespace OrcamentariaBackEnd
                         orcamentoId 
                     });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new MaoObraOrcamentoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

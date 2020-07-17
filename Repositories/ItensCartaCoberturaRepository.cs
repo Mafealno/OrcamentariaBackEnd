@@ -77,7 +77,15 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<ItensCartaCoberturaModel>("SELECT * FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE ITENS_CARTA_COBERTURA_ID = @itensCartaCoberturaId", new { itensCartaCoberturaId });
-                    return resposta.ToArray()[0];
+
+                    if (resposta.Count() == 0)
+                    {
+                        return new ItensCartaCoberturaModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)
@@ -95,7 +103,14 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<ItensCartaCoberturaModel>(@"SELECT * FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE VALOR_HP_A = @valorHpa AND
                                                                       TEMPO_RESISTENCIA_FOGO = @tempoResistenciaFogo", new { valorHpa, tempoResistenciaFogo });
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new ItensCartaCoberturaModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)
@@ -112,6 +127,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<ItensCartaCoberturaModel>("SELECT * FROM T_ORCA_ITENS_CARTA_COBERTURA");
+                    
                     return resposta;
                 }
             }
@@ -129,6 +145,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<ItensCartaCoberturaModel>("SELECT * FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE CARTA_COBERTURA_ID = @cartaCoberturaId", new { cartaCoberturaId });
+                    
                     return resposta;
                 }
             }
@@ -146,6 +163,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<ItensCartaCoberturaModel>("SELECT * FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE TEMPO_RESISTENCIA_FOGO = @tempoResistenciaFogo", new { tempoResistenciaFogo });
+                    
                     return resposta;
                 }
             }

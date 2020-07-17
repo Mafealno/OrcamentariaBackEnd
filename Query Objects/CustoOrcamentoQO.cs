@@ -16,5 +16,9 @@ namespace OrcamentariaBackEnd
             CustoOrcamentoId = custoOrcamentoId;
             OrcamentoId = orcamentoId;
         }
+
+        public CustoOrcamentoQO()
+        {
+        }
     }
 }

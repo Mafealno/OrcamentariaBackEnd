@@ -77,7 +77,16 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<ContatoModel>("SELECT * FROM T_ORCA_CONTATO WHERE CONTATO_ID = @contatoId", new { contatoId });
-                    return resposta.ToArray()[0];
+
+                    if(resposta.Count() == 0)
+                    {
+                        return new ContatoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
+
                 }
             }
             catch (Exception)
@@ -93,10 +102,19 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
+
                     var resposta = cn.Query<ContatoModel>(@"SELECT * FROM T_ORCA_CONTATO WHERE PESSOA_ID = @pessoaId AND TIPO_CONTATO = @tipoContato
                                             AND CONTATO_PADRAO = true", new { pessoaId, tipoContato });
+                    
+                    if(resposta.Count() == 0)
+                    {
+                        return new ContatoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
 
-                    return resposta.ToArray()[0];
                 }
             }
             catch (Exception)

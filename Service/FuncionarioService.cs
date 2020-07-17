@@ -48,7 +48,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<FuncionarioModel> GetComParametro( FuncionarioQO funcionario)
+        public IEnumerable<FuncionarioModel> GetComParametro(FuncionarioQO funcionario)
         {
             try
             {
@@ -85,12 +85,6 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                var where = $"PESSOA_ID = {funcionario.PESSOA_ID}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
-                {
-                    throw new Exception();
-                }
-
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
 
                 var pessoa = MetodosGenericosService.CopiarPropriedadesObj(funcionario, new PessoaModel());
@@ -107,6 +101,7 @@ namespace OrcamentariaBackEnd
             }
             catch (Exception)
             {
+                PessoaService.Delete(funcionario.PESSOA_ID);
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.ROLLBACK);
                 throw;
             }

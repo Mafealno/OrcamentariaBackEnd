@@ -77,7 +77,14 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<CustoOrcamentoModel>("SELECT * FROM T_ORCA_CUSTO_ORCAMENTO WHERE CUSTO_ORCAMENTO_ID = @custoOrcamentoId", new { custoOrcamentoId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new CustoOrcamentoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

@@ -22,11 +22,11 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<string>("SELECT @campoBuscado FROM @tabela WHERE @where LIMIT 1", new { campoBuscado, tabela, where });
+                    var resposta = cn.Query<string>("SELECT " + campoBuscado +  " FROM " + tabela + " WHERE " + where + " LIMIT 1");
 
-                    if (string.IsNullOrEmpty(resposta.ToArray()[0]))
+                    if (resposta.Count() == 0)
                     {
-                        resposta.ToArray()[0] = "";
+                        return "";
                     }
 
                     return resposta.ToArray()[0];

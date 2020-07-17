@@ -67,7 +67,14 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<EquipamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO WHERE EQUIPAMENTO_ID = @equipamentoId", new { equipamentoId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new EquipamentoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

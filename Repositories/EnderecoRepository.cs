@@ -75,7 +75,16 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<EnderecoModel>("SELECT * FROM T_ORCA_ENDERECO WHERE ENDERECO_ID = @enderecoId", new { enderecoId });
-                    return resposta.ToArray()[0];
+
+                    if(resposta.Count() == 0)
+                    {
+                        return new EnderecoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
+
                 }
             }
             catch (Exception)
@@ -92,7 +101,15 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<EnderecoModel>("SELECT * FROM T_ORCA_ENDERECO WHERE PESSOA_ID = @pessoaId AND ENDERECO_PADRAO = true", new { pessoaId });
-                    return resposta.ToArray()[0];
+                    
+                    if(resposta.Count() == 0)
+                    {
+                        return new EnderecoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)
@@ -142,7 +159,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"UPDATE T_ORCA_ENDERECO SET LOGRADOURO = @LOGRADOURO, CEP = @CEP, 
-                                NUMERO_ENDERECO = @NUMERO_ENDERECO, COMPLEMENTO = @COMPLEMENTO
+                                NUMERO_ENDERECO = @NUMERO_ENDERECO, COMPLEMENTO = @COMPLEMENTO,
                                 CIDADE = @CIDADE, BAIRRO = @BAIRRO, ESTADO = @ESTADO, 
                                 ENDERECO_PADRAO = @ENDERECO_PADRAO, UF = @UF WHERE ENDERECO_ID = @enderecoId", new 
                     { 

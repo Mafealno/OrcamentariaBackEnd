@@ -16,5 +16,9 @@ namespace OrcamentariaBackEnd
             PerfilId = perfilId;
             NomePerfil = nomePerfil;
         }
+
+        public PerfilQO()
+        {
+        }
     }
 }

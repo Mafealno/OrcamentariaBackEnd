@@ -78,8 +78,15 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<EquipamentoOrcamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO_ORCAMENTO WHERE EQUIPAMENTO_ORCAMENTO_ID = @equipamentoOrcamentoId", new { equipamentoOrcamentoId });
-                    
-                    return resposta.ToArray()[0];
+
+                    if (resposta.Count() == 0)
+                    {
+                        return new EquipamentoOrcamentoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

@@ -31,7 +31,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public ContatoModel Get(int pessoaId, string tipoContato)
+        public IEnumerable<ContatoModel> Get(int pessoaId, string tipoContato)
         {
             try
             {
@@ -41,7 +41,11 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                return ContatoRepository.FindPorContatoPadraoETipoContato(pessoaId, tipoContato);
+                List<ContatoModel> listContato = new List<ContatoModel>();
+
+                listContato.Add(ContatoRepository.FindPorContatoPadraoETipoContato(pessoaId, tipoContato));
+
+                return listContato;
             }
             catch (Exception)
             {

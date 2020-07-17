@@ -19,5 +19,9 @@ namespace OrcamentariaBackEnd
             NomeMaterial = nomeMaterial;
             NomeFabricante = nomeFabricante;
         }
+
+        public MaterialQO()
+        {
+        }
     }
 }

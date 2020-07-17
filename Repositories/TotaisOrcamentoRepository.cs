@@ -80,7 +80,14 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<TotaisOrcamentoModel>(@"SELECT * FROM T_ORCA_TOTAIS_ORCAMENTO 
                                                                     WHERE TOTAIS_ID = @totaisOrcamentoId", new { totaisOrcamentoId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new TotaisOrcamentoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)
@@ -99,7 +106,14 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<TotaisOrcamentoModel>(@"SELECT * FROM T_ORCA_TOTAIS_ORCAMENTO 
                                                                     WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
-                    return resposta.ToArray()[0];
+                    if (resposta.Count() == 0)
+                    {
+                        return new TotaisOrcamentoModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

@@ -65,7 +65,15 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<FuncionarioModel>(@"SELECT * FROM T_ORCA_PESSOA INNER JOIN T_ORCA_FUNCIONARIO
                                                               ON T_ORCA_PESSOA.PESSOA_ID = T_ORCA_FUNCIONARIO.PESSOA_ID 
                                                               WHERE T_ORCA_FUNCIONARIO.PESSOA_ID = @pessoaId", new { pessoaId });
-                    return resposta.ToArray()[0];
+
+                    if (resposta.Count() == 0)
+                    {
+                        return new FuncionarioModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
                 }
             }
             catch (Exception)

@@ -60,7 +60,15 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<PessoaModel>("SELECT * FROM T_ORCA_PESSOA WHERE PESSOA_ID = @PessoaId", new { pessoaId });
 
-                    return resposta.ToArray()[0];
+                    if(resposta.Count() == 0)
+                    {
+                        return new PessoaModel();
+                    }
+                    else
+                    {
+                        return resposta.ToArray()[0];
+                    }
+
                 }
             }
             catch (Exception)

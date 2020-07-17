@@ -18,7 +18,10 @@ namespace OrcamentariaBackEnd
             ItensCartaCoberturaId = itensCartaCoberturaId;
             CartaCoberturaId = cartaCoberturaId;
             TempoResistenciaFogo = tempoResistenciaFogo;
+        }
 
+        public ItensCartaCoberturaQO()
+        {
         }
     }
 }

@@ -22,5 +22,9 @@ namespace OrcamentariaBackEnd
             MaterialId = materialId;
             Referencia = referencia;
         }
+
+        public CartaCoberturaQO()
+        {
+        }
     }
 }

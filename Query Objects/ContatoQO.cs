@@ -17,5 +17,8 @@ namespace OrcamentariaBackEnd
             this.PessoaId = pessoaId;
         }
 
+        public ContatoQO()
+        {
+        }
     }
 }

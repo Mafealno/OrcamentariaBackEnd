@@ -74,7 +74,6 @@ namespace OrcamentariaBackEnd.Controllers
             }
         }
 
-        // DELETE api/<ItensCartaCoberturaController>/5
         [HttpDelete("deletar")]
         public void Delete([FromQuery] ItensCartaCoberturaQO itensCartaCobertura)
         {

@@ -16,5 +16,9 @@ namespace OrcamentariaBackEnd
             this.EnderecoId = enderecoId;
             this.PessoaId = pessoaId;
         }
+
+        public EnderecoQO()
+        {
+        }
     }
 }
