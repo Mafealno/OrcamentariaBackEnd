@@ -53,7 +53,6 @@ namespace OrcamentariaBackEnd
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

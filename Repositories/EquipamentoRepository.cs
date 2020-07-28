@@ -126,12 +126,13 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"UPDATE T_ORCA_EQUIPAMENTO SET NOME_EQUIPAMENTO = @NOME_EQUIPAMENTO, DESCRICAO = @DESCRICAO, 
-                                NOME_PESSOA = @NOME_PESSOA WHERE EQUIPAMENTO_ID =  @equipamentoId", new 
+                    cn.Execute(@"UPDATE T_ORCA_EQUIPAMENTO SET NOME_EQUIPAMENTO = @NOME_EQUIPAMENTO, DESCRICAO = @DESCRICAO,
+                                PESSOA_ID = @PESSOA_ID, NOME_PESSOA = @NOME_PESSOA WHERE EQUIPAMENTO_ID =  @equipamentoId", new 
                     { 
                         equipamento.NOME_EQUIPAMENTO, 
                         equipamento.DESCRICAO, 
-                        equipamento.FABRICANTE.PESSOA_ID, 
+                        equipamento.FABRICANTE.PESSOA_ID,
+                        equipamento.FABRICANTE.NOME_PESSOA,
                         equipamentoId
                     });
                 }

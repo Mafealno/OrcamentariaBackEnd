@@ -98,6 +98,11 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
+                if (MetodosGenericosService.DlookupOrcamentaria("TIPO_CADASTRO", "T_ORCA_PESSOA", where) == "Funcionario" && pessoa.TIPO_CADASTRO != "Funcionario")
+                {
+                    throw new Exception();
+                }
+
                 PessoaRepository.Update(pessoaId, pessoa);
 
             }

@@ -79,7 +79,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                Debug.Print("FUNCIONALIDADE NÃO ATIVA");
+                MaterialService.Delete(materialId);
             }
             catch (Exception)
             {

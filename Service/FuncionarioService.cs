@@ -117,6 +117,10 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
+                if (funcionario.TIPO_CADASTRO != "Funcionario")
+                {
+                    throw new Exception();
+                }
                 var pessoa = MetodosGenericosService.CopiarPropriedadesObj(funcionario, new PessoaModel());
                 var pessoaDB = PessoaService.GetComParametro(new PessoaQO(pessoaId, "")).ToArray()[0];
 

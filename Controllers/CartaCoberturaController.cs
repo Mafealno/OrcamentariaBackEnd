@@ -15,6 +15,10 @@ namespace OrcamentariaBackEnd
             this.CartaCoberturaService = cartaCoberturaService;
         }
 
+        public CartaCoberturaController()
+        {
+        }
+
         [HttpGet]
         public IEnumerable<CartaCoberturaModel> Get()
         {
