@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using OrcamentariaBackEnd.Database;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -22,7 +23,17 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<string>("SELECT " + campoBuscado +  " FROM " + tabela + " WHERE " + where + " LIMIT 1");
+                    IEnumerable<string> resposta;
+
+                    if(where == "")
+                    {
+                         resposta = cn.Query<string>("SELECT " + campoBuscado + " FROM " + tabela + " ORDER BY " + campoBuscado + " DESC LIMIT 1");
+                    }
+                    else
+                    {
+                        resposta = cn.Query<string>("SELECT " + campoBuscado +  " FROM " + tabela + " WHERE " + where + " LIMIT 1");
+                    }
+
 
                     if (resposta.Count() == 0)
                     {

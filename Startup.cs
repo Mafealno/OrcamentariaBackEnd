@@ -26,6 +26,9 @@ namespace OrcamentariaBackEnd
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
+            services.AddControllers()
+            .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+
             //INTERFACE
             services.AddSingleton<IConexao>(sp => new Conexao(connectionString));
             services.AddScoped<IMetodosGenericosRepository>(sp => new MetodosGenericosRepository(sp.GetService<IConexao>()));

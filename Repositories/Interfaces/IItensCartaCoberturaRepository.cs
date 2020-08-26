@@ -16,6 +16,8 @@ namespace OrcamentariaBackEnd
 
         void DeletePorCartaCoberturaId(int cartaCoberturaId);
 
+        void DeletePorCartaCoberturaIdETempoResistenciaFogo(int cartaCoberturaId, string tempoResistenciaFogo);
+
         IEnumerable<ItensCartaCoberturaModel> List();
 
         IEnumerable<ItensCartaCoberturaModel> ListPorCartaCoberturaId(int cartaCoberturaId);

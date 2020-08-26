@@ -26,7 +26,13 @@ namespace OrcamentariaBackEnd
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_ITENS_CARTA_COBERTURA (CARTA_COBERTURA_ID, VALOR_HP_A, 
                                 TEMPO_RESISTENCIA_FOGO, VALOR_ESPESSURA) VALUES(@CARTA_COBERTURA_ID, 
-                                @VALOR_HP_A, @TEMPO_RESISTENCIA_FOGO, @VALOR_ESPESSURA)", itensCartaCobertura);
+                                @VALOR_HP_A, @TEMPO_RESISTENCIA_FOGO, @VALOR_ESPESSURA)", new
+                    {
+                        itensCartaCobertura.CARTA_COBERTURA_ID,
+                        itensCartaCobertura.VALOR_HP_A,
+                        itensCartaCobertura.TEMPO_RESISTENCIA_FOGO,
+                        itensCartaCobertura.VALOR_ESPESSURA
+                    });
 
                     return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
                 }
@@ -61,6 +67,22 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute("DELETE FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE CARTA_COBERTURA_ID = @cartaCoberturaId", new { cartaCoberturaId });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void DeletePorCartaCoberturaIdETempoResistenciaFogo(int cartaCoberturaId, string tempoResistenciaFogo)
+        {
+            try
+            {
+                using (var cn = Conexao.AbrirConexao())
+                {
+                    cn.Execute("DELETE FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE CARTA_COBERTURA_ID = @cartaCoberturaId AND TEMPO_RESISTENCIA_FOGO = @tempoResistenciaFogo", new { cartaCoberturaId, tempoResistenciaFogo });
                 }
             }
             catch (Exception)

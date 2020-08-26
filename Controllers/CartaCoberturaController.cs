@@ -15,10 +15,6 @@ namespace OrcamentariaBackEnd
             this.CartaCoberturaService = cartaCoberturaService;
         }
 
-        public CartaCoberturaController()
-        {
-        }
-
         [HttpGet]
         public IEnumerable<CartaCoberturaModel> Get()
         {
@@ -31,7 +27,7 @@ namespace OrcamentariaBackEnd
 
                 throw;
             }
-        }
+        }   
 
         [HttpGet("buscar")]
         public IEnumerable<CartaCoberturaModel> Get([FromQuery] CartaCoberturaQO cartaCobertura)
@@ -75,7 +71,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        [HttpGet("buscar/{referencia}/{pessoaId}/{material}")]
+        [HttpGet("buscar/{referencia}/{pessoaId}/{materialId}")]
         public IEnumerable<CartaCoberturaModel> Get(string referencia, int pessoaId, int materialId)
         {
             try

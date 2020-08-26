@@ -22,10 +22,11 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"INSERT INTO T_ORCA_CARTA_COBERTURA (REFERENCIA, MATERIAL_ID, NOME_MATERIAL, PESSOA_ID, 
-                                NOME_PESSOA) VALUES(@REFERENCIA, @MATERIAL_ID, @NOME_MATERIAL, @PESSOA_ID, 
+                    cn.Execute(@"INSERT INTO T_ORCA_CARTA_COBERTURA (CARTA_COBERTURA_ID, REFERENCIA, MATERIAL_ID, NOME_MATERIAL, PESSOA_ID, 
+                                NOME_PESSOA) VALUES(@CARTA_COBERTURA_ID, @REFERENCIA, @MATERIAL_ID, @NOME_MATERIAL, @PESSOA_ID, 
                                 @NOME_PESSOA)", new 
                     { 
+                        cartaCobertura.CARTA_COBERTURA_ID,
                         cartaCobertura.REFERENCIA, 
                         cartaCobertura.MATERIAL.MATERIAL_ID,
                         cartaCobertura.MATERIAL.NOME_MATERIAL, 
@@ -33,7 +34,7 @@ namespace OrcamentariaBackEnd
                         cartaCobertura.MATERIAL.FABRICANTE.NOME_PESSOA
                     });
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT CARTA_COBERTURA_ID FROM T_ORCA_CARTA_COBERTURA ORDER BY CARTA_COBERTURA_ID DESC LIMIT 1").ToArray()[0]);
                 }
             }
             catch (Exception)
@@ -198,7 +199,7 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE REFERENCIA = @referencia AND PESSOA_ID = @pessoaId AND MATERIAL = @materialId", new { referencia, pessoaId, materialId });
+                    var resposta = cn.Query<CartaCoberturaModel>("SELECT * FROM T_ORCA_CARTA_COBERTURA WHERE REFERENCIA = @referencia AND PESSOA_ID = @pessoaId AND MATERIAL_ID = @materialId", new { referencia, pessoaId, materialId });
                     
                     return resposta;
                 }

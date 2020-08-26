@@ -96,6 +96,25 @@ namespace OrcamentariaBackEnd
             }
         }
 
+        public void Delete(int cartaCoberturaId, string tempoResistenciaFogo)
+        {
+            try
+            {
+                    var where = $"CARTA_COBERTURA_ID = {cartaCoberturaId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("CARTA_COBERTURA_ID", "T_ORCA_CARTA_COBERTURA", where)))
+                    {
+                        throw new Exception();
+                    }
+
+                    ItensCartaCoberturaRepository.DeletePorCartaCoberturaIdETempoResistenciaFogo(cartaCoberturaId, tempoResistenciaFogo);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public void DeleteComParametro(ItensCartaCoberturaQO itensCartaCobertura)
         {
             try
@@ -112,7 +131,7 @@ namespace OrcamentariaBackEnd
                 }
                 else
                 {
-                    var where = $"ITENS_CARTA_COBERTURA_ID = {itensCartaCobertura.CartaCoberturaId}";
+                    var where = $"ITENS_CARTA_COBERTURA_ID = {itensCartaCobertura.ItensCartaCoberturaId}";
                     if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ITENS_CARTA_COBERTURA_ID", "T_ORCA_ITENS_CARTA_COBERTURA", where)))
                     {
                         throw new Exception();

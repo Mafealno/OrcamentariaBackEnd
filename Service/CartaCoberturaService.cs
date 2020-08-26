@@ -205,14 +205,27 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"MATERIAL_ID = {cartaCobertura.MATERIAL.MATERIAL_ID}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_PESSOA_ID", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
                 {
                     throw new Exception();
                 }
 
-                cartaCobertura.MATERIAL = MaterialService.GetComParametro(new MaterialQO(cartaCobertura.MATERIAL.MATERIAL_ID, "", "")).ToArray()[0];
+                cartaCobertura.MATERIAL =  MaterialService.GetComParametro(new MaterialQO(cartaCobertura.MATERIAL.MATERIAL_ID, "", "")).ToArray()[0];
 
-                return CartaCoberturaRepository.Create(cartaCobertura);
+                var cartaCoberturaCadastrada = CartaCoberturaRepository.Create(cartaCobertura);
+
+                cartaCoberturaCadastrada.LIST_ITENS_CARTA_COBERTURA = new List<ItensCartaCoberturaModel>();
+
+                foreach (ItensCartaCoberturaModel itensCartaCobertura in cartaCobertura.LIST_ITENS_CARTA_COBERTURA)
+                {
+                    itensCartaCobertura.CARTA_COBERTURA_ID = cartaCoberturaCadastrada.CARTA_COBERTURA_ID;
+
+                    cartaCoberturaCadastrada.LIST_ITENS_CARTA_COBERTURA.Add(ItensCartaCoberturaService.Post(itensCartaCobertura));
+                }
+
+                cartaCoberturaCadastrada.MATERIAL = cartaCobertura.MATERIAL;
+
+                return cartaCoberturaCadastrada;
 
             }
             catch (Exception)

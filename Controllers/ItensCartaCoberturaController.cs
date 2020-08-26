@@ -87,5 +87,19 @@ namespace OrcamentariaBackEnd.Controllers
                 throw;
             }
         }
+
+        [HttpDelete("{cartaCoberturaId}/{tempoResistenciaFogo}")]
+        public void Delete(int cartaCoberturaId, string tempoResistenciaFogo)
+        {
+            try
+            {
+                ItensCartaCoberturaService.Delete(cartaCoberturaId, tempoResistenciaFogo);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

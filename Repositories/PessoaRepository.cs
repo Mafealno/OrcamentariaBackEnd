@@ -26,7 +26,7 @@ namespace OrcamentariaBackEnd
                     cn.Execute(@"INSERT INTO T_ORCA_PESSOA (NOME_PESSOA, RG, CPF, CNPJ, TIPO_CADASTRO, TIPO_PESSOA) 
                                 VALUES(@NOME_PESSOA, @RG, @CPF, @CNPJ, @TIPO_CADASTRO, @TIPO_PESSOA)", pessoa);
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT PESSOA_ID FROM T_ORCA_PESSOA ORDER BY PESSOA_ID DESC LIMIT 1").ToArray()[0]);
                 }
             }
             catch (Exception)
