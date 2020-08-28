@@ -126,7 +126,7 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL WHERE NOME_MATERIAL LIKE @nomeMaterial", new { nomeMaterial = nomeMaterial + '%' });
+                    var resposta = cn.Query<MaterialModel>("SELECT * FROM T_ORCA_MATERIAL WHERE MATERIAL_ID LIKE @nomeMaterial", new { nomeMaterial = nomeMaterial + '%' });
 
                     return resposta;
                 }
