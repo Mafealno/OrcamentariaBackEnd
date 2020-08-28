@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using OrcamentariaBackEnd.Database;
+using Renci.SshNet;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace OrcamentariaBackEnd
@@ -9,10 +14,12 @@ namespace OrcamentariaBackEnd
     public class MetodosGenericosService
     {
         private IMetodosGenericosRepository MetodosGenericosRepository;
+        public IConfiguration Configuration { get; }
 
-        public MetodosGenericosService(IMetodosGenericosRepository metodosGenericosRepository)
+        public MetodosGenericosService(IMetodosGenericosRepository metodosGenericosRepository, IConfiguration configuration)
         {
             this.MetodosGenericosRepository = metodosGenericosRepository;
+            Configuration = configuration;
         }
 
         public string DlookupOrcamentaria(string campoBuscado, string tabela, string where)
@@ -20,6 +27,19 @@ namespace OrcamentariaBackEnd
             try
             {
                 return MetodosGenericosRepository.DlookupOrcamentaria(campoBuscado, tabela, where);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string RetornaConexao()
+        {
+            try
+            {
+                return Configuration.GetConnectionString("DefaultConnection");
             }
             catch (Exception)
             {

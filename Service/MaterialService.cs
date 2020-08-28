@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrcamentariaBackEnd.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,15 @@ namespace OrcamentariaBackEnd
         private IMaterialRepository MaterialRepository;
         private MetodosGenericosService MetodosGenericosService;
         private PessoaService PessoaService;
-        private CartaCoberturaController CartaCoberturaController;
+        private ItensCartaCoberturaService ItensCartaCoberturaService;
 
         public MaterialService(IMaterialRepository materialRepository, MetodosGenericosService metodosGenericosService, 
-            PessoaService pessoaService)
+            PessoaService pessoaService, ItensCartaCoberturaService itensCartaCoberturaService)
         {
             this.MaterialRepository = materialRepository;
             this.MetodosGenericosService = metodosGenericosService;
             this.PessoaService = pessoaService;
+            this.ItensCartaCoberturaService = itensCartaCoberturaService;
         }
 
         public IEnumerable<MaterialModel> Get()
@@ -112,31 +114,40 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                //MaterialModel materialDB = GetComParametro(new MaterialQO(materialId, "", "")).ToList()[0];
+                MaterialModel materialDB = GetComParametro(new MaterialQO(materialId, "", "")).ToList()[0];
 
-                //if(material.FABRICANTE.PESSOA_ID != materialDB.FABRICANTE.PESSOA_ID)
-                //{
-                //    List<CartaCoberturaModel> listCartaCobertura = CartaCoberturaController.Get(materialId, materialDB.FABRICANTE.PESSOA_ID).ToList();
+                if (material.FABRICANTE.PESSOA_ID != materialDB.FABRICANTE.PESSOA_ID)
+                {
 
-                //    where = $"PESSOA_ID = {material.FABRICANTE.PESSOA_ID}";
-                //    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
-                //    {
-                //        throw new Exception();
-                //    }
+                    CartaCoberturaRepository cartaCoberturaRepository = new CartaCoberturaRepository(new Conexao(MetodosGenericosService.RetornaConexao()));
 
-                //    var fabricante = PessoaService.GetComParametro(new PessoaQO(material.FABRICANTE.PESSOA_ID, "")).ToArray()[0];
+                    List<CartaCoberturaModel> listCartaCobertura = cartaCoberturaRepository.ListPorMaterialId(materialId).ToList();
 
-                //    foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
-                //    {
-                //        cartaCobertura.MATERIAL.FABRICANTE = fabricante;
+                    foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
+                    {
+                        cartaCobertura.LIST_ITENS_CARTA_COBERTURA = ItensCartaCoberturaService.GetComParametro(new ItensCartaCoberturaQO(0, cartaCobertura.CARTA_COBERTURA_ID, "")).ToList();
 
-                //        CartaCoberturaController.Put(cartaCobertura.CARTA_COBERTURA_ID, cartaCobertura);
-                //    }
+                        cartaCobertura.MATERIAL = GetComParametro(new MaterialQO(materialId, "", "")).ToArray()[0];
+                    }
 
-                //    material.FABRICANTE = fabricante; 
+                    where = $"PESSOA_ID = {material.FABRICANTE.PESSOA_ID}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
+                    {
+                        throw new Exception();
+                    }
 
-                //}
-                
+                    var fabricante = PessoaService.GetComParametro(new PessoaQO(material.FABRICANTE.PESSOA_ID, "")).ToArray()[0];
+
+                    foreach (CartaCoberturaModel cartaCobertura in listCartaCobertura)
+                    {
+                        cartaCobertura.MATERIAL.FABRICANTE = fabricante;
+
+                        cartaCoberturaRepository.Update(cartaCobertura.CARTA_COBERTURA_ID, cartaCobertura);
+                    }
+
+                    material.FABRICANTE = fabricante;
+                }
+
                 MaterialRepository.Update(materialId, material);
             }
             catch (Exception)

@@ -55,12 +55,12 @@ namespace OrcamentariaBackEnd
 
 
             //SERVICE
-            services.AddScoped(sp => new MetodosGenericosService(sp.GetService<IMetodosGenericosRepository>()));
+            services.AddScoped(sp => new MetodosGenericosService(sp.GetService<IMetodosGenericosRepository>(), sp.GetService<IConfiguration>()));
             services.AddScoped(sp => new PessoaService(sp.GetService<IPessoaRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ContatoService>(), sp.GetService<EnderecoService>()));
             services.AddScoped(sp => new ContatoService(sp.GetService<IContatoRepository>(), sp.GetService<MetodosGenericosService>()));
             services.AddScoped(sp => new EnderecoService(sp.GetService<IEnderecoRepository>(), sp.GetService<MetodosGenericosService>()));
             services.AddScoped(sp => new FuncionarioService(sp.GetService<IFuncionarioRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ContatoService>(), sp.GetService<EnderecoService>(), sp.GetService<PessoaService>()));
-            services.AddScoped(sp => new MaterialService(sp.GetService<IMaterialRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>()));
+            services.AddScoped(sp => new MaterialService(sp.GetService<IMaterialRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<ItensCartaCoberturaService>()));
             services.AddScoped(sp => new CartaCoberturaService(sp.GetService<ICartaCoberturaRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ItensCartaCoberturaService>(), sp.GetService<MaterialService>()));
             services.AddScoped(sp => new ItensCartaCoberturaService(sp.GetService<IItensCartaCoberturaRepository>(), sp.GetService<MetodosGenericosService>()));
             services.AddScoped(sp => new PerfilService(sp.GetService<IPerfilRepository>(), sp.GetService<MetodosGenericosService>()));
