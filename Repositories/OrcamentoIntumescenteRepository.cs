@@ -56,7 +56,7 @@ namespace OrcamentariaBackEnd.Repositories
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute("DELETE FROM T_ORCA_ORCAMENTO_INTUMESCENTE WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
+                    cn.Execute(@"DELETE FROM T_ORCA_ORCAMENTO_INTUMESCENTE WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
                 }
             }
             catch (Exception)
@@ -72,7 +72,9 @@ namespace OrcamentariaBackEnd.Repositories
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<OrcamentoIntumescenteModel>("SELECT * FROM T_ORCA_ORCAMENTO_INTUMESCENTE WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
+                    var resposta = cn.Query<OrcamentoIntumescenteModel>(@"SELECT * FROM T_ORCA_ORCAMENTO_INTUMESCENTE INNER JOIN T_ORCA_ORCAMENTO ON 
+                                                                        T_ORCA_ORCAMENTO_INTUMESCENTE.ORCAMENTO_ID = T_ORCA_ORCAMENTO.ORCAMENTO_ID 
+                                                                        WHERE T_ORCA_ORCAMENTO_INTUMESCENTE.ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
                     if (resposta.Count() == 0)
                     {
@@ -97,7 +99,8 @@ namespace OrcamentariaBackEnd.Repositories
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<OrcamentoIntumescenteModel>("SELECT * FROM T_ORCA_ORCAMENTO_INTUMESCENTE");
+                    var resposta = cn.Query<OrcamentoIntumescenteModel>(@"SELECT * FROM T_ORCA_ORCAMENTO_INTUMESCENTE INNER JOIN T_ORCA_ORCAMENTO ON 
+                                                                        T_ORCA_ORCAMENTO_INTUMESCENTE.ORCAMENTO_ID = T_ORCA_ORCAMENTO.ORCAMENTO_ID");
 
                     return resposta;
                 }
@@ -117,8 +120,9 @@ namespace OrcamentariaBackEnd.Repositories
                 {
                     cn.Execute(@"UPDATE T_ORCA_ORCAMENTO_INTUMESCENTE SET GRUPO = @GRUPO, OCUPACAO_USO = @OCUPACAO_USO, 
                                 DIVISAO = @DIVISAO, CLASSE = @CLASSE, TEMPO_RESISTENCIA_FOGO = @TEMPO_RESISTENCIA_FOGO, 
-                                QTDE_LITROS_TOTAL = @QTDE_LITROS_TOTAL, PERCENTUAL_PERDA = @PERCENTUAL_PERDA, QTDE_BALDES = @QTDE_BALDES, 
-                                QTDE_BALDES_REAL = @QTDE_BALDES_REAL WHERE ORCAMENTO_ID = @orcamentoId", new
+                                QTDE_LITROS_TOTAL = @QTDE_LITROS_TOTAL, PERCENTUAL_PERDA = @PERCENTUAL_PERDA, 
+                                QTDE_BALDES = @QTDE_BALDES, QTDE_BALDES_REAL = @QTDE_BALDES_REAL 
+                                WHERE ORCAMENTO_ID = @orcamentoId", new 
                     {
                         orcamentoIntumescente.GRUPO,
                         orcamentoIntumescente.OCUPACAO_USO,
