@@ -157,8 +157,8 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<MaoObraOrcamentoModel>(@"SELECT T_ORCA_MAO_OBRA_ORCAMENTO.* FROM T_ORCA_MAO_OBRA_ORCAMENTO INNER JOIN T_ORCA_OBRA ON 
-                                                                    T_ORCA_MAO_OBRA_ORCAMENTO.MAO_OBRA_ORCAMENTO_ID = T_ORCA_OBRA.MAO_OBRA_ORCAMENTO_ID
-                                                                    T_ORCA_OBRA.ORCAMENTO_ID = orcamentoId", new { orcamentoId });
+                                                                    T_ORCA_MAO_OBRA_ORCAMENTO.MAO_OBRA_ORCAMENTO_ID = T_ORCA_OBRA.MAO_OBRA_ORCAMENTO_ID 
+                                                                    WHERE T_ORCA_OBRA.ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
                     return resposta;
                 }
