@@ -52,7 +52,7 @@ namespace OrcamentariaBackEnd
             services.AddScoped<IItensOrcamentoIntumescenteRepository>(sp => new ItensOrcamentoIntumescenteRepository(sp.GetService<IConexao>()));
             services.AddScoped<IOrcamentoRepository>(sp => new OrcamentoRepository(sp.GetService<IConexao>()));
             services.AddScoped<IOrcamentoIntumescenteRepository>(sp => new OrcamentoIntumescenteRepository(sp.GetService<IConexao>()));
-
+            services.AddScoped<ITotaisOrcamentoRepository>(sp => new TotaisOrcamentoRepository(sp.GetService<IConexao>()));
 
             //SERVICE
             services.AddScoped(sp => new MetodosGenericosService(sp.GetService<IMetodosGenericosRepository>(), sp.GetService<IConfiguration>()));
