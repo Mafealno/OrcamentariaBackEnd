@@ -125,7 +125,7 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<CustoModel>(@"SELECT T_ORCA_CUSTO.CUSTO_ID,T_ORCA_CUSTO.NOME_CUSTO, T_ORCA_CUSTO.DESCRICAO,
                                                         T_ORCA_CUSTO.TIPO_CUSTO, T_ORCA_CUSTOS_MAO_OBRA.VALOR_CUSTO FROM T_ORCA_CUSTOS_MAO_OBRA 
                                                         INNER JOIN T_ORCA_CUSTO ON T_ORCA_CUSTOS_MAO_OBRA.CUSTO_ID = T_ORCA_CUSTO.CUSTO_ID WHERE 
-                                                        T_ORCA_CUSTOS_MAO_OBRA = @maoObraOrcamentoId", new { maoObraOrcamentoId });
+                                                        T_ORCA_CUSTOS_MAO_OBRA.MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId", new { maoObraOrcamentoId });
 
                     return resposta;
                 }
