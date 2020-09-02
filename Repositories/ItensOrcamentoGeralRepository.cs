@@ -25,12 +25,16 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO_GERAL (ITENS_ORCAMENTO_ID,ORCAMENTO_ID, AMBIENTE_APLICACAO, VALOR_LARGURA, VALOR_M_2) 
-                                VALUES(@ITENS_ORCAMENTO_ID, @ORCAMENTO_ID, @AMBIENTE_APLICACAO, @VALOR_LARGURA, @VALOR_M_2)", new
+                    cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO_GERAL (ITENS_ORCAMENTO_ID, ORCAMENTO_ID, 
+                                AMBIENTE_APLICACAO, LOCAL_APLICACAO, ACAO_APLICAR, VALOR_LARGURA, VALOR_M_2) 
+                                VALUES(@ITENS_ORCAMENTO_ID, @ORCAMENTO_ID, @AMBIENTE_APLICACAO, @LOCAL_APLICACAO,
+                                @VALOR_LARGURA, @ACAO_APLICAR, @VALOR_M_2)", new
                                 {
                                     itensOrcamentoGeral.ITENS_ORCAMENTO_ID,
                                     itensOrcamentoGeral.ORCAMENTO_ID,
                                     itensOrcamentoGeral.AMBIENTE_APLICACAO,
+                                    itensOrcamentoGeral.LOCAL_APLICACAO,
+                                    itensOrcamentoGeral.ACAO_APLICAR,
                                     itensOrcamentoGeral.VALOR_LARGURA,
                                     itensOrcamentoGeral.VALOR_M_2
                                 });
@@ -129,9 +133,9 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<ItensOrcamentoGeralModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO_GERAL INNER JOIN T_ORCA_ITENS_ORCAMENTO_GERAL 
+                    var resposta = cn.Query<ItensOrcamentoGeralModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO_GERAL INNER JOIN T_ORCA_ITENS_ORCAMENTO 
                                                                     ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_GERAL.ITENS_ORCAMENTO_ID
-                                                                    WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
+                                                                    WHERE T_ORCA_ITENS_ORCAMENTO.ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
                     return resposta;
                 }
@@ -149,10 +153,14 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO_GERAL SET AMBIENTE_APLICACAO = @AMBIENTE_APLICACAO, VALOR_LARGURA = @VALOR_LARGURA,
-                                VALOR_M_2 = @VALOR_M_2 WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new
+                    cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO_GERAL SET AMBIENTE_APLICACAO = @AMBIENTE_APLICACAO, 
+                                LOCAL_APLICACAO = @LOCAL_APLICACAO, ACAO_APLICAR = @ACAO_APLICAR, 
+                                VALOR_LARGURA = @VALOR_LARGURA, VALOR_M_2 = @VALOR_M_2 
+                                WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new
                     {
                         itensOrcamentoGeral.AMBIENTE_APLICACAO,
+                        itensOrcamentoGeral.LOCAL_APLICACAO,
+                        itensOrcamentoGeral.ACAO_APLICAR,
                         itensOrcamentoGeral.VALOR_LARGURA,
                         itensOrcamentoGeral.VALOR_M_2,
                         itensOrcamentoId
