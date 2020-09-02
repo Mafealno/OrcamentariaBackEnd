@@ -98,7 +98,11 @@ namespace OrcamentariaBackEnd
 
                 orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
 
-                return OrcamentoRepository.Create(orcamento);
+                OrcamentoModel orcamentoCriado = OrcamentoRepository.Create(orcamento);
+
+                orcamentoCriado.CLIENTE_ORCAMENTO = orcamento.CLIENTE_ORCAMENTO;
+
+                return orcamentoCriado;
             }
             catch (Exception)
             {
@@ -119,7 +123,9 @@ namespace OrcamentariaBackEnd
 
                 var orcamentoDB = Get(orcamentoId).ToArray()[0];
 
-                if(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID != orcamentoDB.CLIENTE_ORCAMENTO.PESSOA_ID)
+                orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
+
+                if (orcamento.CLIENTE_ORCAMENTO.PESSOA_ID != orcamentoDB.CLIENTE_ORCAMENTO.PESSOA_ID)
                 {
                     orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
                 }

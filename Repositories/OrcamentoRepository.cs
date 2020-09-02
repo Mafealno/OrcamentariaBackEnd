@@ -41,7 +41,7 @@ namespace OrcamentariaBackEnd
                         orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].UF
                     });
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT ORCAMENTO_ID FROM T_ORCA_ORCAMENTO ORDER BY ORCAMENTO_ID DESC LIMIT 1").ToArray()[0]);
                 }
             }
             catch (Exception)
