@@ -28,7 +28,7 @@ namespace OrcamentariaBackEnd
                     cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO_GERAL (ITENS_ORCAMENTO_ID, ORCAMENTO_ID, 
                                 AMBIENTE_APLICACAO, LOCAL_APLICACAO, ACAO_APLICAR, VALOR_LARGURA, VALOR_M_2) 
                                 VALUES(@ITENS_ORCAMENTO_ID, @ORCAMENTO_ID, @AMBIENTE_APLICACAO, @LOCAL_APLICACAO,
-                                @VALOR_LARGURA, @ACAO_APLICAR, @VALOR_M_2)", new
+                                @ACAO_APLICAR, @VALOR_LARGURA, @VALOR_M_2)", new
                                 {
                                     itensOrcamentoGeral.ITENS_ORCAMENTO_ID,
                                     itensOrcamentoGeral.ORCAMENTO_ID,
@@ -39,7 +39,7 @@ namespace OrcamentariaBackEnd
                                     itensOrcamentoGeral.VALOR_M_2
                                 });
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(itensOrcamentoGeral.ITENS_ORCAMENTO_ID);
                 }
             }
             catch (Exception)
@@ -87,9 +87,9 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<ItensOrcamentoGeralModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO_GERAL INNER JOIN T_ORCA_ITENS_ORCAMENTO_GERAL 
+                    var resposta = cn.Query<ItensOrcamentoGeralModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO_GERAL INNER JOIN T_ORCA_ITENS_ORCAMENTO 
                                                                         ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_GERAL.ITENS_ORCAMENTO_ID 
-                                                                        WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
+                                                                        WHERE T_ORCA_ITENS_ORCAMENTO_GERAL.ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
 
                     if (resposta.Count() == 0)
                     {

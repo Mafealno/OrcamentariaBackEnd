@@ -27,7 +27,7 @@ namespace OrcamentariaBackEnd
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO (ORCAMENTO_ID, NUMERO_LINHA, VALOR_COMPRIMENTO, AREA,
                                 MATERIAL_ID, NOME_MATERIAL, DESCRICAO_MATERIAL) VALUES(@ORCAMENTO_ID, @NUMERO_LINHA, @VALOR_COMPRIMENTO,
-                                @AREA, @MATERIAL_ID, @MATERIAL_ID, @NOME_MATERIAL, @DESCRICAO_MATERIAL)", new 
+                                @AREA, @MATERIAL_ID, @NOME_MATERIAL, @DESCRICAO_MATERIAL)", new 
                     { 
                         itensOrcamento.ORCAMENTO_ID,
                         itensOrcamento.NUMERO_LINHA, 
@@ -38,7 +38,7 @@ namespace OrcamentariaBackEnd
                         itensOrcamento.PRODUTO.DESCRICAO_MATERIAL 
                     });
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT ITENS_ORCAMENTO_ID FROM T_ORCA_ITENS_ORCAMENTO ORDER BY ITENS_ORCAMENTO_ID DESC LIMIT 1").ToArray()[0]);
                 }
             }
             catch (Exception)
