@@ -84,7 +84,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
 
-                    var listMaoObraOrcamentoId = cn.Query<int>("SELECT DISTINCT MAO_OBRA_ORCAMENTO_ID FROM T_ORCA_OBRA WHERE ORCAMENTO_ID = @orcamentId", new { orcamentoId });
+                    var listMaoObraOrcamentoId = cn.Query<int>("SELECT DISTINCT MAO_OBRA_ORCAMENTO_ID FROM T_ORCA_OBRA WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
                     cn.Execute(@"DELETE FROM T_ORCA_OBRA WHERE ORCAMENTO_ID = @orcamentoId ", new { orcamentoId });
 
