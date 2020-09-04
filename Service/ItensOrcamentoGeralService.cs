@@ -102,6 +102,8 @@ namespace OrcamentariaBackEnd
 
                 itensOrcamentoGeral = ItensOrcamentoGeralRepository.Create(itensOrcamentoGeral);
 
+                itensOrcamentoGeral.PRODUTO = itensOrcamento.PRODUTO;
+
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
 
                 return itensOrcamentoGeral;
@@ -126,17 +128,8 @@ namespace OrcamentariaBackEnd
 
                 var itensOrcamento = MetodosGenericosService.CopiarPropriedadesObj(itensOrcamentoGeral, new ItensOrcamentoModel());
 
-                var itensOrcamentoDB = ItensOrcamentoService.GetComParametro(new ItensOrcamentoQO(itensOrcamentoId, 0)).ToArray()[0];
-
-                ComparisonResult resultando = new CompareLogic().Compare(itensOrcamento, itensOrcamentoDB);
-
-                if (!resultando.AreEqual)
-                {
-                    var res = resultando.Differences;
-
-                    ItensOrcamentoService.Put(itensOrcamentoId, itensOrcamento);
-                }
-
+                ItensOrcamentoService.Put(itensOrcamentoId, itensOrcamento);
+                
                 if (itensOrcamentoGeral.VALOR_COMPRIMENTO < 0 || itensOrcamentoGeral.AREA < 0)
                 {
                     throw new Exception();

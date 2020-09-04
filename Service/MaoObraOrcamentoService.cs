@@ -216,7 +216,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"ORCAMENTO_ID = {orcamentoId}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MAO_OBRA_ORCAMENTO_ID", "T_ORCA_OBRA", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO", where)))
                 {
                     throw new Exception();
                 }
@@ -225,7 +225,7 @@ namespace OrcamentariaBackEnd
 
                 var listMaoObraOrcamento = MaoObraOrcamentoRepository.ListPorOrcamentoId(orcamentoId);
 
-                foreach(MaoObraOrcamentoModel maoObraOrcamento in listMaoObraOrcamento)
+                foreach (MaoObraOrcamentoModel maoObraOrcamento in listMaoObraOrcamento)
                 {
                     CustosMaoObraService.Delete(maoObraOrcamento.MAO_OBRA_ORCAMENTO_ID);
                 }
@@ -233,6 +233,7 @@ namespace OrcamentariaBackEnd
                 MaoObraOrcamentoRepository.DeletePorOrcamentoId(orcamentoId);
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
+
             }
             catch (Exception)
             {

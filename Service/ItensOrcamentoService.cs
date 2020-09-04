@@ -103,7 +103,11 @@ namespace OrcamentariaBackEnd
 
                 itensOrcamento.NUMERO_LINHA = int.Parse(ultimaNumeroLinha) + 1;
 
-                return ItensOrcamentoRepository.Create(itensOrcamento);
+                var novoItensOrcamento = ItensOrcamentoRepository.Create(itensOrcamento);
+
+                novoItensOrcamento.PRODUTO = itensOrcamento.PRODUTO;
+
+                return novoItensOrcamento;
 
             }
             catch (Exception)
