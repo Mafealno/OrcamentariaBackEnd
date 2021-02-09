@@ -130,6 +130,10 @@ namespace OrcamentariaBackEnd
 
                 var retorno = MaoObraOrcamentoRepository.Create(maoObraOrcamento);
 
+                retorno.FUNCIONARIO = maoObraOrcamento.FUNCIONARIO;
+
+                retorno.LIST_CUSTO = maoObraOrcamento.LIST_CUSTO;
+
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
 
                 return retorno;
@@ -151,37 +155,13 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
+                maoObraOrcamento.FUNCIONARIO = FuncionarioService.GetComParametro(new FuncionarioQO(maoObraOrcamento.FUNCIONARIO.PESSOA_ID, "")).FirstOrDefault();
 
-                var maoObraOrcamentoDB = Get(maoObraOrcamentoId, maoObraOrcamento.ORCAMENTO_ID).ToArray()[0];
+                MaoObraOrcamentoRepository.Update(maoObraOrcamentoId, maoObraOrcamento);
 
-                if(maoObraOrcamento.FUNCIONARIO.PESSOA_ID != maoObraOrcamentoDB.FUNCIONARIO.PESSOA_ID)
-                {
-                    maoObraOrcamento.FUNCIONARIO = FuncionarioService.GetComParametro(new FuncionarioQO(maoObraOrcamento.FUNCIONARIO.PESSOA_ID, "")).ToArray()[0];
-
-                    var listCustosMaoObra = CustosMaoObraService.Get(maoObraOrcamentoId);
-
-                    CustosMaoObraService.Delete(maoObraOrcamentoId);
-
-                    MaoObraOrcamentoRepository.Delete(maoObraOrcamentoId, maoObraOrcamento.ORCAMENTO_ID);
-
-                    MaoObraOrcamentoRepository.Create(maoObraOrcamento);
-
-                    foreach(CustoModel custosMaoObra in listCustosMaoObra)
-                    {
-                        CustosMaoObraService.Post(maoObraOrcamento, custosMaoObra);
-                    }
-                }
-                else
-                {
-                    MaoObraOrcamentoRepository.Update(maoObraOrcamentoId, maoObraOrcamento);
-                }
-
-                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
             }
             catch (Exception)
             {
-                MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.ROLLBACK);
                 throw;
             }
         }

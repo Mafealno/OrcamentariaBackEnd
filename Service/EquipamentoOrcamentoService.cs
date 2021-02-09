@@ -102,9 +102,13 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                equipamentoOrcamento.EQUIPAMENTO = EquipamentoService.GetComParametro(new EquipamentoQO(equipamentoOrcamento.EQUIPAMENTO.EQUIPAMENTO_ID, "")).ToArray()[0];
+                equipamentoOrcamento.EQUIPAMENTO = EquipamentoService.GetComParametro(new EquipamentoQO(equipamentoOrcamento.EQUIPAMENTO.EQUIPAMENTO_ID, "")).FirstOrDefault();
 
-                return EquipamentoOrcamentoRepository.Create(equipamentoOrcamento);
+                var equipamentoOrcamentoCadastrado = EquipamentoOrcamentoRepository.Create(equipamentoOrcamento);
+
+                equipamentoOrcamentoCadastrado.EQUIPAMENTO = equipamentoOrcamento.EQUIPAMENTO;
+
+                return equipamentoOrcamentoCadastrado;
 
             }
             catch (Exception)

@@ -108,7 +108,7 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<EquipamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO WHERE NOME_EQUIPAMENTO LIKE @nomeEquipamento", new { nomeEquipamento = nomeEquipamento + '%' });
+                    var resposta = cn.Query<EquipamentoModel>("SELECT * FROM T_ORCA_EQUIPAMENTO WHERE NOME_EQUIPAMENTO LIKE @nomeEquipamento", new { nomeEquipamento = '%' + nomeEquipamento + '%' });
 
                     return resposta;
                 }

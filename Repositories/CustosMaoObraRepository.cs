@@ -26,16 +26,15 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"INSERT INTO T_ORCA_CUSTOS_MAO_OBRA (MAO_OBRA_ORCAMENTO_ID, CUSTO_ID, NOME_PESSOA,
-                                NOME_CUSTO, TIPO_CUSTO, PESSOA_ID) VALUES(@MAO_OBRA_ORCAMENTO_ID, @CUSTO_ID, @NOME_PESSOA, 
-                                @NOME_CUSTO, @TIPO_CUSTO, @PESSOA_ID)", new
+                    cn.Execute(@"INSERT INTO T_ORCA_CUSTOS_MAO_OBRA (MAO_OBRA_ORCAMENTO_ID, CUSTO_ID, NOME_CUSTO, 
+                                TIPO_CUSTO, VALOR_CUSTO) VALUES(@MAO_OBRA_ORCAMENTO_ID, @CUSTO_ID, @NOME_CUSTO, 
+                                @TIPO_CUSTO, @VALOR_CUSTO)", new
                     {
                         maoObraOrcamento.MAO_OBRA_ORCAMENTO_ID,
                         custo.CUSTO_ID,
-                        maoObraOrcamento.FUNCIONARIO.NOME_PESSOA,
                         custo.NOME_CUSTO,
                         custo.TIPO_CUSTO,
-                        maoObraOrcamento.FUNCIONARIO.PESSOA_ID
+                        custo.VALOR_CUSTO
                     });
                 }
             }
@@ -93,7 +92,7 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<CustoModel>(@"SELECT T_ORCA_CUSTO.CUSTO_ID,T_ORCA_CUSTO.NOME_CUSTO, T_ORCA_CUSTO.DESCRICAO,
                                                         T_ORCA_CUSTO.TIPO_CUSTO, T_ORCA_CUSTOS_MAO_OBRA.VALOR_CUSTO FROM T_ORCA_CUSTOS_MAO_OBRA 
                                                         INNER JOIN T_ORCA_CUSTO ON T_ORCA_CUSTOS_MAO_OBRA.CUSTO_ID = T_ORCA_CUSTO.CUSTO_ID WHERE 
-                                                        T_ORCA_CUSTOS_MAO_OBRA = @maoObraOrcamentoId AND CUSTO_ID = @custoId", new  
+                                                        T_ORCA_CUSTOS_MAO_OBRA.MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId AND T_ORCA_CUSTO.CUSTO_ID = @custoId", new  
                     { 
                         maoObraOrcamentoId,
                         custoId
@@ -143,15 +142,14 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"UPDATE T_ORCA_CUSTOS_MAO_OBRA SET CUSTO_ID = @CUSTO_ID, NOME_PESSOA = @NOME_PESSOA,
-                                NOME_CUSTO = @NOME_CUSTO, TIPO_CUSTO = @TIPO_CUSTO, PESSOA_ID = @PESSOA_ID 
-                                WHERE MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId AND CUSTO_ID = @custoId", new
+                    cn.Execute(@"UPDATE T_ORCA_CUSTOS_MAO_OBRA SET CUSTO_ID = @CUSTO_ID, NOME_CUSTO = @NOME_CUSTO, 
+                                TIPO_CUSTO = @TIPO_CUSTO, VALOR_CUSTO = @VALOR_CUSTO WHERE MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId 
+                                AND CUSTO_ID = @custoId", new
                     {
                         custo.CUSTO_ID,
-                        maoObraOrcamento.FUNCIONARIO.NOME_PESSOA,
                         custo.NOME_CUSTO,
                         custo.TIPO_CUSTO,
-                        maoObraOrcamento.FUNCIONARIO.PESSOA_ID,
+                        custo.VALOR_CUSTO,
                         maoObraOrcamentoId,
                         custoId
                     });

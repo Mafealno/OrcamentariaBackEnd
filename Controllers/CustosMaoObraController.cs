@@ -34,7 +34,7 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpGet("buscar/{maoObraOrcamentoId}/{custoId}")]
-        public IEnumerable<CustoModel> Get(int maoObraOrcamentoId, int custoId)
+        public CustoModel Get(int maoObraOrcamentoId, int custoId)
         {
             try
             {
@@ -48,11 +48,11 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpPost]
-        public void Post([FromBody] MaoObraOrcamentoModel maoObraOrcamento, [FromBody] CustoModel custo)
+        public void Post([FromBody] MaoObraOrcamentoModel maoObraOrcamento)
         {
             try
             {
-                CustosMaoObraService.Post(maoObraOrcamento, custo);
+                CustosMaoObraService.Post(maoObraOrcamento, maoObraOrcamento.LIST_CUSTO[0]);
             }
             catch (Exception)
             {
@@ -62,11 +62,11 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpPut("atualizar/{maoObraOrcamentoId}/{custoId}")]
-        public void Put(int maoObraOrcamentoId, int custoId, [FromBody] MaoObraOrcamentoModel maoObraOrcamento, [FromBody] CustoModel custo)
+        public void Put(int maoObraOrcamentoId, int custoId, [FromBody] MaoObraOrcamentoModel maoObraOrcamento)
         {
             try
             {
-                CustosMaoObraService.Put(maoObraOrcamentoId, custoId, maoObraOrcamento, custo);
+                CustosMaoObraService.Put(maoObraOrcamentoId, custoId, maoObraOrcamento);
             }
             catch (Exception)
             {
@@ -93,7 +93,7 @@ namespace OrcamentariaBackEnd
         public void Delete(int maoObraOrcamentoId, int custoId)
         {
             try
-            {
+                {
                 CustosMaoObraService.Delete(maoObraOrcamentoId, custoId);
             }
             catch (Exception)

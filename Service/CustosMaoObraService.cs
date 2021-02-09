@@ -35,7 +35,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<CustoModel> Get(int maoObraOrcamentoId, int custoId)
+        public CustoModel Get(int maoObraOrcamentoId, int custoId)
         {
             try
             {
@@ -51,11 +51,7 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                List<CustoModel> listCustosMaoObra = new List<CustoModel>();
-
-                listCustosMaoObra.Add(CustosMaoObraRepository.Find(maoObraOrcamentoId, custoId));
-
-                return listCustosMaoObra;
+                return CustosMaoObraRepository.Find(maoObraOrcamentoId, custoId);
             }
             catch (Exception)
             {
@@ -80,12 +76,6 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                where = $"PESSOA_ID = {maoObraOrcamento.FUNCIONARIO.PESSOA_ID}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_PESSOA", where)))
-                {
-                    throw new Exception();
-                }
-
                 CustosMaoObraRepository.Create(maoObraOrcamento, custo);
             }
             catch (Exception)
@@ -95,7 +85,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void Put(int maoObraOrcamentoId, int custoId, MaoObraOrcamentoModel maoObraOrcamento, CustoModel custo)
+        public void Put(int maoObraOrcamentoId, int custoId, MaoObraOrcamentoModel maoObraOrcamento)
         {
             try
             {
@@ -105,16 +95,9 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                var custosMaoObraDB = Get(maoObraOrcamentoId, custoId).ToArray()[0];
+                var custosMaoObraDB = Get(maoObraOrcamentoId, custoId);
 
-                if(custo.CUSTO_ID != custosMaoObraDB.CUSTO_ID)
-                {
-                    custo.NOME_CUSTO = custosMaoObraDB.NOME_CUSTO;
-                    custo.TIPO_CUSTO = custosMaoObraDB.TIPO_CUSTO;
-                    custo.VALOR_CUSTO = custosMaoObraDB.VALOR_CUSTO;
-                }
-
-                CustosMaoObraRepository.Update(maoObraOrcamentoId, custoId, maoObraOrcamento, custo);
+                CustosMaoObraRepository.Update(maoObraOrcamentoId, custoId, maoObraOrcamento, maoObraOrcamento.LIST_CUSTO[0]);
             }
             catch (Exception)
             {

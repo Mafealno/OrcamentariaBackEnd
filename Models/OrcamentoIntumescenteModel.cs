@@ -21,11 +21,11 @@ namespace OrcamentariaBackEnd
 
         public OrcamentoIntumescenteModel(string grupo, string ocupacaoUso, string classe, string divisao, string tempoResistenciaFogo, 
                                             double qtdeLitrosTotal, double percentualPerda, double qtdeBaldes, double qtdeBaldesReal, List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente,
-                                            int orcamentoId, string nomeObra, string referencia, string prazoEntrega, DateTime dataCriacaoOrcamento, 
+                                            int orcamentoId, string nomeObra, string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, 
                                             string contatoObra, string tipoObra, TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, 
                                             List<ItensOrcamentoGeralModel> itensOrcamentoGeral, List<MaoObraOrcamentoModel> maoObraOrcamento, 
                                             List<CustoOrcamentoModel> custoOrcamento, List<EquipamentoOrcamentoModel> equipamentoOrcamento) : base(orcamentoId, 
-                                            nomeObra, referencia, prazoEntrega, dataCriacaoOrcamento, contatoObra, tipoObra, totaisOrcamento, clienteOrcamento, itensOrcamentoGeral,
+                                            nomeObra, referencia, prazoEntrega, diasTrabalhado, dataCriacaoOrcamento, contatoObra, tipoObra, totaisOrcamento, clienteOrcamento, itensOrcamentoGeral,
                                             maoObraOrcamento, custoOrcamento, equipamentoOrcamento)
         {
             GRUPO = grupo;
@@ -42,6 +42,7 @@ namespace OrcamentariaBackEnd
             NOME_OBRA = nomeObra;
             REFERENCIA = referencia;
             PRAZO_ENTREGA = prazoEntrega;
+            DIAS_TRABALHADO = diasTrabalhado;
             DATA_CRIACAO_ORCAMENTO = dataCriacaoOrcamento;
             A_C = contatoObra;
             TIPO_OBRA = tipoObra;

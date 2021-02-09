@@ -29,7 +29,7 @@ namespace OrcamentariaBackEnd
                                 DDD, RAMAL, CONTATO_PADRAO) VALUES(@PESSOA_ID, @CONTATO, @TIPO_CONTATO, 
                                 @DDD, @RAMAL, @CONTATO_PADRAO)", contato);
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").FirstOrDefault());
                 }
             }
             catch (Exception)

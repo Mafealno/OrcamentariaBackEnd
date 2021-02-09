@@ -9,6 +9,7 @@ namespace OrcamentariaBackEnd
         private string _nomeObra;
         private string _referencia;
         private string _prazoEntrega;
+        private int _diasTrabalhado;
         private DateTime _dataCriacaoOrcamento;
         private string _contatoObra;
         private string _tipoObra;
@@ -19,7 +20,7 @@ namespace OrcamentariaBackEnd
         private List<CustoOrcamentoModel> _custoOrcamento;
         private List<EquipamentoOrcamentoModel> _equipamentoOrcamento;
 
-        public OrcamentoModel(int orcamentoId, string nomeObra, string referencia, string prazoEntrega, DateTime dataCriacaoOrcamento, string contatoObra, string tipoObra, 
+        public OrcamentoModel(int orcamentoId, string nomeObra, string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, string contatoObra, string tipoObra, 
             TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, List<ItensOrcamentoGeralModel> itensOrcamentoGeral, 
             List<MaoObraOrcamentoModel> maoObraOrcamento, List<CustoOrcamentoModel> custoOrcamento, List<EquipamentoOrcamentoModel> equipamentoOrcamento)
         {
@@ -27,6 +28,7 @@ namespace OrcamentariaBackEnd
             NOME_OBRA = nomeObra;
             REFERENCIA = referencia;
             PRAZO_ENTREGA = prazoEntrega;
+            DIAS_TRABALHADO = diasTrabalhado;
             DATA_CRIACAO_ORCAMENTO = dataCriacaoOrcamento;
             A_C = contatoObra;
             TIPO_OBRA = tipoObra;
@@ -47,6 +49,7 @@ namespace OrcamentariaBackEnd
         public string NOME_OBRA { get => _nomeObra; set => _nomeObra = value; }
         public string REFERENCIA { get => _referencia; set => _referencia = value; }
         public string PRAZO_ENTREGA { get => _prazoEntrega; set => _prazoEntrega = value; }
+        public int DIAS_TRABALHADO { get => _diasTrabalhado; set => _diasTrabalhado = value; }
         public DateTime DATA_CRIACAO_ORCAMENTO { get => _dataCriacaoOrcamento; set => _dataCriacaoOrcamento = value; }
         public string A_C { get => _contatoObra; set => _contatoObra = value; }
         public string TIPO_OBRA { get => _tipoObra; set => _tipoObra = value; }

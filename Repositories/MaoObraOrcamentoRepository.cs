@@ -34,17 +34,17 @@ namespace OrcamentariaBackEnd
                         maoObraOrcamento.FUNCIONARIO.VALOR_DIA_TRABALHADO
                     });
 
-                    var maoObraOrcamentoCriado = Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0], maoObraOrcamento.ORCAMENTO_ID);
+                    var maoObraOrcamentoId = cn.Query<int>("SELECT MAX(MAO_OBRA_ORCAMENTO_ID) FROM T_ORCA_MAO_OBRA_ORCAMENTO").FirstOrDefault();
 
-                    cn.Execute(@"INSERT INTO T_ORCA_OBRA (ORCAMENTO_ID, MAO_OBRA_ORCAMENTO_ID, PESSOA_ID) 
-                                VALUES(@ORCAMENTO_ID, @MAO_OBRA_ORCAMENTO_ID, @PESSOA_ID)", new
+                    cn.Execute(@"INSERT INTO T_ORCA_OBRA (ORCAMENTO_ID, MAO_OBRA_ORCAMENTO_ID) 
+                                VALUES(@ORCAMENTO_ID, @MAO_OBRA_ORCAMENTO_ID)", new
                     {
-                        maoObraOrcamentoCriado.ORCAMENTO_ID,
-                        maoObraOrcamentoCriado.MAO_OBRA_ORCAMENTO_ID,
-                        maoObraOrcamento.FUNCIONARIO.PESSOA_ID
+                        maoObraOrcamento.ORCAMENTO_ID,
+                        MAO_OBRA_ORCAMENTO_ID = maoObraOrcamentoId
                     });
 
-                    return maoObraOrcamentoCriado;
+                    
+                    return Find(cn.Query<int>("SELECT MAX(MAO_OBRA_ORCAMENTO_ID) FROM T_ORCA_MAO_OBRA_ORCAMENTO").FirstOrDefault(), maoObraOrcamento.ORCAMENTO_ID); ;
                 }
             }
             catch (Exception)
@@ -108,7 +108,7 @@ namespace OrcamentariaBackEnd
                     var resposta = cn.Query<MaoObraOrcamentoModel>(@"SELECT * FROM T_ORCA_MAO_OBRA_ORCAMENTO INNER JOIN T_ORCA_OBRA ON 
                                                                     T_ORCA_MAO_OBRA_ORCAMENTO.MAO_OBRA_ORCAMENTO_ID = T_ORCA_OBRA.MAO_OBRA_ORCAMENTO_ID
                                                                     WHERE T_ORCA_MAO_OBRA_ORCAMENTO.MAO_OBRA_ORCAMENTO_ID = @maoObraOrcamentoId 
-                                                                    AND T_ORCA_OBRA.ORCAMENTO_ID = orcamentoId", new 
+                                                                    AND T_ORCA_OBRA.ORCAMENTO_ID = @orcamentoId", new 
                     { 
                         maoObraOrcamentoId, 
                         orcamentoId 

@@ -57,14 +57,14 @@ namespace OrcamentariaBackEnd
                     listEquipamento = new List<EquipamentoModel>();
 
                     listEquipamento.Add(EquipamentoRepository.Find(equipamento.EquipamentoId));
-
                 }
 
                 foreach (EquipamentoModel equipamentoModel in listEquipamento)
                 {
-                    var pessoaId = MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_EQUIPAMENTO", $"EQUIPAMENTO_ID = {equipamentoModel.EQUIPAMENTO_ID}");
 
-                    equipamentoModel.FABRICANTE = PessoaService.GetComParametro(new PessoaQO(int.Parse(pessoaId), "")).ToArray()[0];
+                        var pessoaId = MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_EQUIPAMENTO", $"EQUIPAMENTO_ID = {equipamentoModel.EQUIPAMENTO_ID}");
+
+                        equipamentoModel.FABRICANTE = PessoaService.GetComParametro(new PessoaQO(int.Parse(pessoaId), "")).ToArray()[0];
                 }
 
                 return listEquipamento;

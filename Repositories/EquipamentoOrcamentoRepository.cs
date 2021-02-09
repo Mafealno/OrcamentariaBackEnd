@@ -27,9 +27,16 @@ namespace OrcamentariaBackEnd
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_EQUIPAMENTO_ORCAMENTO (ORCAMENTO_ID, VALOR_UNITARIO_EQUIPAMENTO, QTDE_EQUIPAMENTO, 
                                 EQUIPAMENTO_ID, NOME_EQUIPAMENTO) VALUES(@ORCAMENTO_ID, @VALOR_UNITARIO_EQUIPAMENTO, @QTDE_EQUIPAMENTO, 
-                                @EQUIPAMENTO_ID, @NOME_EQUIPAMENTO)", equipamentoOrcamento);
+                                @EQUIPAMENTO_ID, @NOME_EQUIPAMENTO)", new 
+                    { 
+                        equipamentoOrcamento.ORCAMENTO_ID,
+                        equipamentoOrcamento.VALOR_UNITARIO_EQUIPAMENTO,
+                        equipamentoOrcamento.QTDE_EQUIPAMENTO,
+                        equipamentoOrcamento.EQUIPAMENTO.EQUIPAMENTO_ID,
+                        equipamentoOrcamento.EQUIPAMENTO.NOME_EQUIPAMENTO
+                    });
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT MAX(EQUIPAMENTO_ORCAMENTO_ID) FROM T_ORCA_EQUIPAMENTO_ORCAMENTO").FirstOrDefault());
                 }
             }
             catch (Exception)
