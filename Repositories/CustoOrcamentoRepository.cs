@@ -25,7 +25,12 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_CUSTO_ORCAMENTO (CUSTO_ID, VALOR_CUSTO, ORCAMENTO_ID) 
-                                VALUES(@CUSTO_ID, @VALOR_CUSTO, @ORCAMENTO_ID)", custoOrcamento);
+                                VALUES(@CUSTO_ID, @VALOR_CUSTO, @ORCAMENTO_ID)", new
+                    {
+                                   custoOrcamento.CUSTO_OBRA.CUSTO_ID,
+                                   custoOrcamento.VALOR_CUSTO,
+                                   custoOrcamento.ORCAMENTO_ID
+                    });
 
                     return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
                 }
