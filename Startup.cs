@@ -92,12 +92,20 @@ namespace OrcamentariaBackEnd
 
             services.AddCors(options =>
             {
+                //options.AddPolicy(name: MyAllowSpecificOrigins,
+                //                  builder =>
+                //                  {
+                //                      builder.WithOrigins("http://localhost:3000")
+                //                      .WithHeaders(HeaderNames.ContentType, "application/json")
+                //                      .WithMethods("PUT", "DELETE", "GET", "POST", "OPTIONS"); ;
+                //                  });
+
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:3000")
-                                      .WithHeaders(HeaderNames.ContentType, "application/json")
-                                      .WithMethods("PUT", "DELETE", "GET", "POST", "OPTIONS"); ;
+                                      builder.AllowAnyOrigin()
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod(); ;
                                   });
             });
         }
