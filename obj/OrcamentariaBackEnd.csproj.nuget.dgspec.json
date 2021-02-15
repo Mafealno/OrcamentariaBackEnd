@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj": {}
+    "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj": {
+    "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
+        "projectUniqueName": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
         "projectName": "OrcamentariaBackEnd",
-        "projectPath": "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
-        "packagesPath": "C:\\Users\\marcelo.nogueira\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\obj\\",
+        "projectPath": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
+        "packagesPath": "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\marcelo.nogueira\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Marcelo Fernando\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +29,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -38,7 +40,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "CompareNETObjects": {
               "target": "Package",
@@ -51,6 +52,10 @@
             "Dapper.Contrib": {
               "target": "Package",
               "version": "[2.0.35, )"
+            },
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
             },
             "MySql.Data": {
               "target": "Package",
@@ -67,16 +72,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[3.1.10, 3.1.10]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.10, 3.1.10]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -85,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
