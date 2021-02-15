@@ -3479,7 +3479,7 @@
       ]
     },
     "System.Net.Http/4.3.0": {
-      "sha512": "6BBc6BUa7pWFL7KUI/c8wb18IobTZHTtcQKksxJI5F9DRDShdtOvBEJzg5jJbFdTll7gRE+5yXUlq72ciLE+QQ==",
+      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
       "type": "package",
       "path": "system.net.http/4.3.0",
       "files": [
@@ -5899,23 +5899,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\marcelo.nogueira\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
+      "projectUniqueName": "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
       "projectName": "OrcamentariaBackEnd",
-      "projectPath": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
-      "packagesPath": "C:\\Users\\Marcelo Fernando\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Marcelo Fernando\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\obj\\",
+      "projectPath": "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\OrcamentariaBackEnd.csproj",
+      "packagesPath": "C:\\Users\\marcelo.nogueira\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\marcelo.nogueira\\OneDrive - A. Telecom Teleinformática LTDA\\Documents\\Orcamentaria\\OrcamentariaBackEnd\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Marcelo Fernando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\marcelo.nogueira\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5927,6 +5923,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -5938,6 +5935,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "CompareNETObjects": {
             "target": "Package",
@@ -5966,6 +5964,16 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.10, 3.1.10]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.1.10, 3.1.10]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -5974,7 +5982,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
