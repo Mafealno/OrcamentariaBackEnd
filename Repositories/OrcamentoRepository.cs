@@ -17,7 +17,7 @@ namespace OrcamentariaBackEnd
             this.Conexao = conexao;
         }
 
-        public OrcamentoModel Create(OrcamentoModel orcamento)
+        public OrcamentoGeralModel Create(OrcamentoGeralModel orcamento)
         {
             try
             {
@@ -68,17 +68,17 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public OrcamentoModel Find(int orcamentoId)
+        public OrcamentoGeralModel Find(int orcamentoId)
         {
             try
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<OrcamentoModel>("SELECT * FROM T_ORCA_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
+                    var resposta = cn.Query<OrcamentoGeralModel>("SELECT * FROM T_ORCA_ORCAMENTO WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
 
                     if (resposta.Count() == 0)
                     {
-                        return new OrcamentoModel();
+                        return new OrcamentoGeralModel();
                     }
                     else
                     {
@@ -93,13 +93,13 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<OrcamentoModel> List()
+        public IEnumerable<OrcamentoGeralModel> List()
         {
             try
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<OrcamentoModel>("SELECT * FROM T_ORCA_ORCAMENTO");
+                    var resposta = cn.Query<OrcamentoGeralModel>("SELECT * FROM T_ORCA_ORCAMENTO");
 
                     return resposta;
                 }
@@ -111,7 +111,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void Update(int orcamentoId, OrcamentoModel orcamento)
+        public void Update(int orcamentoId, OrcamentoGeralModel orcamento)
         {
             try
             {

@@ -11,10 +11,12 @@ namespace OrcamentariaBackEnd.Controllers
     public class OrcamentoIntumescenteController : ControllerBase
     {
         private OrcamentoIntumescenteService OrcamentoIntumescenteService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public OrcamentoIntumescenteController(OrcamentoIntumescenteService orcamentoIntumescenteService)
+        public OrcamentoIntumescenteController(OrcamentoIntumescenteService orcamentoIntumescenteService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.OrcamentoIntumescenteService = orcamentoIntumescenteService;
+            this.TotaisOrcamentoService = totaisOrcamentoService;
         }
 
         [HttpGet]
@@ -50,7 +52,9 @@ namespace OrcamentariaBackEnd.Controllers
         {
             try
             {
-                return OrcamentoIntumescenteService.Post(orcamentoIntumescente);
+                var orca = OrcamentoIntumescenteService.Post(orcamentoIntumescente);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(orca.ORCAMENTO_ID);
+                return orca;
             }
             catch (Exception)
             {
@@ -65,6 +69,7 @@ namespace OrcamentariaBackEnd.Controllers
             try
             {
                 OrcamentoIntumescenteService.Put(orcamentoId, orcamentoIntumescente);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(orcamentoId);
             }
             catch (Exception)
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OrcamentariaBackEnd
 {
@@ -14,12 +13,12 @@ namespace OrcamentariaBackEnd
         private MaoObraOrcamentoService MaoObraOrcamentoService;
         private EquipamentoOrcamentoService EquipamentoOrcamentoService;
         private CustoOrcamentoService CustoOrcamentoService;
-        private TotaisOrcamentoService TotaisOrcamentoService;
+        private TotaisOrcamentoRepository TotaisOrcamentoRepository;
 
         public OrcamentoService(IOrcamentoRepository orcamentoRepository, MetodosGenericosService metodosGenericosService,
             PessoaService pessoaService, ItensOrcamentoGeralService itensOrcamentoGeralService, 
             MaoObraOrcamentoService maoObraOrcamentoService, EquipamentoOrcamentoService equipamentoOrcamentoService, 
-            CustoOrcamentoService custoOrcamentoService, TotaisOrcamentoService totaisOrcamentoService)
+            CustoOrcamentoService custoOrcamentoService, TotaisOrcamentoRepository totaisOrcamentoRepository)
         {
             this.OrcamentoRepository = orcamentoRepository;
             this.MetodosGenericosService = metodosGenericosService;
@@ -28,16 +27,16 @@ namespace OrcamentariaBackEnd
             this.MaoObraOrcamentoService = maoObraOrcamentoService;
             this.EquipamentoOrcamentoService = equipamentoOrcamentoService;
             this.CustoOrcamentoService = custoOrcamentoService;
-            this.TotaisOrcamentoService = totaisOrcamentoService;
+            this.TotaisOrcamentoRepository = totaisOrcamentoRepository;
         }
 
-        public IEnumerable<OrcamentoModel> Get()
+        public IEnumerable<OrcamentoGeralModel> Get()
         {
             try
             {
                 var listOrcamento = OrcamentoRepository.List();
 
-                foreach(OrcamentoModel orcamento in listOrcamento)
+                foreach(OrcamentoGeralModel orcamento in listOrcamento)
                 {
                     var pessoaId = MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_ORCAMENTO", $"ORCAMENTO_ID = {orcamento.ORCAMENTO_ID}");
                     orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(int.Parse(pessoaId), "")).ToArray()[0];
@@ -46,7 +45,7 @@ namespace OrcamentariaBackEnd
                     orcamento.LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamentoService.Get(orcamento.ORCAMENTO_ID).ToList();
                     orcamento.LIST_CUSTO_ORCAMENTO = CustoOrcamentoService.GetComParametro(new CustoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
                     orcamento.LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamentoService.GetComParametro(new EquipamentoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
-                    orcamento.TOTAIS_ORCAMENTO = TotaisOrcamentoService.GetComParametro(new TotaisOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToArray()[0];
+                    orcamento.TOTAIS_ORCAMENTO = TotaisOrcamentoRepository.FindPorOrcamentoId(orcamento.ORCAMENTO_ID);
                 }
 
                 return listOrcamento;
@@ -58,14 +57,14 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<OrcamentoModel> Get(int orcamentoId)
+        public IEnumerable<OrcamentoGeralModel> Get(int orcamentoId)
         {
             try
             {
-                List<OrcamentoModel> listOrcamento = new List<OrcamentoModel>();
+                List<OrcamentoGeralModel> listOrcamento = new List<OrcamentoGeralModel>();
                 listOrcamento.Add(OrcamentoRepository.Find(orcamentoId));
 
-                foreach (OrcamentoModel orcamento in listOrcamento)
+                foreach (OrcamentoGeralModel orcamento in listOrcamento)
                 {
                     var pessoaId = MetodosGenericosService.DlookupOrcamentaria("PESSOA_ID", "T_ORCA_ORCAMENTO", $"ORCAMENTO_ID = {orcamento.ORCAMENTO_ID}");
                     orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(int.Parse(pessoaId), "")).ToArray()[0];
@@ -74,7 +73,7 @@ namespace OrcamentariaBackEnd
                     orcamento.LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamentoService.Get(orcamento.ORCAMENTO_ID).ToList();
                     orcamento.LIST_CUSTO_ORCAMENTO = CustoOrcamentoService.GetComParametro(new CustoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
                     orcamento.LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamentoService.GetComParametro(new EquipamentoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
-                    orcamento.TOTAIS_ORCAMENTO = TotaisOrcamentoService.GetComParametro(new TotaisOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToArray()[0];
+                    orcamento.TOTAIS_ORCAMENTO = TotaisOrcamentoRepository.FindPorOrcamentoId(orcamento.ORCAMENTO_ID);
                 }
 
                 return listOrcamento;
@@ -86,7 +85,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public OrcamentoModel Post(OrcamentoModel orcamento)
+        public OrcamentoGeralModel Post(OrcamentoGeralModel orcamento)
         {
             try
             {
@@ -98,7 +97,7 @@ namespace OrcamentariaBackEnd
 
                 orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
 
-                OrcamentoModel orcamentoCriado = OrcamentoRepository.Create(orcamento);
+                OrcamentoGeralModel orcamentoCriado = OrcamentoRepository.Create(orcamento);
 
                 orcamentoCriado.CLIENTE_ORCAMENTO = orcamento.CLIENTE_ORCAMENTO;
 
@@ -111,7 +110,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void Put(int orcamentoId, OrcamentoModel orcamento)
+        public void Put(int orcamentoId, OrcamentoGeralModel orcamento)
         {
             try
             {
@@ -151,7 +150,7 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                TotaisOrcamentoService.DeleteComParametro(new TotaisOrcamentoQO(0, orcamentoId));
+                TotaisOrcamentoRepository.DeletePorOrcamentoId(orcamentoId);
 
                 MaoObraOrcamentoService.Delete(orcamentoId);
                 

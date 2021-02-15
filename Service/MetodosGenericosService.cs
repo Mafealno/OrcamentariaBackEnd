@@ -19,7 +19,7 @@ namespace OrcamentariaBackEnd
         public MetodosGenericosService(IMetodosGenericosRepository metodosGenericosRepository, IConfiguration configuration)
         {
             this.MetodosGenericosRepository = metodosGenericosRepository;
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public string DlookupOrcamentaria(string campoBuscado, string tabela, string where)
@@ -138,7 +138,34 @@ namespace OrcamentariaBackEnd
 
                 throw;
             }
+        }
 
+        public double RetornarFator(string tipo, int diasTrabalhado)
+        {
+            var fator = 1;
+            switch (tipo)
+            {
+                case "UNICO":
+                    fator = 1;
+                    break;
+                case "ANUAL":
+                    fator = diasTrabalhado / 364;
+                    break;
+                case "MENSAL":
+                    fator = diasTrabalhado / 30;
+                    break;
+                case "SEMANAL":
+                    fator = diasTrabalhado / 7;
+                    break;
+                case "DIARIO":
+                    fator = diasTrabalhado;
+                    break;
+                default:
+                    fator = 1;
+                    break;
+            }
+
+            return Math.Round(fator + 0.4);
         }
     }
 }

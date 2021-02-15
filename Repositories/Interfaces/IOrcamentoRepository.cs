@@ -7,14 +7,14 @@ namespace OrcamentariaBackEnd
 {
     public interface IOrcamentoRepository
     {
-        OrcamentoModel Create(OrcamentoModel orcamento);
+        OrcamentoGeralModel Create(OrcamentoGeralModel orcamento);
 
-        void Update(int orcamentoId, OrcamentoModel orcamento);
+        void Update(int orcamentoId, OrcamentoGeralModel orcamento);
 
         void Delete(int orcamentoId);
 
-        IEnumerable<OrcamentoModel> List();
+        IEnumerable<OrcamentoGeralModel> List();
 
-        OrcamentoModel Find(int orcamentoId);
+        OrcamentoGeralModel Find(int orcamentoId);
     }
 }

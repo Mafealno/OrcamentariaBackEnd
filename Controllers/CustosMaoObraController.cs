@@ -12,10 +12,12 @@ namespace OrcamentariaBackEnd
     {
 
         private CustosMaoObraService CustosMaoObraService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public CustosMaoObraController(CustosMaoObraService custosMaoObraService)
+        public CustosMaoObraController(CustosMaoObraService custosMaoObraService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.CustosMaoObraService = custosMaoObraService;
+            this.TotaisOrcamentoService = totaisOrcamentoService;
         }
 
 
@@ -53,6 +55,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 CustosMaoObraService.Post(maoObraOrcamento, maoObraOrcamento.LIST_CUSTO[0]);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(maoObraOrcamento.ORCAMENTO_ID);
             }
             catch (Exception)
             {
@@ -66,7 +69,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                CustosMaoObraService.Put(maoObraOrcamentoId, custoId, maoObraOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(CustosMaoObraService.Put(maoObraOrcamentoId, custoId, maoObraOrcamento));
             }
             catch (Exception)
             {
@@ -80,7 +83,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                CustosMaoObraService.Delete(maoObraOrcamentoId);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(CustosMaoObraService.Delete(maoObraOrcamentoId));
             }
             catch (Exception)
             {
@@ -93,8 +96,8 @@ namespace OrcamentariaBackEnd
         public void Delete(int maoObraOrcamentoId, int custoId)
         {
             try
-                {
-                CustosMaoObraService.Delete(maoObraOrcamentoId, custoId);
+            {
+                TotaisOrcamentoService.CalcularTotaisOrcamento(CustosMaoObraService.Delete(maoObraOrcamentoId, custoId));
             }
             catch (Exception)
             {

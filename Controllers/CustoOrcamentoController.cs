@@ -12,10 +12,12 @@ namespace OrcamentariaBackEnd
     {
 
         private CustoOrcamentoService CustoOrcamentoService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public CustoOrcamentoController(CustoOrcamentoService custoOrcamentoService)
+        public CustoOrcamentoController(CustoOrcamentoService custoOrcamentoService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.CustoOrcamentoService = custoOrcamentoService;
+            this.TotaisOrcamentoService = totaisOrcamentoService;
         }
 
         [HttpGet]
@@ -51,7 +53,9 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                return CustoOrcamentoService.Post(custoOrcamento);
+                var custo = CustoOrcamentoService.Post(custoOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(custoOrcamento.ORCAMENTO_ID);
+                return custo;
             }
             catch (Exception)
             {
@@ -66,6 +70,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 CustoOrcamentoService.Put(custoOrcamentoId, custoOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(custoOrcamento.ORCAMENTO_ID);
             }
             catch (Exception)
             {
@@ -79,7 +84,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                CustoOrcamentoService.DeleteComParametro(custoOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(CustoOrcamentoService.DeleteComParametro(custoOrcamento));
             }
             catch (Exception)
             {

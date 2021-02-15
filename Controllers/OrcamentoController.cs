@@ -13,14 +13,16 @@ namespace OrcamentariaBackEnd
     {
 
         private OrcamentoService OrcamentoService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public OrcamentoController(OrcamentoService orcamentoService)
+        public OrcamentoController(OrcamentoService orcamentoService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.OrcamentoService = orcamentoService;
+            this.TotaisOrcamentoService = totaisOrcamentoService;
         }
 
         [HttpGet]
-        public IEnumerable<OrcamentoModel> Get()
+        public IEnumerable<OrcamentoGeralModel> Get()
         {
             try
             {
@@ -34,7 +36,7 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpGet("{orcamentoId}")]
-        public IEnumerable<OrcamentoModel> Get(int orcamentoId)
+        public IEnumerable<OrcamentoGeralModel> Get(int orcamentoId)
         {
             try
             {
@@ -48,11 +50,13 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpPost]
-        public OrcamentoModel Post([FromBody] OrcamentoModel orcamento)
+        public OrcamentoGeralModel Post([FromBody] OrcamentoGeralModel orcamento)
         {
             try
             {
-                return OrcamentoService.Post(orcamento);
+                var orca = OrcamentoService.Post(orcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(orca.ORCAMENTO_ID);
+                return orca;
             }
             catch (Exception)
             {
@@ -62,11 +66,12 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpPut("{orcamentoId}")]
-        public void Put(int orcamentoId, [FromBody] OrcamentoModel orcamento)
+        public void Put(int orcamentoId, [FromBody] OrcamentoGeralModel orcamento)
         {
             try
             {
                 OrcamentoService.Put(orcamentoId, orcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(orcamentoId);
             }
             catch (Exception)
             {

@@ -29,7 +29,7 @@ namespace OrcamentariaBackEnd
                                 @TOTAIS_ITENS, @TOTAIS_MAO_OBRA, @TOTAIS_EQUIPAMENTOS, @TOTAIS_CUSTOS, @TOTAL_GERAL, 
                                 @AREA_TOTAL)", totaisOrcamento);
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").FirstOrDefault());
                 }
             }
             catch (Exception)
@@ -45,7 +45,7 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute("DELETE FROM T_ORCA_TOTAIS_ORCAMENTO WHERE TOTAIS_ID = @totaisOrcamentoId", new { totaisOrcamentoId });
+                    cn.Execute("DELETE FROM T_ORCA_TOTAIS_ORCAMENTO WHERE TOTAIS_ORCAMENTO_ID = @totaisOrcamentoId", new { totaisOrcamentoId });
                 }
             }
             catch (Exception)
@@ -78,7 +78,7 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     var resposta = cn.Query<TotaisOrcamentoModel>(@"SELECT * FROM T_ORCA_TOTAIS_ORCAMENTO 
-                                                                    WHERE TOTAIS_ID = @totaisOrcamentoId", new { totaisOrcamentoId });
+                                                                    WHERE TOTAIS_ORCAMENTO_ID = @totaisOrcamentoId", new { totaisOrcamentoId });
 
                     if (resposta.Count() == 0)
                     {

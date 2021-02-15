@@ -10,11 +10,13 @@ namespace OrcamentariaBackEnd
     {
 
         private MaoObraOrcamentoService MaoObraOrcamentoService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public MaoObraOrcamentoController(MaoObraOrcamentoService maoObraOrcamentoService)
+        public MaoObraOrcamentoController(MaoObraOrcamentoService maoObraOrcamentoService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.MaoObraOrcamentoService = maoObraOrcamentoService;
-        }
+            this.TotaisOrcamentoService = totaisOrcamentoService;
+    }
 
         [HttpGet]
         public IEnumerable<MaoObraOrcamentoModel> Get()
@@ -63,7 +65,9 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                return MaoObraOrcamentoService.Post(maoObraOrcamento);
+                var maoObra = MaoObraOrcamentoService.Post(maoObraOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(maoObraOrcamento.ORCAMENTO_ID);
+                return maoObra;
             }
             catch (Exception)
             {
@@ -78,6 +82,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 MaoObraOrcamentoService.Put(maoObraOrcamentoId, maoObraOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(maoObraOrcamento.ORCAMENTO_ID);
             }
             catch (Exception)
             {
@@ -92,6 +97,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 MaoObraOrcamentoService.Delete(orcamentoId);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(orcamentoId);
             }
             catch (Exception)
             {
@@ -106,6 +112,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 MaoObraOrcamentoService.Delete(maoObraOrcamentoId, orcamentoId);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(orcamentoId);
             }
             catch (Exception)
             {

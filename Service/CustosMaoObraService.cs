@@ -85,38 +85,50 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void Put(int maoObraOrcamentoId, int custoId, MaoObraOrcamentoModel maoObraOrcamento)
+        public int Put(int maoObraOrcamentoId, int custoId, MaoObraOrcamentoModel maoObraOrcamento)
         {
             try
             {
+                var orcamentoId = 0;
+
                 var where = $"MAO_OBRA_ORCAMENTO_ID = {maoObraOrcamentoId} AND CUSTO_ID = {custoId}";
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MAO_OBRA_ORCAMENTO_ID", "T_ORCA_CUSTOS_MAO_OBRA", where)))
                 {
                     throw new Exception();
                 }
 
+                where = $"MAO_OBRA_ORCAMENTO_ID = {maoObraOrcamentoId}";
+                orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_MAO_OBRA_ORCAMENTO", where));
+
                 var custosMaoObraDB = Get(maoObraOrcamentoId, custoId);
 
                 CustosMaoObraRepository.Update(maoObraOrcamentoId, custoId, maoObraOrcamento, maoObraOrcamento.LIST_CUSTO[0]);
+
+                return orcamentoId;
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
-        public void Delete(int maoObraOrcamentoId)
+        public int Delete(int maoObraOrcamentoId)
         {
             try
             {
+                var orcamentoId = 0;
+                
                 var where = $"MAO_OBRA_ORCAMENTO_ID = {maoObraOrcamentoId}";
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MAO_OBRA_ORCAMENTO_ID", "T_ORCA_MAO_OBRA_ORCAMENTO", where)))
                 {
                     throw new Exception();
                 }
 
+                orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_OBRA", where));
+
                 CustosMaoObraRepository.DeletePorMaoObraOrcamentoId(maoObraOrcamentoId);
+
+                return orcamentoId;
             }
             catch (Exception)
             {
@@ -125,17 +137,24 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void Delete(int maoObraOrcamentoId, int custoId)
+        public int Delete(int maoObraOrcamentoId, int custoId)
         {
             try
             {
+                var orcamentoId = 0;
+                
                 var where = $"MAO_OBRA_ORCAMENTO_ID = {maoObraOrcamentoId} AND CUSTO_ID = {custoId}";
                 if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MAO_OBRA_ORCAMENTO_ID", "T_ORCA_CUSTOS_MAO_OBRA", where)))
                 {
                     throw new Exception();
                 }
 
+                where = $"MAO_OBRA_ORCAMENTO_ID = {maoObraOrcamentoId}";
+                orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_OBRA", where));
+
                 CustosMaoObraRepository.Delete(maoObraOrcamentoId, custoId);
+
+                return orcamentoId;
             }
             catch (Exception)
             {

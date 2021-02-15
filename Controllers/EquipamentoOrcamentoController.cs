@@ -12,10 +12,12 @@ namespace OrcamentariaBackEnd
     {
 
         private EquipamentoOrcamentoService EquipamentoOrcamentoService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public EquipamentoOrcamentoController(EquipamentoOrcamentoService equipamentoOrcamentoService)
+        public EquipamentoOrcamentoController(EquipamentoOrcamentoService equipamentoOrcamentoService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.EquipamentoOrcamentoService = equipamentoOrcamentoService;
+            this.TotaisOrcamentoService = totaisOrcamentoService;
         }
 
 
@@ -53,7 +55,9 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                return EquipamentoOrcamentoService.Post(equipamentoOrcamento);
+                var equipamento = EquipamentoOrcamentoService.Post(equipamentoOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(equipamentoOrcamento.ORCAMENTO_ID);
+                return equipamento;
             }
             catch (Exception)
             {
@@ -68,6 +72,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 EquipamentoOrcamentoService.Put(equipamentoOrcamentoId, equipamentoOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(equipamentoOrcamento.ORCAMENTO_ID);
             }
             catch (Exception)
             {
@@ -81,7 +86,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                EquipamentoOrcamentoService.DeleteComParamenro(equipamentoOrcamento);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(EquipamentoOrcamentoService.DeleteComParamenro(equipamentoOrcamento));
             }
             catch (Exception)
             {

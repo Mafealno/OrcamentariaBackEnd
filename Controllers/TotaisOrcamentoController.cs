@@ -33,11 +33,11 @@ namespace OrcamentariaBackEnd.Controllers
         }
 
         [HttpGet("buscar")]
-        public IEnumerable<TotaisOrcamentoModel> Get([FromQuery] TotaisOrcamentoQO totaisOrcamento)
+        public TotaisOrcamentoModel Get([FromQuery] TotaisOrcamentoQO totaisOrcamento)
         {
             try
             {
-                return TotaisOrcamentoService.Get();
+                return TotaisOrcamentoService.GetComParametro(totaisOrcamento);
             }
             catch (Exception)
             {
@@ -46,41 +46,12 @@ namespace OrcamentariaBackEnd.Controllers
             }
         }
 
-        [HttpPost]
-        public TotaisOrcamentoModel Post([FromBody] TotaisOrcamentoModel totaisOrcamento)
+        [HttpPut("{orcamentoId}")]
+        public void CalcularTotaisOrcamento(int orcamentoId)
         {
             try
             {
-                return TotaisOrcamentoService.Post(totaisOrcamento);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        [HttpPut("{totaisOrcamentoId}")]
-        public void Put(int totaisOrcamentoId, [FromBody] TotaisOrcamentoModel totaisOrcamento)
-        {
-            try
-            {
-                TotaisOrcamentoService.Put(totaisOrcamentoId, totaisOrcamento);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        // DELETE api/<TotaisOrcamentoController>/5
-        [HttpDelete("deletar")]
-        public void Delete([FromQuery] TotaisOrcamentoQO totaisOrcamento)
-        {
-            try
-            {
-                TotaisOrcamentoService.DeleteComParametro(totaisOrcamento);
+                //Totais
             }
             catch (Exception)
             {

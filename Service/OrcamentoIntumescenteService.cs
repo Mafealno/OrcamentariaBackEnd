@@ -14,12 +14,12 @@ namespace OrcamentariaBackEnd
         private MaoObraOrcamentoService MaoObraOrcamentoService;
         private EquipamentoOrcamentoService EquipamentoOrcamentoService;
         private CustoOrcamentoService CustoOrcamentoService;
-        private TotaisOrcamentoService TotaisOrcamentoService;
+        private TotaisOrcamentoRepository TotaisOrcamentoRepository;
 
         public OrcamentoIntumescenteService(IOrcamentoIntumescenteRepository orcamentoIntumescenteRepository, MetodosGenericosService metodosGenericosService,
             PessoaService pessoaService, ItensOrcamentoIntumescenteService itensOrcamentoIntumescenteService,
             MaoObraOrcamentoService maoObraOrcamentoService, EquipamentoOrcamentoService equipamentoOrcamentoService,
-            CustoOrcamentoService custoOrcamentoService, TotaisOrcamentoService totaisOrcamentoService)
+            CustoOrcamentoService custoOrcamentoService, TotaisOrcamentoRepository totaisOrcamentoRepository)
         {
             this.OrcamentoIntumescenteRepository = orcamentoIntumescenteRepository;
             this.PessoaService = pessoaService;
@@ -28,7 +28,7 @@ namespace OrcamentariaBackEnd
             this.MaoObraOrcamentoService = maoObraOrcamentoService;
             this.EquipamentoOrcamentoService = equipamentoOrcamentoService;
             this.CustoOrcamentoService = custoOrcamentoService;
-            this.TotaisOrcamentoService = totaisOrcamentoService;
+            this.TotaisOrcamentoRepository = totaisOrcamentoRepository;
         }
 
         public IEnumerable<OrcamentoIntumescenteModel> Get()
@@ -46,7 +46,7 @@ namespace OrcamentariaBackEnd
                     orcamentoIntumescente.LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamentoService.Get(orcamentoIntumescente.ORCAMENTO_ID).ToList();
                     orcamentoIntumescente.LIST_CUSTO_ORCAMENTO = CustoOrcamentoService.GetComParametro(new CustoOrcamentoQO(0, orcamentoIntumescente.ORCAMENTO_ID)).ToList();
                     orcamentoIntumescente.LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamentoService.GetComParametro(new EquipamentoOrcamentoQO(0, orcamentoIntumescente.ORCAMENTO_ID)).ToList();
-                    orcamentoIntumescente.TOTAIS_ORCAMENTO = TotaisOrcamentoService.GetComParametro(new TotaisOrcamentoQO(0, orcamentoIntumescente.ORCAMENTO_ID)).ToArray()[0];
+                    orcamentoIntumescente.TOTAIS_ORCAMENTO = TotaisOrcamentoRepository.FindPorOrcamentoId(orcamentoIntumescente.ORCAMENTO_ID);
                 }
 
                 return listOrcamentoIntumescente;
@@ -74,7 +74,7 @@ namespace OrcamentariaBackEnd
                     orcamentoIntumescente.LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamentoService.Get(orcamentoIntumescente.ORCAMENTO_ID).ToList();
                     orcamentoIntumescente.LIST_CUSTO_ORCAMENTO = CustoOrcamentoService.GetComParametro(new CustoOrcamentoQO(0, orcamentoIntumescente.ORCAMENTO_ID)).ToList();
                     orcamentoIntumescente.LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamentoService.GetComParametro(new EquipamentoOrcamentoQO(0, orcamentoIntumescente.ORCAMENTO_ID)).ToList();
-                    orcamentoIntumescente.TOTAIS_ORCAMENTO = TotaisOrcamentoService.GetComParametro(new TotaisOrcamentoQO(0, orcamentoIntumescente.ORCAMENTO_ID)).ToArray()[0];
+                    orcamentoIntumescente.TOTAIS_ORCAMENTO = TotaisOrcamentoRepository.FindPorOrcamentoId(orcamentoIntumescente.ORCAMENTO_ID);
                 }
 
                 return listOrcamentoIntumescente;
@@ -145,7 +145,7 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                TotaisOrcamentoService.DeleteComParametro(new TotaisOrcamentoQO(0, orcamentoId));
+                TotaisOrcamentoRepository.DeletePorOrcamentoId(orcamentoId);
 
                 MaoObraOrcamentoService.Delete(orcamentoId);
 

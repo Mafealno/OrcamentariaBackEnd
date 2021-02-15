@@ -144,25 +144,43 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void DeleteComParametro(ItensOrcamentoQO itensOrcamentoGeral)
+        public int DeleteComParametro(ItensOrcamentoQO itensOrcamentoGeral)
         {
             try
             {
+                var orcamentoId = 0;
+                
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
 
                 if (itensOrcamentoGeral.OrcamentoId != 0)
                 {
+                    var where = $"ORCAMENTO_ID = {itensOrcamentoGeral.OrcamentoId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO", where)))
+                    {
+                        throw new Exception();
+                    }
+                    orcamentoId = itensOrcamentoGeral.OrcamentoId;
+
                     ItensOrcamentoGeralRepository.DeletePorOrcamentoId(itensOrcamentoGeral.OrcamentoId);
                     ItensOrcamentoService.DeleteComParametro(itensOrcamentoGeral);
                 }
                 else
                 {
+                    var where = $"ITENS_ORCAMENTO_ID = {itensOrcamentoGeral.ItensOrcamentoId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ITENS_ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", where)))
+                    {
+                        throw new Exception();
+                    }
+                    
+                    orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", where));
+                    
                     ItensOrcamentoGeralRepository.Delete(itensOrcamentoGeral.ItensOrcamentoId);
-
                     ItensOrcamentoService.DeleteComParametro(itensOrcamentoGeral);
                 }
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
+
+                return orcamentoId;
             }
             catch (Exception)
             {

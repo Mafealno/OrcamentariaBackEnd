@@ -12,10 +12,12 @@ namespace OrcamentariaBackEnd
     {
 
         private ItensOrcamentoGeralService ItensOrcamentoGeralService;
+        private TotaisOrcamentoService TotaisOrcamentoService;
 
-        public ItensOrcamentoGeralController(ItensOrcamentoGeralService itensOrcamentoGeralService)
+        public ItensOrcamentoGeralController(ItensOrcamentoGeralService itensOrcamentoGeralService, TotaisOrcamentoService totaisOrcamentoService)
         {
             this.ItensOrcamentoGeralService = itensOrcamentoGeralService;
+            this.TotaisOrcamentoService = totaisOrcamentoService;
         }
 
         [HttpGet]
@@ -51,7 +53,9 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                return ItensOrcamentoGeralService.Post(itensOrcamentoGeral);
+                var itens = ItensOrcamentoGeralService.Post(itensOrcamentoGeral);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(itensOrcamentoGeral.ORCAMENTO_ID);
+                return itens;
             }
             catch (Exception)
             {
@@ -66,6 +70,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 ItensOrcamentoGeralService.Put(itensOrcamentoId, itensOrcamentoGeral);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(itensOrcamentoGeral.ORCAMENTO_ID);
             }
             catch (Exception)
             {
@@ -79,7 +84,7 @@ namespace OrcamentariaBackEnd
         {
             try
             {
-                ItensOrcamentoGeralService.DeleteComParametro(itensOrcamentoGeral);
+                TotaisOrcamentoService.CalcularTotaisOrcamento(ItensOrcamentoGeralService.DeleteComParametro(itensOrcamentoGeral));
             }
             catch (Exception)
             {

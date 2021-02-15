@@ -9,11 +9,16 @@ namespace OrcamentariaBackEnd
     {
         private ITotaisOrcamentoRepository TotaisOrcamentoRepository;
         private MetodosGenericosService MetodosGenericosService;
+        private OrcamentoService OrcamentoService;
+        private OrcamentoIntumescenteService OrcamentoIntumescenteService;
 
-        public TotaisOrcamentoService(ITotaisOrcamentoRepository totaisOrcamentoRepository, MetodosGenericosService metodosGenericosService)
+        public TotaisOrcamentoService(ITotaisOrcamentoRepository totaisOrcamentoRepository, MetodosGenericosService metodosGenericosService,
+            OrcamentoService orcamentoService, OrcamentoIntumescenteService orcamentoIntumescenteService)
         {
             this.TotaisOrcamentoRepository = totaisOrcamentoRepository;
             this.MetodosGenericosService = metodosGenericosService;
+            this.OrcamentoService = orcamentoService;
+            this.OrcamentoIntumescenteService = orcamentoIntumescenteService;
         }
 
         public IEnumerable<TotaisOrcamentoModel> Get()
@@ -29,7 +34,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public IEnumerable<TotaisOrcamentoModel> GetComParametro(TotaisOrcamentoQO totaisOrcamento)
+        public TotaisOrcamentoModel GetComParametro(TotaisOrcamentoQO totaisOrcamento)
         {
             try
             {
@@ -44,7 +49,7 @@ namespace OrcamentariaBackEnd
                     listTotaisOrcamento.Add(TotaisOrcamentoRepository.Find(totaisOrcamento.TotaisOrcamentoId));
                 }
 
-                return listTotaisOrcamento;
+                return listTotaisOrcamento[0];
             }
             catch (Exception)
             {
@@ -77,7 +82,7 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"TOTAIS_ORCAMENTO_ID = {totaisOrcamentoId}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("totaisOrcamentoId", "T_ORCA_TOTAIS_ORCAMENTO", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("TOTAIS_ORCAMENTO_ID", "T_ORCA_TOTAIS_ORCAMENTO", where)))
                 {
                     throw new Exception();
                 }
@@ -114,6 +119,80 @@ namespace OrcamentariaBackEnd
                     }
                     TotaisOrcamentoRepository.DeletePorOrcamentoId(totaisOrcamento.TotaisOrcamentoId);
                 }   
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void CalcularTotaisOrcamento(int orcamentoId)
+        {
+            try
+            {
+                var where = $"ORCAMENTO_ID = {orcamentoId}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO", where)))
+                {
+                    throw new Exception();
+                }
+
+                var totaisOrcamento = new TotaisOrcamentoModel();
+                var totaisMaoObra = 0.0;
+                var totaisEquipamentos = 0.0;
+                var totaisCustos = 0.0;
+                var totaisItens = 0.0;
+                var totalArea = 0.0;
+                var totalGeral = 0.0;
+
+                var orcamentoDb = OrcamentoService.Get(orcamentoId);
+
+                var diasTrabalhado = orcamentoDb.FirstOrDefault().DIAS_TRABALHADO;
+
+                foreach (MaoObraOrcamentoModel maoObraOrcamento in orcamentoDb.FirstOrDefault().LIST_MAO_OBRA_ORCAMENTO)
+                {
+                    totaisMaoObra += maoObraOrcamento.FUNCIONARIO.VALOR_DIA_TRABALHADO * diasTrabalhado;
+
+                    totaisMaoObra += maoObraOrcamento.LIST_CUSTO.Aggregate(0.0, (acumulador, obj) => acumulador += obj.VALOR_CUSTO * MetodosGenericosService.RetornarFator(obj.TIPO_CUSTO, diasTrabalhado));
+                }
+
+                totaisEquipamentos = orcamentoDb.FirstOrDefault().LIST_EQUIPAMENTO_ORCAMENTO.Aggregate(0.0, (acumulador, obj) => acumulador += obj.VALOR_UNITARIO_EQUIPAMENTO * obj.QTDE_EQUIPAMENTO);
+                totaisCustos = orcamentoDb.FirstOrDefault().LIST_CUSTO_ORCAMENTO.Aggregate(0.0, (acumulador, obj) => acumulador += obj.VALOR_CUSTO * MetodosGenericosService.RetornarFator(obj.CUSTO_OBRA.TIPO_CUSTO, diasTrabalhado));
+
+                if (orcamentoDb.FirstOrDefault().TIPO_OBRA != "Geral")
+                {
+                    var orcamentoIntumescenteDb = OrcamentoIntumescenteService.Get(orcamentoId);
+                    foreach (ItensOrcamentoIntumescenteModel itensOrcamentoIntumescente in orcamentoIntumescenteDb.FirstOrDefault().LIST_ITENS_ORCAMENTO_INTUMESCENTE)
+                    {
+
+                        totalArea += itensOrcamentoIntumescente.VALOR_HP * itensOrcamentoIntumescente.QTDE * itensOrcamentoIntumescente.VALOR_COMPRIMENTO;
+                    }
+
+                    totaisItens = totalArea * orcamentoIntumescenteDb.FirstOrDefault().VALOR_UNITARIO_INTUMESCENTE;
+                }
+                else
+                {
+                    foreach (ItensOrcamentoGeralModel itensOrcamentoGeralModel in orcamentoDb.FirstOrDefault().LIST_ITENS_ORCAMENTO_GERAL)
+                    {
+                        var areaAux = itensOrcamentoGeralModel.AREA;
+                        totalArea += areaAux;
+
+                        totaisItens += areaAux * itensOrcamentoGeralModel.VALOR_M_2;
+                    }
+                }
+
+                totalGeral = totaisItens + totaisMaoObra + totaisEquipamentos + totaisCustos;
+
+                totaisOrcamento = new TotaisOrcamentoModel(0, orcamentoId, totaisItens, totaisMaoObra, totaisEquipamentos, totaisCustos, totalGeral, totalArea);
+
+                if (orcamentoDb.FirstOrDefault().TOTAIS_ORCAMENTO.TOTAIS_ORCAMENTO_ID == 0)
+                {
+                    Post(totaisOrcamento);
+                }
+                else
+                {
+                    Put(orcamentoDb.FirstOrDefault().TOTAIS_ORCAMENTO.TOTAIS_ORCAMENTO_ID, totaisOrcamento);
+                }
             }
             catch (Exception)
             {

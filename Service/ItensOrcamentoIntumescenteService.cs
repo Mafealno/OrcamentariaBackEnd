@@ -195,25 +195,44 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void DeleteComParametro(ItensOrcamentoQO itensOrcamentoIntumescente)
+        public int DeleteComParametro(ItensOrcamentoQO itensOrcamentoIntumescente)
         {
             try
             {
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.START);
 
+                var orcamentoId = 0;
+
                 if (itensOrcamentoIntumescente.OrcamentoId != 0)
                 {
+                    var where = $"ORCAMENTO_ID = {itensOrcamentoIntumescente.OrcamentoId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO", where)))
+                    {
+                        throw new Exception();
+                    }
+
+                    orcamentoId = itensOrcamentoIntumescente.OrcamentoId;
+
                     ItensOrcamentoIntumescenteRepository.DeletePorOrcamentoId(itensOrcamentoIntumescente.OrcamentoId);
                     ItensOrcamentoService.DeleteComParametro(itensOrcamentoIntumescente);
                 }
                 else
                 {
-                    ItensOrcamentoIntumescenteRepository.Delete(itensOrcamentoIntumescente.ItensOrcamentoId);
+                    var where = $"ORCAMENTO_ID = {itensOrcamentoIntumescente.OrcamentoId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO", where)))
+                    {
+                        throw new Exception();
+                    }
 
+                    orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", where));
+
+                    ItensOrcamentoIntumescenteRepository.Delete(itensOrcamentoIntumescente.ItensOrcamentoId);
                     ItensOrcamentoService.DeleteComParametro(itensOrcamentoIntumescente);
                 }
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
+
+                return orcamentoId;
             }
             catch (Exception)
             {

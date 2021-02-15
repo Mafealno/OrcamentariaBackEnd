@@ -7,7 +7,7 @@ namespace OrcamentariaBackEnd
 {
     public class TotaisOrcamentoModel 
     {
-        private int _totaisId;
+        private int _totaisOrcamentoId;
         private int _orcamentoId;
         private double _totaisItens;
         private double _totaisMaoObra;
@@ -16,8 +16,9 @@ namespace OrcamentariaBackEnd
         private double _totalGeral;
         private double _areaTotal;
 
-        public TotaisOrcamentoModel(int totaisId, int orcamentoId, double totaisItens, double totaisMaoObra, double totaisEquipamentos, double totaisCustos, double totalGeral, double areaTotal)
+        public TotaisOrcamentoModel(int totaisOrcamentoId, int orcamentoId, double totaisItens, double totaisMaoObra, double totaisEquipamentos, double totaisCustos, double totalGeral, double areaTotal)
         {
+            TOTAIS_ORCAMENTO_ID = totaisOrcamentoId;
             TOTAIS_ITENS = totaisItens;
             ORCAMENTO_ID = orcamentoId;
             TOTAIS_MAO_OBRA = totaisMaoObra;
@@ -32,7 +33,7 @@ namespace OrcamentariaBackEnd
 
         }
 
-        public int TOTAIS_ID { get => _totaisId; set => _totaisId = value; }
+        public int TOTAIS_ORCAMENTO_ID { get => _totaisOrcamentoId; set => _totaisOrcamentoId = value; }
         public int ORCAMENTO_ID { get => _orcamentoId; set => _orcamentoId = value; }
         public double TOTAIS_ITENS { get => _totaisItens; set => _totaisItens = value; }
         public double TOTAIS_MAO_OBRA { get => _totaisMaoObra; set => _totaisMaoObra = value; }

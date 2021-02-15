@@ -134,10 +134,12 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public void DeleteComParametro(CustoOrcamentoQO custoOrcamento)
+        public int DeleteComParametro(CustoOrcamentoQO custoOrcamento)
         {
             try
             {
+                var orcamentoId = 0;
+
                 if (custoOrcamento.OrcamentoId != 0)
                 {
                     var where = $"ORCAMENTO_ID = {custoOrcamento.OrcamentoId}";
@@ -145,6 +147,8 @@ namespace OrcamentariaBackEnd
                     {
                         throw new Exception();
                     }
+
+                    orcamentoId = custoOrcamento.OrcamentoId;
 
                     CustoOrcamentoRepository.DeletePorOrcamentoId(custoOrcamento.OrcamentoId);
                 }
@@ -156,8 +160,13 @@ namespace OrcamentariaBackEnd
                         throw new Exception();
                     }
 
+                    orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_CUSTO_ORCAMENTO", where));
+
                     CustoOrcamentoRepository.Delete(custoOrcamento.CustoOrcamentoId);
+
                 }
+
+                return orcamentoId;
             }
             catch (Exception)
             {

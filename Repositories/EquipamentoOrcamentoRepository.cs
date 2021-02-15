@@ -146,8 +146,8 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"UPDATE T_ORCA_EQUIPAMENTO_ORCAMENTO SET VALOR_UNITARIO_EQUIPAMENTO = @VALOR_UNITARIO_EQUIPAMENTO, 
-                                EQUIPAMENTO_ID = @EQUIPAMENTO_ID, NOME_EQUIPAMENTO = @NOME_EQUIPAMENTO WHERE 
-                                EQUIPAMENTO_ORCAMENTO_ID = @equipamentoOrcamentoId", new 
+                                QTDE_EQUIPAMENTO = @QTDE_EQUIPAMENTO, EQUIPAMENTO_ID = @EQUIPAMENTO_ID, NOME_EQUIPAMENTO = @NOME_EQUIPAMENTO 
+                                WHERE EQUIPAMENTO_ORCAMENTO_ID = @equipamentoOrcamentoId", new 
                     {
                         equipamentoOrcamento.VALOR_UNITARIO_EQUIPAMENTO,
                         equipamentoOrcamento.QTDE_EQUIPAMENTO, 
