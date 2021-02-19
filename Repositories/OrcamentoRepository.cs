@@ -17,7 +17,7 @@ namespace OrcamentariaBackEnd
             this.Conexao = conexao;
         }
 
-        public OrcamentoGeralModel Create(OrcamentoGeralModel orcamento)
+        public OrcamentoModel Create(OrcamentoModel orcamento)
         {
             try
             {

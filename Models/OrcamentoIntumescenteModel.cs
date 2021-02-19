@@ -22,13 +22,13 @@ namespace OrcamentariaBackEnd
 
         public OrcamentoIntumescenteModel(string grupo, string ocupacaoUso, string classe, string divisao, string tempoResistenciaFogo, 
                                             double qtdeLitrosTotal, double percentualPerda, double qtdeBaldes, double qtdeBaldesReal, double valorUnitarioIntumescente, 
-                                            List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente,
-                                            int orcamentoId, string nomeObra, string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, 
+                                            List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente, int orcamentoId, string nomeObra, 
+                                            string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, 
                                             string contatoObra, string tipoObra, TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, 
-                                            List<ItensOrcamentoGeralModel> itensOrcamentoGeral, List<MaoObraOrcamentoModel> maoObraOrcamento, 
-                                            List<CustoOrcamentoModel> custoOrcamento, List<EquipamentoOrcamentoModel> equipamentoOrcamento) : base(orcamentoId, 
-                                            nomeObra, referencia, prazoEntrega, diasTrabalhado, dataCriacaoOrcamento, contatoObra, tipoObra, totaisOrcamento, clienteOrcamento,
-                                            maoObraOrcamento, custoOrcamento, equipamentoOrcamento)
+                                            List<MaoObraOrcamentoModel> maoObraOrcamento, List<CustoOrcamentoModel> custoOrcamento, 
+                                            List<EquipamentoOrcamentoModel> equipamentoOrcamento, List<MaterialOrcamentoModel> materialOrcamento) : base(orcamentoId, nomeObra, referencia, 
+                                            prazoEntrega, diasTrabalhado, dataCriacaoOrcamento, contatoObra, tipoObra, totaisOrcamento, clienteOrcamento,
+                                            maoObraOrcamento, custoOrcamento, equipamentoOrcamento, materialOrcamento)
         {
             GRUPO = grupo;
             OCUPACAO_USO = ocupacaoUso;
@@ -54,6 +54,7 @@ namespace OrcamentariaBackEnd
             LIST_MAO_OBRA_ORCAMENTO = maoObraOrcamento;
             LIST_CUSTO_ORCAMENTO = custoOrcamento;
             LIST_EQUIPAMENTO_ORCAMENTO = equipamentoOrcamento;
+            LIST_MATERIAL_ORCAMENTO = materialOrcamento;
         }
 
         public OrcamentoIntumescenteModel()

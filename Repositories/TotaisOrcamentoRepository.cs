@@ -25,8 +25,8 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_TOTAIS_ORCAMENTO (ORCAMENTO_ID, TOTAIS_ITENS, TOTAIS_MAO_OBRA, 
-                                TOTAIS_EQUIPAMENTOS, TOTAIS_CUSTOS, TOTAL_GERAL, AREA_TOTAL) VALUES(@ORCAMENTO_ID, 
-                                @TOTAIS_ITENS, @TOTAIS_MAO_OBRA, @TOTAIS_EQUIPAMENTOS, @TOTAIS_CUSTOS, @TOTAL_GERAL, 
+                                TOTAIS_EQUIPAMENTOS, TOTAIS_MATERIAL, TOTAIS_CUSTOS, TOTAL_GERAL, AREA_TOTAL) VALUES(@ORCAMENTO_ID, 
+                                @TOTAIS_ITENS, @TOTAIS_MAO_OBRA, @TOTAIS_EQUIPAMENTOS, @TOTAIS_MATERIAL, @TOTAIS_CUSTOS, @TOTAL_GERAL, 
                                 @AREA_TOTAL)", totaisOrcamento);
 
                     return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").FirstOrDefault());
@@ -148,12 +148,14 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"UPDATE T_ORCA_TOTAIS_ORCAMENTO SET TOTAIS_ITENS = @TOTAIS_ITENS, TOTAIS_MAO_OBRA = @TOTAIS_MAO_OBRA, 
-                                TOTAIS_EQUIPAMENTOS = @TOTAIS_EQUIPAMENTOS, TOTAIS_CUSTOS = @TOTAIS_CUSTOS, TOTAL_GERAL = @TOTAL_GERAL, 
-                                AREA_TOTAL =  @AREA_TOTAL WHERE TOTAIS_ORCAMENTO_ID = @totaisOrcamentoId", new
+                                TOTAIS_EQUIPAMENTOS = @TOTAIS_EQUIPAMENTOS, TOTAIS_MATERIAL = @TOTAIS_MATERIAL, 
+                                TOTAIS_CUSTOS = @TOTAIS_CUSTOS, TOTAL_GERAL = @TOTAL_GERAL, AREA_TOTAL =  @AREA_TOTAL 
+                                WHERE TOTAIS_ORCAMENTO_ID = @totaisOrcamentoId", new
                     {
                         totaisOrcamento.TOTAIS_ITENS,
                         totaisOrcamento.TOTAIS_MAO_OBRA,
                         totaisOrcamento.TOTAIS_EQUIPAMENTOS,
+                        totaisOrcamento.TOTAIS_MATERIAL,
                         totaisOrcamento.TOTAIS_CUSTOS,
                         totaisOrcamento.TOTAL_GERAL,
                         totaisOrcamento.AREA_TOTAL,

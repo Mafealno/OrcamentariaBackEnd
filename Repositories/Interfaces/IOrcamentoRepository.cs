@@ -7,7 +7,7 @@ namespace OrcamentariaBackEnd
 {
     public interface IOrcamentoRepository
     {
-        OrcamentoGeralModel Create(OrcamentoGeralModel orcamento);
+        OrcamentoModel Create(OrcamentoModel orcamento);
 
         void Update(int orcamentoId, OrcamentoGeralModel orcamento);
 

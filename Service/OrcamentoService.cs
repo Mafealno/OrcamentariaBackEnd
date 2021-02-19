@@ -12,13 +12,15 @@ namespace OrcamentariaBackEnd
         private ItensOrcamentoGeralService ItensOrcamentoGeralService;
         private MaoObraOrcamentoService MaoObraOrcamentoService;
         private EquipamentoOrcamentoService EquipamentoOrcamentoService;
+        private MaterialOrcamentoService MaterialOrcamentoService;
         private CustoOrcamentoService CustoOrcamentoService;
         private TotaisOrcamentoRepository TotaisOrcamentoRepository;
 
         public OrcamentoService(IOrcamentoRepository orcamentoRepository, MetodosGenericosService metodosGenericosService,
             PessoaService pessoaService, ItensOrcamentoGeralService itensOrcamentoGeralService, 
-            MaoObraOrcamentoService maoObraOrcamentoService, EquipamentoOrcamentoService equipamentoOrcamentoService, 
-            CustoOrcamentoService custoOrcamentoService, TotaisOrcamentoRepository totaisOrcamentoRepository)
+            MaoObraOrcamentoService maoObraOrcamentoService, EquipamentoOrcamentoService equipamentoOrcamentoService,
+            MaterialOrcamentoService materialOrcamentoService, CustoOrcamentoService custoOrcamentoService, 
+            TotaisOrcamentoRepository totaisOrcamentoRepository)
         {
             this.OrcamentoRepository = orcamentoRepository;
             this.MetodosGenericosService = metodosGenericosService;
@@ -26,6 +28,7 @@ namespace OrcamentariaBackEnd
             this.ItensOrcamentoGeralService = itensOrcamentoGeralService;
             this.MaoObraOrcamentoService = maoObraOrcamentoService;
             this.EquipamentoOrcamentoService = equipamentoOrcamentoService;
+            this.MaterialOrcamentoService = materialOrcamentoService;
             this.CustoOrcamentoService = custoOrcamentoService;
             this.TotaisOrcamentoRepository = totaisOrcamentoRepository;
         }
@@ -45,6 +48,7 @@ namespace OrcamentariaBackEnd
                     orcamento.LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamentoService.Get(orcamento.ORCAMENTO_ID).ToList();
                     orcamento.LIST_CUSTO_ORCAMENTO = CustoOrcamentoService.GetComParametro(new CustoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
                     orcamento.LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamentoService.GetComParametro(new EquipamentoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
+                    orcamento.LIST_MATERIAL_ORCAMENTO = MaterialOrcamentoService.GetComParametro(new MaterialOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
                     orcamento.TOTAIS_ORCAMENTO = TotaisOrcamentoRepository.FindPorOrcamentoId(orcamento.ORCAMENTO_ID);
                 }
 
@@ -73,6 +77,7 @@ namespace OrcamentariaBackEnd
                     orcamento.LIST_MAO_OBRA_ORCAMENTO = MaoObraOrcamentoService.Get(orcamento.ORCAMENTO_ID).ToList();
                     orcamento.LIST_CUSTO_ORCAMENTO = CustoOrcamentoService.GetComParametro(new CustoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
                     orcamento.LIST_EQUIPAMENTO_ORCAMENTO = EquipamentoOrcamentoService.GetComParametro(new EquipamentoOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
+                    orcamento.LIST_MATERIAL_ORCAMENTO = MaterialOrcamentoService.GetComParametro(new MaterialOrcamentoQO(0, orcamento.ORCAMENTO_ID)).ToList();
                     orcamento.TOTAIS_ORCAMENTO = TotaisOrcamentoRepository.FindPorOrcamentoId(orcamento.ORCAMENTO_ID);
                 }
 
@@ -85,7 +90,7 @@ namespace OrcamentariaBackEnd
             }
         }
 
-        public OrcamentoGeralModel Post(OrcamentoGeralModel orcamento)
+        public OrcamentoModel Post(OrcamentoModel orcamento)
         {
             try
             {
@@ -97,7 +102,7 @@ namespace OrcamentariaBackEnd
 
                 orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
 
-                OrcamentoGeralModel orcamentoCriado = OrcamentoRepository.Create(orcamento);
+                OrcamentoModel orcamentoCriado = OrcamentoRepository.Create(orcamento);
 
                 orcamentoCriado.CLIENTE_ORCAMENTO = orcamento.CLIENTE_ORCAMENTO;
 
@@ -157,7 +162,9 @@ namespace OrcamentariaBackEnd
                 CustoOrcamentoService.DeleteComParametro(new CustoOrcamentoQO(0, orcamentoId));
                 
                 EquipamentoOrcamentoService.DeleteComParamenro(new EquipamentoOrcamentoQO(0, orcamentoId));
-                
+
+                MaterialOrcamentoService.DeleteComParamenro(new MaterialOrcamentoQO(0, orcamentoId));
+
                 ItensOrcamentoGeralService.DeleteComParametro(new ItensOrcamentoQO(0, orcamentoId));
 
                 OrcamentoRepository.Delete(orcamentoId);

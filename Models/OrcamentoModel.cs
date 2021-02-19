@@ -18,10 +18,11 @@ namespace OrcamentariaBackEnd
         private List<MaoObraOrcamentoModel> _maoObraOrcamento;
         private List<CustoOrcamentoModel> _custoOrcamento;
         private List<EquipamentoOrcamentoModel> _equipamentoOrcamento;
+        private List<MaterialOrcamentoModel> _materialOrcamento;
 
         public OrcamentoModel(int orcamentoId, string nomeObra, string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, string contatoObra, string tipoObra, 
             TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, List<MaoObraOrcamentoModel> maoObraOrcamento, List<CustoOrcamentoModel> custoOrcamento, 
-            List<EquipamentoOrcamentoModel> equipamentoOrcamento)
+            List<EquipamentoOrcamentoModel> equipamentoOrcamento, List<MaterialOrcamentoModel> materialOrcamento)
         {
             ORCAMENTO_ID = orcamentoId;
             NOME_OBRA = nomeObra;
@@ -36,7 +37,7 @@ namespace OrcamentariaBackEnd
             LIST_MAO_OBRA_ORCAMENTO = maoObraOrcamento;
             LIST_CUSTO_ORCAMENTO = custoOrcamento;
             LIST_EQUIPAMENTO_ORCAMENTO = equipamentoOrcamento;
-
+            LIST_MATERIAL_ORCAMENTO = materialOrcamento;
         }
 
         public OrcamentoModel()
@@ -56,5 +57,6 @@ namespace OrcamentariaBackEnd
         public List<MaoObraOrcamentoModel> LIST_MAO_OBRA_ORCAMENTO { get => _maoObraOrcamento; set => _maoObraOrcamento = value; }
         public List<CustoOrcamentoModel> LIST_CUSTO_ORCAMENTO { get => _custoOrcamento; set => _custoOrcamento = value; }
         public List<EquipamentoOrcamentoModel> LIST_EQUIPAMENTO_ORCAMENTO { get => _equipamentoOrcamento; set => _equipamentoOrcamento = value; }
+        public List<MaterialOrcamentoModel> LIST_MATERIAL_ORCAMENTO { get => _materialOrcamento; set => _materialOrcamento = value; }
     }
 }

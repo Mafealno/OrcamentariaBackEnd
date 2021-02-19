@@ -140,6 +140,7 @@ namespace OrcamentariaBackEnd
                 var totaisOrcamento = new TotaisOrcamentoModel();
                 var totaisMaoObra = 0.0;
                 var totaisEquipamentos = 0.0;
+                var totaisMateriais = 0.0;
                 var totaisCustos = 0.0;
                 var totaisItens = 0.0;
                 var totalArea = 0.0;
@@ -157,6 +158,7 @@ namespace OrcamentariaBackEnd
                 }
 
                 totaisEquipamentos = orcamentoDb.FirstOrDefault().LIST_EQUIPAMENTO_ORCAMENTO.Aggregate(0.0, (acumulador, obj) => acumulador += obj.VALOR_UNITARIO_EQUIPAMENTO * obj.QTDE_EQUIPAMENTO);
+                totaisMateriais = orcamentoDb.FirstOrDefault().LIST_MATERIAL_ORCAMENTO.Aggregate(0.0, (acumulador, obj) => acumulador += obj.VALOR_UNITARIO_MATERIAL * obj.QTDE_MATERIAL);
                 totaisCustos = orcamentoDb.FirstOrDefault().LIST_CUSTO_ORCAMENTO.Aggregate(0.0, (acumulador, obj) => acumulador += obj.VALOR_CUSTO * MetodosGenericosService.RetornarFator(obj.CUSTO_OBRA.TIPO_CUSTO, diasTrabalhado));
 
                 if (orcamentoDb.FirstOrDefault().TIPO_OBRA != "Geral")
@@ -181,9 +183,9 @@ namespace OrcamentariaBackEnd
                     }
                 }
 
-                totalGeral = totaisItens + totaisMaoObra + totaisEquipamentos + totaisCustos;
+                totalGeral = totaisItens + totaisMaoObra + totaisEquipamentos + totaisCustos + totaisMateriais;
 
-                totaisOrcamento = new TotaisOrcamentoModel(0, orcamentoId, totaisItens, totaisMaoObra, totaisEquipamentos, totaisCustos, totalGeral, totalArea);
+                totaisOrcamento = new TotaisOrcamentoModel(0, orcamentoId, totaisItens, totaisMaoObra, totaisEquipamentos, totaisMateriais, totaisCustos, totalGeral, totalArea);
 
                 if (orcamentoDb.FirstOrDefault().TOTAIS_ORCAMENTO.TOTAIS_ORCAMENTO_ID == 0)
                 {

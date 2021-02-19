@@ -50,7 +50,7 @@ namespace OrcamentariaBackEnd
         }
 
         [HttpPost]
-        public OrcamentoGeralModel Post([FromBody] OrcamentoGeralModel orcamento)
+        public OrcamentoModel Post([FromBody] OrcamentoGeralModel orcamento)
         {
             try
             {

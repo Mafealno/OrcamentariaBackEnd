@@ -142,7 +142,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<ItensOrcamentoIntumescenteModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO INNER JOIN T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE 
                                                                                 ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE.ITENS_ORCAMENTO_ID
-                                                                                WHERE ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
+                                                                                WHERE T_ORCA_ITENS_ORCAMENTO.ORCAMENTO_ID = @orcamentoId", new { orcamentoId });
                     
                     return resposta;
                 }

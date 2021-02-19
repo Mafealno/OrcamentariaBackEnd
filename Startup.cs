@@ -47,6 +47,7 @@ namespace OrcamentariaBackEnd
             services.AddScoped<ICustosMaoObraRepository>(sp => new CustosMaoObraRepository(sp.GetService<IConexao>()));
             services.AddScoped<ICustoOrcamentoRepository>(sp => new CustoOrcamentoRepository(sp.GetService<IConexao>()));
             services.AddScoped<IEquipamentoOrcamentoRepository>(sp => new EquipamentoOrcamentoRepository(sp.GetService<IConexao>()));
+            services.AddScoped<IMaterialOrcamentoRepository>(sp => new MaterialOrcamentoRepository(sp.GetService<IConexao>()));
             services.AddScoped<IItensOrcamentoRepository>(sp => new ItensOrcamentoRepository(sp.GetService<IConexao>()));
             services.AddScoped<IItensOrcamentoGeralRepository>(sp => new ItensOrcamentoGeralRepository(sp.GetService<IConexao>()));
             services.AddScoped<IItensOrcamentoIntumescenteRepository>(sp => new ItensOrcamentoIntumescenteRepository(sp.GetService<IConexao>()));
@@ -71,11 +72,12 @@ namespace OrcamentariaBackEnd
             services.AddScoped(sp => new CustosMaoObraService(sp.GetService<ICustosMaoObraRepository>(), sp.GetService<MetodosGenericosService>()));
             services.AddScoped(sp => new CustoOrcamentoService(sp.GetService<ICustoOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<CustoService>()));
             services.AddScoped(sp => new EquipamentoOrcamentoService(sp.GetService<IEquipamentoOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<EquipamentoService>()));
+            services.AddScoped(sp => new MaterialOrcamentoService(sp.GetService<IMaterialOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<MaterialService>()));
             services.AddScoped(sp => new ItensOrcamentoService(sp.GetService<IItensOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<MaterialService>()));
             services.AddScoped(sp => new ItensOrcamentoGeralService(sp.GetService<IItensOrcamentoGeralRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ItensOrcamentoService>(), sp.GetService<MaterialService>()));
             services.AddScoped(sp => new ItensOrcamentoIntumescenteService(sp.GetService<IItensOrcamentoIntumescenteRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ItensOrcamentoService>(), sp.GetService<MaterialService>(), sp.GetService<PerfilService>(), sp.GetService<CartaCoberturaService>()));
-            services.AddScoped(sp => new OrcamentoService(sp.GetService<IOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<ItensOrcamentoGeralService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
-            services.AddScoped(sp => new OrcamentoIntumescenteService(sp.GetService<IOrcamentoIntumescenteRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<ItensOrcamentoIntumescenteService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
+            services.AddScoped(sp => new OrcamentoService(sp.GetService<IOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<ItensOrcamentoGeralService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<MaterialOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
+            services.AddScoped(sp => new OrcamentoIntumescenteService(sp.GetService<IOrcamentoIntumescenteRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<OrcamentoService>(), sp.GetService<ItensOrcamentoIntumescenteService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<MaterialOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
             services.AddScoped(sp => new TotaisOrcamentoService(sp.GetService<ITotaisOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<OrcamentoService>(), sp.GetService<OrcamentoIntumescenteService>()));
 
             services.AddScoped(sp => new TotaisOrcamentoRepository(sp.GetService<IConexao>()));
