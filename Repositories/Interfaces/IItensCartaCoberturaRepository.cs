@@ -28,5 +28,7 @@ namespace OrcamentariaBackEnd
        
         ItensCartaCoberturaModel FindPorValorHpaTempoResistenciaFogo(string valorHpa, string tempoResistenciaFogo);
 
+        ItensCartaCoberturaModel FindPorCartaCoberturaIdValorHpaTempoResistenciaFogo(int cartaCoberturaId, string valorHpa, string tempoResistenciaFogo);
+
     }
 }

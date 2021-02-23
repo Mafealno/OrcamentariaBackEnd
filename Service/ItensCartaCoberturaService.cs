@@ -58,6 +58,19 @@ namespace OrcamentariaBackEnd
             }
         }
 
+        public ItensCartaCoberturaModel Get(int cartaCoberturaId, string valorHpa, string tempoResistenciaFogo)
+        {
+            try
+            {
+                return ItensCartaCoberturaRepository.FindPorCartaCoberturaIdValorHpaTempoResistenciaFogo(cartaCoberturaId, ArredondaHpA(Math.Round(float.Parse(valorHpa.Replace('.', ','))).ToString()), tempoResistenciaFogo);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public ItensCartaCoberturaModel Post(ItensCartaCoberturaModel itensCartaCobertura)
         {
             try
@@ -139,6 +152,30 @@ namespace OrcamentariaBackEnd
 
                     ItensCartaCoberturaRepository.Delete(itensCartaCobertura.ItensCartaCoberturaId);
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string ArredondaHpA(string valorHpA)
+        {
+            try
+            {
+                var ultimoDigito = valorHpA.Substring(valorHpA.Length - 1);
+
+                if (ultimoDigito == "1" || ultimoDigito == "2" || ultimoDigito == "8" || ultimoDigito == "9")
+                {
+                    valorHpA = valorHpA.Substring(0, valorHpA.Length - 1) + "0";
+                }
+                else if (ultimoDigito == "6" || ultimoDigito == "7" || ultimoDigito == "3" || ultimoDigito == "4")
+                {
+                    valorHpA = valorHpA.Substring(0, valorHpA.Length - 1) + "5";
+                }
+
+                return valorHpA;
             }
             catch (Exception)
             {

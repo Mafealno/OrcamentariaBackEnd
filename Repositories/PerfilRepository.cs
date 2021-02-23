@@ -84,7 +84,7 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    var resposta = cn.Query<PerfilModel>("SELECT * FROM T_ORCA_PERFIL WHERE PERFIL_ID LIKE @nomePerfil", new { nomePerfil = nomePerfil + '%' });
+                    var resposta = cn.Query<PerfilModel>("SELECT * FROM T_ORCA_PERFIL WHERE NOME_PERFIL LIKE @nomePerfil", new { nomePerfil = '%' + nomePerfil + '%' });
                     
                     return resposta;
                 }

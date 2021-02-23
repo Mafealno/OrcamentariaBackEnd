@@ -25,17 +25,13 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO (ORCAMENTO_ID, NUMERO_LINHA, VALOR_COMPRIMENTO, AREA,
-                                MATERIAL_ID, NOME_MATERIAL, DESCRICAO_MATERIAL) VALUES(@ORCAMENTO_ID, @NUMERO_LINHA, @VALOR_COMPRIMENTO,
-                                @AREA, @MATERIAL_ID, @NOME_MATERIAL, @DESCRICAO_MATERIAL)", new 
+                    cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO (ORCAMENTO_ID, NUMERO_LINHA, VALOR_COMPRIMENTO, AREA) 
+                                    VALUES(@ORCAMENTO_ID, @NUMERO_LINHA, @VALOR_COMPRIMENTO, @AREA)", new 
                     { 
                         itensOrcamento.ORCAMENTO_ID,
                         itensOrcamento.NUMERO_LINHA, 
                         itensOrcamento.VALOR_COMPRIMENTO, 
-                        itensOrcamento.AREA, 
-                        itensOrcamento.PRODUTO.MATERIAL_ID,
-                        itensOrcamento.PRODUTO.NOME_MATERIAL, 
-                        itensOrcamento.PRODUTO.DESCRICAO_MATERIAL 
+                        itensOrcamento.AREA
                     });
 
                     return Find(cn.Query<int>("SELECT ITENS_ORCAMENTO_ID FROM T_ORCA_ITENS_ORCAMENTO ORDER BY ITENS_ORCAMENTO_ID DESC LIMIT 1").ToArray()[0]);
@@ -147,16 +143,13 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO SET NUMERO_LINHA = @NUMERO_LINHA, VALOR_COMPRIMENTO = @VALOR_COMPRIMENTO, AREA = @AREA,
-                                MATERIAL_ID = @MATERIAL_ID, NOME_MATERIAL = @NOME_MATERIAL, DESCRICAO_MATERIAL = @DESCRICAO_MATERIAL
+                    cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO SET NUMERO_LINHA = @NUMERO_LINHA, 
+                                VALOR_COMPRIMENTO = @VALOR_COMPRIMENTO, AREA = @AREA
                                 WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new 
                     { 
                         itensOrcamento.NUMERO_LINHA, 
                         itensOrcamento.VALOR_COMPRIMENTO,
-                        itensOrcamento.AREA, 
-                        itensOrcamento.PRODUTO.MATERIAL_ID, 
-                        itensOrcamento.PRODUTO.NOME_MATERIAL, 
-                        itensOrcamento.PRODUTO.DESCRICAO_MATERIAL,
+                        itensOrcamento.AREA,
                         itensOrcamentoId
                     });
 

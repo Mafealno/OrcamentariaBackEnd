@@ -146,6 +146,44 @@ namespace OrcamentariaBackEnd
             }
         }
 
+        public CartaCoberturaModel Get(int materialId, string referencia, string valorHpa, string tempoResistenciafogo)
+        {
+            try
+            {
+                var where = $"MATERIAL_ID = {materialId}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
+                {
+                    throw new Exception();
+                }
+
+                var material = MaterialService.GetComParametro(new MaterialQO(materialId, "", "")).FirstOrDefault();
+
+                var cartaCobertura = CartaCoberturaRepository.ListPorReferenciaEPessoaIdEMaterialId(referencia, material.FABRICANTE.PESSOA_ID, materialId).FirstOrDefault();
+
+                if(cartaCobertura != null)
+                {
+                    cartaCobertura.LIST_ITENS_CARTA_COBERTURA = new List<ItensCartaCoberturaModel>();
+
+                    cartaCobertura.LIST_ITENS_CARTA_COBERTURA.Add(ItensCartaCoberturaService.Get(cartaCobertura.CARTA_COBERTURA_ID, valorHpa, tempoResistenciafogo));
+
+                    cartaCobertura.MATERIAL = material;
+                }
+                else
+                {
+                    cartaCobertura = new CartaCoberturaModel();
+                }
+
+
+                return cartaCobertura;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public IEnumerable<CartaCoberturaModel> GetComParametro(CartaCoberturaQO cartaCobertura)
         {
             try

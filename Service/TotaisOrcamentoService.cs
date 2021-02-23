@@ -9,15 +9,15 @@ namespace OrcamentariaBackEnd
     {
         private ITotaisOrcamentoRepository TotaisOrcamentoRepository;
         private MetodosGenericosService MetodosGenericosService;
-        private OrcamentoService OrcamentoService;
+        private OrcamentoGeralService OrcamentoGeralService;
         private OrcamentoIntumescenteService OrcamentoIntumescenteService;
 
         public TotaisOrcamentoService(ITotaisOrcamentoRepository totaisOrcamentoRepository, MetodosGenericosService metodosGenericosService,
-            OrcamentoService orcamentoService, OrcamentoIntumescenteService orcamentoIntumescenteService)
+            OrcamentoGeralService orcamentoGeralService, OrcamentoIntumescenteService orcamentoIntumescenteService)
         {
             this.TotaisOrcamentoRepository = totaisOrcamentoRepository;
             this.MetodosGenericosService = metodosGenericosService;
-            this.OrcamentoService = orcamentoService;
+            this.OrcamentoGeralService = orcamentoGeralService;
             this.OrcamentoIntumescenteService = orcamentoIntumescenteService;
         }
 
@@ -146,7 +146,7 @@ namespace OrcamentariaBackEnd
                 var totalArea = 0.0;
                 var totalGeral = 0.0;
 
-                var orcamentoDb = OrcamentoService.Get(orcamentoId);
+                var orcamentoDb = OrcamentoGeralService.Get(orcamentoId);
 
                 var diasTrabalhado = orcamentoDb.FirstOrDefault().DIAS_TRABALHADO;
 
@@ -163,14 +163,17 @@ namespace OrcamentariaBackEnd
 
                 if (orcamentoDb.FirstOrDefault().TIPO_OBRA != "Geral")
                 {
-                    var orcamentoIntumescenteDb = OrcamentoIntumescenteService.Get(orcamentoId);
-                    foreach (ItensOrcamentoIntumescenteModel itensOrcamentoIntumescente in orcamentoIntumescenteDb.FirstOrDefault().LIST_ITENS_ORCAMENTO_INTUMESCENTE)
-                    {
+                    if (!string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO_INTUMESCENTE", where)))
+                    {                    
+                        var orcamentoIntumescenteDb = OrcamentoIntumescenteService.Get(orcamentoId);
+                        foreach (ItensOrcamentoIntumescenteModel itensOrcamentoIntumescente in orcamentoIntumescenteDb.FirstOrDefault().LIST_ITENS_ORCAMENTO_INTUMESCENTE)
+                        {
 
-                        totalArea += itensOrcamentoIntumescente.VALOR_HP * itensOrcamentoIntumescente.QTDE * itensOrcamentoIntumescente.VALOR_COMPRIMENTO;
+                            totalArea += itensOrcamentoIntumescente.VALOR_HP * itensOrcamentoIntumescente.QTDE * itensOrcamentoIntumescente.VALOR_COMPRIMENTO;
+                        }
+
+                        totaisItens = totalArea * orcamentoIntumescenteDb.FirstOrDefault().VALOR_UNITARIO_INTUMESCENTE;
                     }
-
-                    totaisItens = totalArea * orcamentoIntumescenteDb.FirstOrDefault().VALOR_UNITARIO_INTUMESCENTE;
                 }
                 else
                 {

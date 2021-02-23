@@ -26,9 +26,10 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO_GERAL (ITENS_ORCAMENTO_ID, ORCAMENTO_ID, 
-                                AMBIENTE_APLICACAO, LOCAL_APLICACAO, ACAO_APLICAR, VALOR_LARGURA, VALOR_M_2) 
-                                VALUES(@ITENS_ORCAMENTO_ID, @ORCAMENTO_ID, @AMBIENTE_APLICACAO, @LOCAL_APLICACAO,
-                                @ACAO_APLICAR, @VALOR_LARGURA, @VALOR_M_2)", new
+                                AMBIENTE_APLICACAO, LOCAL_APLICACAO, ACAO_APLICAR, VALOR_LARGURA, VALOR_M_2,
+                                MATERIAL_ID, NOME_MATERIAL, DESCRICAO_MATERIAL) VALUES(@ITENS_ORCAMENTO_ID, 
+                                @ORCAMENTO_ID, @AMBIENTE_APLICACAO, @LOCAL_APLICACAO, @ACAO_APLICAR, 
+                                @VALOR_LARGURA, @VALOR_M_2, @MATERIAL_ID, @NOME_MATERIAL, @DESCRICAO_MATERIAL)", new
                                 {
                                     itensOrcamentoGeral.ITENS_ORCAMENTO_ID,
                                     itensOrcamentoGeral.ORCAMENTO_ID,
@@ -36,8 +37,11 @@ namespace OrcamentariaBackEnd
                                     itensOrcamentoGeral.LOCAL_APLICACAO,
                                     itensOrcamentoGeral.ACAO_APLICAR,
                                     itensOrcamentoGeral.VALOR_LARGURA,
-                                    itensOrcamentoGeral.VALOR_M_2
-                                });
+                                    itensOrcamentoGeral.VALOR_M_2,
+                                    itensOrcamentoGeral.PRODUTO.MATERIAL_ID,
+                                    itensOrcamentoGeral.PRODUTO.NOME_MATERIAL,
+                                    itensOrcamentoGeral.PRODUTO.DESCRICAO_MATERIAL
+                    });
 
                     return Find(itensOrcamentoGeral.ITENS_ORCAMENTO_ID);
                 }
@@ -155,7 +159,8 @@ namespace OrcamentariaBackEnd
                 {
                     cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO_GERAL SET AMBIENTE_APLICACAO = @AMBIENTE_APLICACAO, 
                                 LOCAL_APLICACAO = @LOCAL_APLICACAO, ACAO_APLICAR = @ACAO_APLICAR, 
-                                VALOR_LARGURA = @VALOR_LARGURA, VALOR_M_2 = @VALOR_M_2 
+                                VALOR_LARGURA = @VALOR_LARGURA, VALOR_M_2 = @VALOR_M_2, MATERIAL_ID = @MATERIAL_ID,
+                                NOME_MATERIAL = @NOME_MATERIAL, DESCRICAO_MATERIAL = @DESCRICAO_MATERIAL
                                 WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new
                     {
                         itensOrcamentoGeral.AMBIENTE_APLICACAO,
@@ -163,6 +168,9 @@ namespace OrcamentariaBackEnd
                         itensOrcamentoGeral.ACAO_APLICAR,
                         itensOrcamentoGeral.VALOR_LARGURA,
                         itensOrcamentoGeral.VALOR_M_2,
+                        itensOrcamentoGeral.PRODUTO.MATERIAL_ID,
+                        itensOrcamentoGeral.PRODUTO.NOME_MATERIAL,
+                        itensOrcamentoGeral.PRODUTO.DESCRICAO_MATERIAL,
                         itensOrcamentoId
                     });
 

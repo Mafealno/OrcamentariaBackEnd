@@ -35,10 +35,6 @@ namespace OrcamentariaBackEnd
 
                 foreach (ItensOrcamentoIntumescenteModel itensOrcamentoIntumescente in listItensOrcamentoIntumescente)
                 {
-                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE", $"ITENS_ORCAMENTO_ID = {itensOrcamentoIntumescente.ITENS_ORCAMENTO_ID}");
-
-                    itensOrcamentoIntumescente.PRODUTO = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
-
                     var perfilId = MetodosGenericosService.DlookupOrcamentaria("PERFIL_ID", "T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE", $"ITENS_ORCAMENTO_ID = {itensOrcamentoIntumescente.ITENS_ORCAMENTO_ID}");
 
                     if(int.Parse(perfilId) != 0)
@@ -83,9 +79,6 @@ namespace OrcamentariaBackEnd
 
                 foreach (ItensOrcamentoIntumescenteModel itensOrcamentoIntumescenteModel in listItensOrcamentoIntumescente)
                 {
-                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO", $"ITENS_ORCAMENTO_ID = {itensOrcamentoIntumescenteModel.ITENS_ORCAMENTO_ID}");
-
-                    itensOrcamentoIntumescenteModel.PRODUTO = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
 
                     var perfilId = MetodosGenericosService.DlookupOrcamentaria("PERFIL_ID", "T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE", $"ITENS_ORCAMENTO_ID = {itensOrcamentoIntumescenteModel.ITENS_ORCAMENTO_ID}");
 
@@ -99,6 +92,57 @@ namespace OrcamentariaBackEnd
                     if (int.Parse(cartaCoberturId) != 0)
                     {
                         itensOrcamentoIntumescenteModel.CARTA_COBERTURA = CartaCoberturaService.GetComParametro(new CartaCoberturaQO(int.Parse(cartaCoberturId), 0, 0, "")).ToArray()[0];
+                    }
+                }
+
+                return listItensOrcamentoIntumescente;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<ItensOrcamentoIntumescenteModel> GetValoresCalculados(List<ItensOrcamentoIntumescenteModel> listItensOrcamentoIntumescente, int materialId, string tempoResitenciaFogo)
+        {
+            try
+            {
+                foreach (ItensOrcamentoIntumescenteModel itemIntumescente in listItensOrcamentoIntumescente)
+                {
+                    var cartaCobertura = CartaCoberturaService.Get(materialId, itemIntumescente.REFERENCIA, itemIntumescente.VALOR_HP_A.ToString(), tempoResitenciaFogo);
+
+                    if (cartaCobertura.CARTA_COBERTURA_ID != 0)
+                    {
+                        if (cartaCobertura.LIST_ITENS_CARTA_COBERTURA[0] != null)
+                        {
+                            var valoresCalculados = CalcularValoresIntumescente(itemIntumescente, itemIntumescente.PERFIL, cartaCobertura.LIST_ITENS_CARTA_COBERTURA.FirstOrDefault().VALOR_ESPESSURA);
+
+                            itemIntumescente.VALOR_HP = valoresCalculados.Hp;
+                            itemIntumescente.VALOR_WD = valoresCalculados.WD;
+                            itemIntumescente.VALOR_HP_A = valoresCalculados.HpA;
+                            itemIntumescente.AREA = valoresCalculados.Area;
+                            itemIntumescente.QTDE_LITROS = valoresCalculados.TotalLitros;
+                            itemIntumescente.VALOR_ESPESSURA = cartaCobertura.LIST_ITENS_CARTA_COBERTURA.FirstOrDefault().VALOR_ESPESSURA;
+                        }
+                        else
+                        {
+                            itemIntumescente.VALOR_HP = 0;
+                            itemIntumescente.VALOR_WD = 0;
+                            itemIntumescente.VALOR_HP_A = 0;
+                            itemIntumescente.AREA = 0;
+                            itemIntumescente.QTDE_LITROS = 0;
+                            itemIntumescente.VALOR_ESPESSURA = 0;
+                        }
+                    }
+                    else
+                    {
+                        itemIntumescente.VALOR_HP = 0;
+                        itemIntumescente.VALOR_WD = 0;
+                        itemIntumescente.VALOR_HP_A = 0;
+                        itemIntumescente.AREA = 0;
+                        itemIntumescente.QTDE_LITROS = 0;
+                        itemIntumescente.VALOR_ESPESSURA = 0;
                     }
                 }
 
@@ -144,11 +188,14 @@ namespace OrcamentariaBackEnd
 
                 itensOrcamentoIntumescente.ITENS_ORCAMENTO_ID = itensOrcamento.ITENS_ORCAMENTO_ID;
 
-                itensOrcamentoIntumescente = ItensOrcamentoIntumescenteRepository.Create(itensOrcamentoIntumescente);
+                var itensOrcamentoIntumescenteCadastrado = ItensOrcamentoIntumescenteRepository.Create(itensOrcamentoIntumescente);
+
+                itensOrcamentoIntumescenteCadastrado.PERFIL = itensOrcamentoIntumescente.PERFIL;
+                itensOrcamentoIntumescenteCadastrado.CARTA_COBERTURA = itensOrcamentoIntumescente.CARTA_COBERTURA;
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
 
-                return itensOrcamentoIntumescente;
+                return itensOrcamentoIntumescenteCadastrado;
 
             }
             catch (Exception)
@@ -237,6 +284,37 @@ namespace OrcamentariaBackEnd
             catch (Exception)
             {
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.ROLLBACK);
+                throw;
+            }
+        }
+
+        public dynamic CalcularValoresIntumescente(ItensOrcamentoIntumescenteModel itemItumescente, PerfilModel perfil, double valorEspessura)
+        {
+            try
+            {
+                double HpAux = ((2 * perfil.VALOR_D) + (itemItumescente.NUMERO_FACES * perfil.VALOR_BF)) / 1000;
+                double WDAux = 39.70008 / (perfil.VALOR_KG_M * 2.2);
+                double HpAAux = HpAux / (perfil.VALOR_KG_M / 7850);
+                double AreaAux = itemItumescente.VALOR_COMPRIMENTO * itemItumescente.QTDE * HpAux;
+
+                double TotalLitrosAux = 0;
+                if (valorEspessura > 0)
+                {
+                    TotalLitrosAux = 1.4 * valorEspessura * AreaAux;
+                }
+
+                return new
+                {
+                    Hp = float.Parse(HpAux.ToString("N2")),
+                    WD = float.Parse(WDAux.ToString("N2")),
+                    HpA = float.Parse(HpAAux.ToString("N2")),
+                    Area = float.Parse(AreaAux.ToString("N2")),
+                    TotalLitros = float.Parse(TotalLitrosAux.ToString("N2"))
+                };
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

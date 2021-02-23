@@ -85,6 +85,20 @@ namespace OrcamentariaBackEnd
             }
         }
 
+        [HttpGet("buscar/{materialId}/{referencia}/{valorHpa}/{tempoResistenciafogo}")]
+        public CartaCoberturaModel Get(int materialId, string referencia, string valorHpa, string tempoResistenciafogo)
+        {
+            try
+            {
+                return CartaCoberturaService.Get(materialId, referencia, valorHpa, tempoResistenciafogo);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost]
         public CartaCoberturaModel Post([FromBody] CartaCoberturaModel cartaCobertura)
         {

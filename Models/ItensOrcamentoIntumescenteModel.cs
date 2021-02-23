@@ -21,8 +21,8 @@ namespace OrcamentariaBackEnd
 
         public ItensOrcamentoIntumescenteModel(string referencia, int numeroFaces, double valorHp, double valorHpA, double valorWD, 
                                             int qtde, double valorEspessura, double qtdeLitros, PerfilModel perfilModel, CartaCoberturaModel cartaCoberturaModel,
-                                            int itensOrcamentoId, int orcamentoId, int numeroLinha, double valorComprimento, double area, 
-                                            MaterialModel produto) : base(itensOrcamentoId, orcamentoId, numeroLinha, valorComprimento, area, produto)
+                                            int itensOrcamentoId, int orcamentoId, int numeroLinha, double valorComprimento, double area) 
+                                            : base(itensOrcamentoId, orcamentoId, numeroLinha, valorComprimento, area)
         {
             REFERENCIA = referencia;
             NUMERO_FACES = numeroFaces;
@@ -38,7 +38,6 @@ namespace OrcamentariaBackEnd
             NUMERO_LINHA = numeroLinha;
             VALOR_COMPRIMENTO = valorComprimento;
             AREA = area;
-            PRODUTO = produto;
         }
 
         public ItensOrcamentoIntumescenteModel()

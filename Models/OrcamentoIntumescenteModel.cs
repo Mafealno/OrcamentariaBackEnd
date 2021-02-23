@@ -18,11 +18,12 @@ namespace OrcamentariaBackEnd
         private double _qtdeBaldes;
         private double _qtdeBaldesReal;
         private double _valorUnitarioIntumescente;
+        private MaterialModel _produto;
         private List<ItensOrcamentoIntumescenteModel> _itensOrcamentoIntumescente;
 
         public OrcamentoIntumescenteModel(string grupo, string ocupacaoUso, string classe, string divisao, string tempoResistenciaFogo, 
-                                            double qtdeLitrosTotal, double percentualPerda, double qtdeBaldes, double qtdeBaldesReal, double valorUnitarioIntumescente, 
-                                            List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente, int orcamentoId, string nomeObra, 
+                                            double qtdeLitrosTotal, double percentualPerda, double qtdeBaldes, double qtdeBaldesReal, 
+                                            double valorUnitarioIntumescente, MaterialModel produto, List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente, int orcamentoId, string nomeObra, 
                                             string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, 
                                             string contatoObra, string tipoObra, TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, 
                                             List<MaoObraOrcamentoModel> maoObraOrcamento, List<CustoOrcamentoModel> custoOrcamento, 
@@ -40,6 +41,7 @@ namespace OrcamentariaBackEnd
             QTDE_BALDES = qtdeBaldes;
             QTDE_BALDES_REAL = qtdeBaldesReal;
             VALOR_UNITARIO_INTUMESCENTE = valorUnitarioIntumescente;
+            PRODUTO = produto;
             LIST_ITENS_ORCAMENTO_INTUMESCENTE = itensOrcamentoIntumescente;
             ORCAMENTO_ID = orcamentoId;
             NOME_OBRA = nomeObra;
@@ -72,6 +74,7 @@ namespace OrcamentariaBackEnd
         public double QTDE_BALDES { get => _qtdeBaldes; set => _qtdeBaldes = value; }
         public double QTDE_BALDES_REAL { get => _qtdeBaldesReal; set => _qtdeBaldesReal = value; }
         public double VALOR_UNITARIO_INTUMESCENTE { get => _valorUnitarioIntumescente; set => _valorUnitarioIntumescente = value; }
+        public MaterialModel PRODUTO { get => _produto; set => _produto = value; }
         public List<ItensOrcamentoIntumescenteModel> LIST_ITENS_ORCAMENTO_INTUMESCENTE { get => _itensOrcamentoIntumescente; set => _itensOrcamentoIntumescente = value; }
 
     }

@@ -26,9 +26,9 @@ namespace OrcamentariaBackEnd
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE (ITENS_ORCAMENTO_ID, ORCAMENTO_ID, REFERENCIA, NUMERO_FACES,
-                                VALOR_HP, VALOR_HP_A, VALOR_WD, QTDE, VALOR_ESPESSURA, QTDE_LITROS, VALOR_D, VALOR_BF, 
+                                VALOR_HP, VALOR_HP_A, VALOR_WD, QTDE, VALOR_ESPESSURA, QTDE_LITROS, PERFIL_ID, VALOR_D, VALOR_BF, 
                                 VALOR_TW, VALOR_TF, VALOR_KG_M, CARTA_COBERTURA_ID) VALUES(@ITENS_ORCAMENTO_ID, @ORCAMENTO_ID, @REFERENCIA, @NUMERO_FACES,
-                                @VALOR_HP, @VALOR_HP_A, @VALOR_WD, @QTDE, @VALOR_ESPESSURA, @QTDE_LITROS, @VALOR_D, @VALOR_BF, 
+                                @VALOR_HP, @VALOR_HP_A, @VALOR_WD, @QTDE, @VALOR_ESPESSURA, @QTDE_LITROS, @PERFIL_ID, @VALOR_D, @VALOR_BF, 
                                 @VALOR_TW, @VALOR_TF, @VALOR_KG_M, @CARTA_COBERTURA_ID)", new
                     {
                         itensOrcamentoIntumescente.ITENS_ORCAMENTO_ID,
@@ -37,6 +37,10 @@ namespace OrcamentariaBackEnd
                         itensOrcamentoIntumescente.NUMERO_FACES,
                         itensOrcamentoIntumescente.VALOR_HP,
                         itensOrcamentoIntumescente.VALOR_HP_A,
+                        itensOrcamentoIntumescente.VALOR_WD,
+                        itensOrcamentoIntumescente.QTDE,
+                        itensOrcamentoIntumescente.VALOR_ESPESSURA,
+                        itensOrcamentoIntumescente.QTDE_LITROS,
                         itensOrcamentoIntumescente.PERFIL.PERFIL_ID,
                         itensOrcamentoIntumescente.PERFIL.VALOR_D,
                         itensOrcamentoIntumescente.PERFIL.VALOR_BF,
@@ -46,7 +50,7 @@ namespace OrcamentariaBackEnd
                         itensOrcamentoIntumescente.CARTA_COBERTURA.CARTA_COBERTURA_ID
                     });
 
-                    return Find(cn.Query<int>("SELECT LAST_INSERT_ID()").ToArray()[0]);
+                    return Find(cn.Query<int>("SELECT MAX(ITENS_ORCAMENTO_ID) FROM T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE").FirstOrDefault());
                 }
             }
             catch (Exception)
@@ -96,7 +100,7 @@ namespace OrcamentariaBackEnd
                 {
                     var resposta = cn.Query<ItensOrcamentoIntumescenteModel>(@"SELECT * FROM T_ORCA_ITENS_ORCAMENTO INNER JOIN T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE 
                                                                             ON T_ORCA_ITENS_ORCAMENTO.ITENS_ORCAMENTO_ID = T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE.ITENS_ORCAMENTO_ID 
-                                                                            WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
+                                                                            WHERE T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE.ITENS_ORCAMENTO_ID = @itensOrcamentoId", new { itensOrcamentoId });
 
                     if (resposta.Count() == 0)
                     {

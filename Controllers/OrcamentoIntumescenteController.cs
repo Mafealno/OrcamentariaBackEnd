@@ -47,6 +47,20 @@ namespace OrcamentariaBackEnd.Controllers
             }
         }
 
+        [HttpPost("valoresIntumescente")]
+        public OrcamentoIntumescenteModel GetValoresCalculados([FromBody] OrcamentoIntumescenteModel orcamentoIntumescente)
+        {
+            try
+            {
+                return OrcamentoIntumescenteService.GetValoresCalculados(orcamentoIntumescente);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost]
         public OrcamentoIntumescenteModel Post([FromBody] OrcamentoIntumescenteModel orcamentoIntumescente)
         {

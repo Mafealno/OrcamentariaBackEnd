@@ -13,16 +13,14 @@ namespace OrcamentariaBackEnd
         private int _numeroLinha;
         private double _valorComprimento;
         private double _area;
-        private MaterialModel _produto;
 
-        public ItensOrcamentoModel(int itensOrcamentoId, int orcamentoId, int numeroLinha, double valorComprimento, double area, MaterialModel produto)
+        public ItensOrcamentoModel(int itensOrcamentoId, int orcamentoId, int numeroLinha, double valorComprimento, double area)
         {
             ITENS_ORCAMENTO_ID = itensOrcamentoId;
             ORCAMENTO_ID = orcamentoId;
             NUMERO_LINHA = numeroLinha;
             VALOR_COMPRIMENTO = valorComprimento;
             AREA = area;
-            PRODUTO = produto;
         }
 
         public ItensOrcamentoModel()
@@ -35,7 +33,6 @@ namespace OrcamentariaBackEnd
         public int NUMERO_LINHA { get => _numeroLinha; set => _numeroLinha = value; }
         public double VALOR_COMPRIMENTO { get => _valorComprimento; set => _valorComprimento = value; }
         public double AREA { get => _area; set => _area = value; }
-        public MaterialModel PRODUTO { get => _produto; set => _produto = value; }
 
     }
 }

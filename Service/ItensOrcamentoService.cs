@@ -26,13 +26,6 @@ namespace OrcamentariaBackEnd
             {
                 var listItensOrcamento = ItensOrcamentoRepository.List();
 
-                foreach (ItensOrcamentoModel itensOrcamento in listItensOrcamento)
-                {
-                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO", $"ITENS_ORCAMENTO_ID = {itensOrcamento.ITENS_ORCAMENTO_ID}");
-
-                    itensOrcamento.PRODUTO = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
-                }
-
                 return listItensOrcamento;
             }
             catch (Exception)
@@ -59,13 +52,6 @@ namespace OrcamentariaBackEnd
                     listItensOrcamento.Add(ItensOrcamentoRepository.Find(itensOrcamento.ItensOrcamentoId));
                 }
 
-                foreach (ItensOrcamentoModel itensOrcamentoModel in listItensOrcamento)
-                {
-                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO", $"ITENS_ORCAMENTO_ID = {itensOrcamentoModel.ITENS_ORCAMENTO_ID}");
-
-                    itensOrcamentoModel.PRODUTO = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
-                }
-
                 return listItensOrcamento;
             }
             catch (Exception)
@@ -85,14 +71,6 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
-                where = $"MATERIAL_ID = {itensOrcamento.PRODUTO.MATERIAL_ID}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
-                {
-                    throw new Exception();
-                }
-
-                itensOrcamento.PRODUTO = MaterialService.GetComParametro(new MaterialQO(itensOrcamento.PRODUTO.MATERIAL_ID, "", "")).ToArray()[0];
-
                 if (itensOrcamento.VALOR_COMPRIMENTO < 0 || itensOrcamento.AREA < 0)
                 {
                     throw new Exception();
@@ -104,8 +82,6 @@ namespace OrcamentariaBackEnd
                 itensOrcamento.NUMERO_LINHA = int.Parse(ultimaNumeroLinha) + 1;
 
                 var novoItensOrcamento = ItensOrcamentoRepository.Create(itensOrcamento);
-
-                novoItensOrcamento.PRODUTO = itensOrcamento.PRODUTO;
 
                 return novoItensOrcamento;
 
@@ -128,11 +104,6 @@ namespace OrcamentariaBackEnd
                 }
 
                 var itensOrcamentoDB = GetComParametro(new ItensOrcamentoQO(itensOrcamentoId, 0)).ToArray()[0];
-
-                if(itensOrcamento.PRODUTO.MATERIAL_ID != itensOrcamentoDB.PRODUTO.MATERIAL_ID)
-                {
-                    itensOrcamento.PRODUTO = MaterialService.GetComParametro(new MaterialQO(itensOrcamento.PRODUTO.MATERIAL_ID, "", "")).ToArray()[0];
-                }
 
                 if (itensOrcamento.VALOR_COMPRIMENTO < 0 || itensOrcamento.AREA < 0)
                 {

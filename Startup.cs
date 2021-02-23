@@ -52,6 +52,7 @@ namespace OrcamentariaBackEnd
             services.AddScoped<IItensOrcamentoGeralRepository>(sp => new ItensOrcamentoGeralRepository(sp.GetService<IConexao>()));
             services.AddScoped<IItensOrcamentoIntumescenteRepository>(sp => new ItensOrcamentoIntumescenteRepository(sp.GetService<IConexao>()));
             services.AddScoped<IOrcamentoRepository>(sp => new OrcamentoRepository(sp.GetService<IConexao>()));
+            services.AddScoped<IOrcamentoGeralRepository>(sp => new OrcamentoGeralRepository(sp.GetService<IConexao>()));
             services.AddScoped<IOrcamentoIntumescenteRepository>(sp => new OrcamentoIntumescenteRepository(sp.GetService<IConexao>()));
             services.AddScoped<ITotaisOrcamentoRepository>(sp => new TotaisOrcamentoRepository(sp.GetService<IConexao>()));
 
@@ -77,8 +78,9 @@ namespace OrcamentariaBackEnd
             services.AddScoped(sp => new ItensOrcamentoGeralService(sp.GetService<IItensOrcamentoGeralRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ItensOrcamentoService>(), sp.GetService<MaterialService>()));
             services.AddScoped(sp => new ItensOrcamentoIntumescenteService(sp.GetService<IItensOrcamentoIntumescenteRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<ItensOrcamentoService>(), sp.GetService<MaterialService>(), sp.GetService<PerfilService>(), sp.GetService<CartaCoberturaService>()));
             services.AddScoped(sp => new OrcamentoService(sp.GetService<IOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<ItensOrcamentoGeralService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<MaterialOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
-            services.AddScoped(sp => new OrcamentoIntumescenteService(sp.GetService<IOrcamentoIntumescenteRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<OrcamentoService>(), sp.GetService<ItensOrcamentoIntumescenteService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<MaterialOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
-            services.AddScoped(sp => new TotaisOrcamentoService(sp.GetService<ITotaisOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<OrcamentoService>(), sp.GetService<OrcamentoIntumescenteService>()));
+            services.AddScoped(sp => new OrcamentoGeralService(sp.GetService<IOrcamentoGeralRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<ItensOrcamentoGeralService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<MaterialOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
+            services.AddScoped(sp => new OrcamentoIntumescenteService(sp.GetService<IOrcamentoIntumescenteRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<PessoaService>(), sp.GetService<MaterialService>(), sp.GetService<OrcamentoService>(), sp.GetService<ItensOrcamentoIntumescenteService>(), sp.GetService<MaoObraOrcamentoService>(), sp.GetService<EquipamentoOrcamentoService>(), sp.GetService<MaterialOrcamentoService>(), sp.GetService<CustoOrcamentoService>(), sp.GetService<TotaisOrcamentoRepository>()));
+            services.AddScoped(sp => new TotaisOrcamentoService(sp.GetService<ITotaisOrcamentoRepository>(), sp.GetService<MetodosGenericosService>(), sp.GetService<OrcamentoGeralService>(), sp.GetService<OrcamentoIntumescenteService>()));
 
             services.AddScoped(sp => new TotaisOrcamentoRepository(sp.GetService<IConexao>()));
 
@@ -109,7 +111,7 @@ namespace OrcamentariaBackEnd
                                   {
                                       builder.AllowAnyOrigin()
                                       .AllowAnyHeader()
-                                      .AllowAnyMethod(); ;
+                                      .AllowAnyMethod();
                                   });
             });
         }

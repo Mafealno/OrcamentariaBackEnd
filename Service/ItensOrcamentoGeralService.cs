@@ -30,7 +30,7 @@ namespace OrcamentariaBackEnd
 
                 foreach (ItensOrcamentoGeralModel itensOrcamentoGeral in listItensOrcamentoGeral)
                 {
-                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO", $"ITENS_ORCAMENTO_ID = {itensOrcamentoGeral.ITENS_ORCAMENTO_ID}");
+                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", $"ITENS_ORCAMENTO_ID = {itensOrcamentoGeral.ITENS_ORCAMENTO_ID}");
 
                     itensOrcamentoGeral.PRODUTO = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
                 }
@@ -63,7 +63,7 @@ namespace OrcamentariaBackEnd
 
                 foreach (ItensOrcamentoGeralModel itensOrcamentoGeralModel in listItensOrcamentoGeral)
                 {
-                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO", $"ITENS_ORCAMENTO_ID = {itensOrcamentoGeralModel.ITENS_ORCAMENTO_ID}");
+                    var materialId = MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", $"ITENS_ORCAMENTO_ID = {itensOrcamentoGeralModel.ITENS_ORCAMENTO_ID}");
 
                     itensOrcamentoGeralModel.PRODUTO = MaterialService.GetComParametro(new MaterialQO(int.Parse(materialId), "", "")).ToArray()[0];
                 }
@@ -87,6 +87,12 @@ namespace OrcamentariaBackEnd
                     throw new Exception();
                 }
 
+                where = $"MATERIAL_ID = {itensOrcamentoGeral.PRODUTO.MATERIAL_ID}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
+                {
+                    throw new Exception();
+                }
+
                 if (itensOrcamentoGeral.VALOR_LARGURA < 0 || itensOrcamentoGeral.VALOR_M_2 <0)
                 {
                     throw new Exception();
@@ -100,9 +106,13 @@ namespace OrcamentariaBackEnd
 
                 itensOrcamentoGeral.ITENS_ORCAMENTO_ID = itensOrcamento.ITENS_ORCAMENTO_ID;
 
-                itensOrcamentoGeral = ItensOrcamentoGeralRepository.Create(itensOrcamentoGeral);
+                itensOrcamentoGeral.NUMERO_LINHA = itensOrcamento.NUMERO_LINHA;
 
-                itensOrcamentoGeral.PRODUTO = itensOrcamento.PRODUTO;
+                var produto = MaterialService.GetComParametro(new MaterialQO(itensOrcamentoGeral.PRODUTO.MATERIAL_ID, "", "")).FirstOrDefault();
+
+                itensOrcamentoGeral.PRODUTO = produto;
+
+                ItensOrcamentoGeralRepository.Create(itensOrcamentoGeral);
 
                 MetodosGenericosService.StartTransactionCommitRollbackOrcamentaria(MetodosGenericosEnum.COMMIT);
 
@@ -134,6 +144,14 @@ namespace OrcamentariaBackEnd
                 {
                     throw new Exception();
                 }
+
+                where = $"MATERIAL_ID = {itensOrcamentoGeral.PRODUTO.MATERIAL_ID}";
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("MATERIAL_ID", "T_ORCA_MATERIAL", where)))
+                {
+                    throw new Exception();
+                }
+
+                itensOrcamentoGeral.PRODUTO = MaterialService.GetComParametro(new MaterialQO(itensOrcamentoGeral.PRODUTO.MATERIAL_ID, "", "")).FirstOrDefault();
 
                 ItensOrcamentoGeralRepository.Update(itensOrcamentoId, itensOrcamentoGeral);
             }

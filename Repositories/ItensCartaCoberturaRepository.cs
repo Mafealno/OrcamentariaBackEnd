@@ -117,6 +117,26 @@ namespace OrcamentariaBackEnd
             }
         }
 
+        public ItensCartaCoberturaModel FindPorCartaCoberturaIdValorHpaTempoResistenciaFogo(int cartaCoberturaId, string valorHpa, string tempoResistenciaFogo)
+        {
+            try
+            {
+                using (var cn = Conexao.AbrirConexao())
+                {
+                    var resposta = cn.Query<ItensCartaCoberturaModel>(@"SELECT * FROM T_ORCA_ITENS_CARTA_COBERTURA WHERE VALOR_HP_A = @valorHpa AND
+                                                                      TEMPO_RESISTENCIA_FOGO = @tempoResistenciaFogo AND CARTA_COBERTURA_ID = @cartaCoberturaId", 
+                                                                      new { valorHpa, tempoResistenciaFogo, cartaCoberturaId });
+                    
+                    return resposta.FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public ItensCartaCoberturaModel FindPorValorHpaTempoResistenciaFogo(string valorHpa, string tempoResistenciaFogo)
         {
             try

@@ -13,12 +13,13 @@ namespace OrcamentariaBackEnd
         private string _localAplicacao;
         private string _acaoAplicar;
         private double _valorM2;
+        private MaterialModel _produto;
 
         public ItensOrcamentoGeralModel(string ambienteAplicado, double valorLargura, string localAplicacao, 
                                         string acaoAplicar, double valorM2, int itensOrcamentoId, int orcamentoId, 
                                         int numeroLinha, double valorComprimento, double area, 
                                         MaterialModel produto) : base(itensOrcamentoId, orcamentoId,
-                                        numeroLinha, valorComprimento, area, produto)
+                                        numeroLinha, valorComprimento, area)
         {
             AMBIENTE_APLICACAO = ambienteAplicado;
             VALOR_LARGURA = valorLargura;
@@ -43,6 +44,7 @@ namespace OrcamentariaBackEnd
         public string ACAO_APLICAR { get => _acaoAplicar; set => _acaoAplicar = value; }
         public double VALOR_LARGURA { get => _valorLargura; set => _valorLargura = value; }
         public double VALOR_M_2 { get => _valorM2; set => _valorM2 = value; }
+        public MaterialModel PRODUTO { get => _produto; set => _produto = value; }
 
     }
 }
