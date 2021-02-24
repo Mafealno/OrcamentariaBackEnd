@@ -210,14 +210,14 @@ namespace OrcamentariaBackEnd
             try
             {
                 var where = $"ITENS_ORCAMENTO_ID = {itensOrcamentoId}";
-                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ITENS_ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", where)))
+                if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ITENS_ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE", where)))
                 {
                     throw new Exception();
                 }
 
                 var itensOrcamento = MetodosGenericosService.CopiarPropriedadesObj(itensOrcamentoIntumescente, new ItensOrcamentoModel());
 
-                var itensOrcamentoDB = ItensOrcamentoService.GetComParametro(new ItensOrcamentoQO(itensOrcamentoId, 0)).ToArray()[0];
+                var itensOrcamentoDB = ItensOrcamentoService.GetComParametro(new ItensOrcamentoQO(itensOrcamentoId, 0)).FirstOrDefault();
 
                 ComparisonResult resultando = new CompareLogic().Compare(itensOrcamento, itensOrcamentoDB);
 
@@ -265,13 +265,13 @@ namespace OrcamentariaBackEnd
                 }
                 else
                 {
-                    var where = $"ORCAMENTO_ID = {itensOrcamentoIntumescente.OrcamentoId}";
-                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ORCAMENTO", where)))
+                    var where = $"ITENS_ORCAMENTO_ID = {itensOrcamentoIntumescente.ItensOrcamentoId}";
+                    if (string.IsNullOrEmpty(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE", where)))
                     {
                         throw new Exception();
                     }
 
-                    orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_GERAL", where));
+                    orcamentoId = Int32.Parse(MetodosGenericosService.DlookupOrcamentaria("ORCAMENTO_ID", "T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE", where));
 
                     ItensOrcamentoIntumescenteRepository.Delete(itensOrcamentoIntumescente.ItensOrcamentoId);
                     ItensOrcamentoService.DeleteComParametro(itensOrcamentoIntumescente);

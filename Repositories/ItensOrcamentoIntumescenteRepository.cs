@@ -164,9 +164,9 @@ namespace OrcamentariaBackEnd
             {
                 using (var cn = Conexao.AbrirConexao())
                 {
-                    cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO_GERAL SET REFERENCIA = @REFERENCIA, NUMERO_FACES = @NUMERO_FACES,
+                    cn.Execute(@"UPDATE T_ORCA_ITENS_ORCAMENTO_INTUMESCENTE SET REFERENCIA = @REFERENCIA, NUMERO_FACES = @NUMERO_FACES,
                                 VALOR_HP = @VALOR_HP, VALOR_HP_A = @VALOR_HP_A, VALOR_WD = @VALOR_WD, QTDE = @QTDE, 
-                                VALOR_ESPESSURA = @VALOR_ESPESSURA, QTDE_LITROS = @QTDE_LITROS, VALOR_D = @VALOR_D, 
+                                VALOR_ESPESSURA = @VALOR_ESPESSURA, QTDE_LITROS = @QTDE_LITROS, PERFIL_ID = @PERFIL_ID, VALOR_D = @VALOR_D, 
                                 VALOR_BF = @VALOR_BF, VALOR_TW = @VALOR_TW, VALOR_TF = @VALOR_TF, VALOR_KG_M = @VALOR_KG_M, 
                                 CARTA_COBERTURA_ID = @CARTA_COBERTURA_ID WHERE ITENS_ORCAMENTO_ID = @itensOrcamentoId", new
                     {
@@ -174,6 +174,10 @@ namespace OrcamentariaBackEnd
                         itensOrcamentoIntumescente.NUMERO_FACES,
                         itensOrcamentoIntumescente.VALOR_HP,
                         itensOrcamentoIntumescente.VALOR_HP_A,
+                        itensOrcamentoIntumescente.VALOR_WD,
+                        itensOrcamentoIntumescente.QTDE,
+                        itensOrcamentoIntumescente.VALOR_ESPESSURA,
+                        itensOrcamentoIntumescente.QTDE_LITROS,
                         itensOrcamentoIntumescente.PERFIL.PERFIL_ID,
                         itensOrcamentoIntumescente.PERFIL.VALOR_D,
                         itensOrcamentoIntumescente.PERFIL.VALOR_BF,

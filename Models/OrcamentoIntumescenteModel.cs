@@ -18,13 +18,14 @@ namespace OrcamentariaBackEnd
         private double _qtdeBaldes;
         private double _qtdeBaldesReal;
         private double _valorUnitarioIntumescente;
+        private double _valorBaldeIntumescente;
         private MaterialModel _produto;
         private List<ItensOrcamentoIntumescenteModel> _itensOrcamentoIntumescente;
 
         public OrcamentoIntumescenteModel(string grupo, string ocupacaoUso, string classe, string divisao, string tempoResistenciaFogo, 
                                             double qtdeLitrosTotal, double percentualPerda, double qtdeBaldes, double qtdeBaldesReal, 
-                                            double valorUnitarioIntumescente, MaterialModel produto, List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente, int orcamentoId, string nomeObra, 
-                                            string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, 
+                                            double valorUnitarioIntumescente, double valorBaldeIntumescente, MaterialModel produto, List<ItensOrcamentoIntumescenteModel> itensOrcamentoIntumescente, 
+                                            int orcamentoId, string nomeObra, string referencia, string prazoEntrega, int diasTrabalhado, DateTime dataCriacaoOrcamento, 
                                             string contatoObra, string tipoObra, TotaisOrcamentoModel totaisOrcamento, PessoaModel clienteOrcamento, 
                                             List<MaoObraOrcamentoModel> maoObraOrcamento, List<CustoOrcamentoModel> custoOrcamento, 
                                             List<EquipamentoOrcamentoModel> equipamentoOrcamento, List<MaterialOrcamentoModel> materialOrcamento) : base(orcamentoId, nomeObra, referencia, 
@@ -41,6 +42,7 @@ namespace OrcamentariaBackEnd
             QTDE_BALDES = qtdeBaldes;
             QTDE_BALDES_REAL = qtdeBaldesReal;
             VALOR_UNITARIO_INTUMESCENTE = valorUnitarioIntumescente;
+            VALOR_BALDE_INTUMESCENTE = valorBaldeIntumescente;
             PRODUTO = produto;
             LIST_ITENS_ORCAMENTO_INTUMESCENTE = itensOrcamentoIntumescente;
             ORCAMENTO_ID = orcamentoId;
@@ -74,6 +76,7 @@ namespace OrcamentariaBackEnd
         public double QTDE_BALDES { get => _qtdeBaldes; set => _qtdeBaldes = value; }
         public double QTDE_BALDES_REAL { get => _qtdeBaldesReal; set => _qtdeBaldesReal = value; }
         public double VALOR_UNITARIO_INTUMESCENTE { get => _valorUnitarioIntumescente; set => _valorUnitarioIntumescente = value; }
+        public double VALOR_BALDE_INTUMESCENTE { get => _valorBaldeIntumescente; set => _valorBaldeIntumescente = value; }
         public MaterialModel PRODUTO { get => _produto; set => _produto = value; }
         public List<ItensOrcamentoIntumescenteModel> LIST_ITENS_ORCAMENTO_INTUMESCENTE { get => _itensOrcamentoIntumescente; set => _itensOrcamentoIntumescente = value; }
 

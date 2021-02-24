@@ -24,10 +24,10 @@ namespace OrcamentariaBackEnd.Repositories
                 using (var cn = Conexao.AbrirConexao())
                 {
                     cn.Execute(@"INSERT INTO T_ORCA_ORCAMENTO_INTUMESCENTE (ORCAMENTO_ID, GRUPO, OCUPACAO_USO, DIVISAO, CLASSE, TEMPO_RESISTENCIA_FOGO,
-                                QTDE_LITROS_TOTAL, PERCENTUAL_PERDA, QTDE_BALDES, QTDE_BALDES_REAL, VALOR_UNITARIO_INTUMESCENTE, MATERIAL_ID, NOME_MATERIAL,
-                                DESCRICAO_MATERIAL) VALUES(@ORCAMENTO_ID, @GRUPO, @OCUPACAO_USO, @DIVISAO, @CLASSE, @TEMPO_RESISTENCIA_FOGO, @QTDE_LITROS_TOTAL, 
-                                @PERCENTUAL_PERDA, @QTDE_BALDES, @QTDE_BALDES_REAL, @VALOR_UNITARIO_INTUMESCENTE, @MATERIAL_ID, @NOME_MATERIAL,
-                                @DESCRICAO_MATERIAL)", new
+                                QTDE_LITROS_TOTAL, PERCENTUAL_PERDA, QTDE_BALDES, QTDE_BALDES_REAL, VALOR_UNITARIO_INTUMESCENTE, VALOR_BALDE_INTUMESCENTE,
+                                MATERIAL_ID, NOME_MATERIAL, DESCRICAO_MATERIAL) VALUES(@ORCAMENTO_ID, @GRUPO, @OCUPACAO_USO, @DIVISAO, @CLASSE, 
+                                @TEMPO_RESISTENCIA_FOGO, @QTDE_LITROS_TOTAL, @PERCENTUAL_PERDA, @QTDE_BALDES, @QTDE_BALDES_REAL, @VALOR_UNITARIO_INTUMESCENTE, 
+                                @VALOR_BALDE_INTUMESCENTE, @MATERIAL_ID, @NOME_MATERIAL, @DESCRICAO_MATERIAL)", new
                     {
                         orcamentoIntumescente.ORCAMENTO_ID,
                         orcamentoIntumescente.GRUPO,
@@ -40,6 +40,7 @@ namespace OrcamentariaBackEnd.Repositories
                         orcamentoIntumescente.QTDE_BALDES,
                         orcamentoIntumescente.QTDE_BALDES_REAL,
                         orcamentoIntumescente.VALOR_UNITARIO_INTUMESCENTE,
+                        orcamentoIntumescente.VALOR_BALDE_INTUMESCENTE,
                         orcamentoIntumescente.PRODUTO.MATERIAL_ID,
                         orcamentoIntumescente.PRODUTO.NOME_MATERIAL,
                         orcamentoIntumescente.PRODUTO.DESCRICAO_MATERIAL
@@ -126,8 +127,10 @@ namespace OrcamentariaBackEnd.Repositories
                     cn.Execute(@"UPDATE T_ORCA_ORCAMENTO_INTUMESCENTE SET GRUPO = @GRUPO, OCUPACAO_USO = @OCUPACAO_USO, 
                                 DIVISAO = @DIVISAO, CLASSE = @CLASSE, TEMPO_RESISTENCIA_FOGO = @TEMPO_RESISTENCIA_FOGO, 
                                 QTDE_LITROS_TOTAL = @QTDE_LITROS_TOTAL, PERCENTUAL_PERDA = @PERCENTUAL_PERDA, 
-                                QTDE_BALDES = @QTDE_BALDES, QTDE_BALDES_REAL = @QTDE_BALDES_REAL, VALOR_UNITARIO_INTUMESCENTE = @VALOR_UNITARIO_INTUMESCENTE,
-                                MATERIAL_ID = @MATERIAL_ID, NOME_MATERIAL = @NOME_MATERIAL, DESCRICAO_MATERIAL = @DESCRICAO_MATERIAL 
+                                QTDE_BALDES = @QTDE_BALDES, QTDE_BALDES_REAL = @QTDE_BALDES_REAL, 
+                                VALOR_UNITARIO_INTUMESCENTE = @VALOR_UNITARIO_INTUMESCENTE,
+                                VALOR_BALDE_INTUMESCENTE = @VALOR_BALDE_INTUMESCENTE, MATERIAL_ID = @MATERIAL_ID, 
+                                NOME_MATERIAL = @NOME_MATERIAL, DESCRICAO_MATERIAL = @DESCRICAO_MATERIAL 
                                 WHERE ORCAMENTO_ID = @orcamentoId", new 
                     {
                         orcamentoIntumescente.GRUPO,
@@ -140,6 +143,7 @@ namespace OrcamentariaBackEnd.Repositories
                         orcamentoIntumescente.QTDE_BALDES,
                         orcamentoIntumescente.QTDE_BALDES_REAL,
                         orcamentoIntumescente.VALOR_UNITARIO_INTUMESCENTE,
+                        orcamentoIntumescente.VALOR_BALDE_INTUMESCENTE,
                         orcamentoIntumescente.PRODUTO.MATERIAL_ID,
                         orcamentoIntumescente.PRODUTO.NOME_MATERIAL,
                         orcamentoIntumescente.PRODUTO.DESCRICAO_MATERIAL,

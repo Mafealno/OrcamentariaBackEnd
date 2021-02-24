@@ -173,6 +173,8 @@ namespace OrcamentariaBackEnd
                         }
 
                         totaisItens = totalArea * orcamentoIntumescenteDb.FirstOrDefault().VALOR_UNITARIO_INTUMESCENTE;
+
+                        totaisItens += Math.Round((orcamentoIntumescenteDb.FirstOrDefault().QTDE_BALDES_REAL + 0.4)) * orcamentoIntumescenteDb.FirstOrDefault().VALOR_BALDE_INTUMESCENTE;
                     }
                 }
                 else
