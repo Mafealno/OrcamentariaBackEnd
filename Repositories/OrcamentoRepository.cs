@@ -37,9 +37,9 @@ namespace OrcamentariaBackEnd
                         orcamento.TIPO_OBRA,
                         orcamento.CLIENTE_ORCAMENTO.PESSOA_ID,
                         orcamento.CLIENTE_ORCAMENTO.NOME_PESSOA,
-                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].BAIRRO,
-                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].CIDADE,
-                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].UF
+                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.FirstOrDefault().BAIRRO,
+                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.FirstOrDefault().CIDADE,
+                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.FirstOrDefault().UF
                     }); ;
 
                     return Find(cn.Query<int>("SELECT ORCAMENTO_ID FROM T_ORCA_ORCAMENTO ORDER BY ORCAMENTO_ID DESC LIMIT 1").ToArray()[0]);
@@ -130,9 +130,9 @@ namespace OrcamentariaBackEnd
                         orcamento.TIPO_OBRA,
                         orcamento.CLIENTE_ORCAMENTO.PESSOA_ID,
                         orcamento.CLIENTE_ORCAMENTO.NOME_PESSOA,
-                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].BAIRRO,
-                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].CIDADE,
-                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO[0].UF,
+                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.FirstOrDefault().BAIRRO,
+                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.FirstOrDefault().CIDADE,
+                        orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.FirstOrDefault().UF,
                         orcamentoId
                     });
                 }

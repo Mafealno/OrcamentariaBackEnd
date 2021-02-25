@@ -102,6 +102,11 @@ namespace OrcamentariaBackEnd
 
                 orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
 
+                if (orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.Count() == 0)
+                {
+                    orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.Add(new EnderecoModel());
+                }
+
                 OrcamentoModel orcamentoCriado = OrcamentoRepository.Create(orcamento);
 
                 orcamentoCriado.CLIENTE_ORCAMENTO = orcamento.CLIENTE_ORCAMENTO;
@@ -132,6 +137,11 @@ namespace OrcamentariaBackEnd
                 if (orcamento.CLIENTE_ORCAMENTO.PESSOA_ID != orcamentoDB.CLIENTE_ORCAMENTO.PESSOA_ID)
                 {
                     orcamento.CLIENTE_ORCAMENTO = PessoaService.GetComParametro(new PessoaQO(orcamento.CLIENTE_ORCAMENTO.PESSOA_ID, "")).ToArray()[0];
+                }
+
+                if(orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.Count() == 0)
+                {
+                    orcamento.CLIENTE_ORCAMENTO.LIST_ENDERECO.Add(new EnderecoModel());
                 }
 
                 OrcamentoRepository.Update(orcamentoId, orcamento);
